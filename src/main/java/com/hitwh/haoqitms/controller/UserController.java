@@ -18,6 +18,12 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * 用户登录
+     * @param request 请求
+     * @param user 用户信息
+     * @return 登录结果
+     */
     @PostMapping("/login")
     public ResultInfo login(HttpServletRequest request, @RequestBody User user) {
         User existUser = userService.login(user.getUsername(), user.getPassword());
@@ -34,6 +40,11 @@ public class UserController {
         return info;
     }
 
+    /**
+     * 用户退出
+     * @param request 请求
+     * @return 退出结果
+     */
     @GetMapping("/logout")
     public ResultInfo logout(HttpServletRequest request) {
         ResultInfo info = new ResultInfo();

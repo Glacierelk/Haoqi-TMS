@@ -10,7 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResultInfo implements Serializable {
-    private boolean flag;
+    private Boolean flag;
     private Object data;
     private String errorMsg;
 }
