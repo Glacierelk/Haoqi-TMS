@@ -12,4 +12,11 @@ public class StudentCourse {
     private Integer courseId;
     private Boolean attendance;
     private Boolean paid;
+    private String name;
+    private Integer gender;
+    private String email;
+    private String companyName;
+    private String jobPosition;
+    private String skillLevel;
+    private String phone;
 }

@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +18,8 @@ public class Course {
     private String endDate;
 
     private String location;
-    private BigDecimal course_fee;
+    private Double course_fee;
     private Integer instructorId;
     private Integer executorId;
+    private String report;
 }
