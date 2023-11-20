@@ -12,8 +12,9 @@ import java.math.BigDecimal;
 public class TrainingApplication {
     private Integer applicationId;
     private String companyName;
-    private String promo_code;
-    private BigDecimal budget;
+    private String promoCode;
+//    private BigDecimal budget;
+    private Double budget;
     private String contactInfo;
 
     // TODO: change type
