@@ -1,9 +1,9 @@
 package com.hitwh.haoqitms.mapper;
 
 import com.hitwh.haoqitms.entity.Employee;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface EmployeeMapper {
@@ -13,4 +13,19 @@ public interface EmployeeMapper {
     @Insert("INSERT INTO employee(name, username, password, employee_type) " +
             "VALUES(#{name}, #{username}, #{password}, #{employeeType})")
     Boolean createEmployee(Employee employee);
+
+    @Delete("DELETE FROM employee WHERE employee_id=#{id}")
+    Boolean deleteEmployee(Integer id);
+
+    @Select("SELECT * FROM employee WHERE name LIKE '%${name}%'")
+    List<Employee> searchByName(String name);
+
+    @Update("UPDATE employee SET "+
+            "name=#{name},"+
+            "contact_info=#{contactInfo},"+
+            "email=#{email},"+
+            "title=#{title},"+
+            "expertise_area=#{expertiseArea} "+
+            "WHERE employee_id=#{employeeId}")
+    Boolean update(Employee Instructor);
 }
