@@ -4,10 +4,10 @@
       <el-form class="form-wrap" label-width="60px" @submit.native.prevent="submitForm">
         <h2>登录</h2>
         <el-form-item class="label" label="用户名" prop="username">
-          <el-input v-model.trim="username" clearable required></el-input>
+          <el-input v-model.trim="username" clearable required />
         </el-form-item>
         <el-form-item class="label" label="密码" prop="password">
-          <el-input required v-model.trim="password" clearable show-password type="password"></el-input>
+          <el-input required v-model.trim="password" clearable show-password type="password" />
         </el-form-item>
         <el-form-item>
           <el-button native-type="submit" type="primary">登录</el-button>
@@ -32,11 +32,6 @@ import {ElMessage} from "element-plus";
 
 function submitForm() {
 
-  if (username.value === "admin" || password.value === "admin") {
-    router.push('/manage')
-    return false;
-  }
-
   if (username.value === "" || password.value === "") {
 
     ElMessage({
@@ -48,23 +43,20 @@ function submitForm() {
   }
 
   //TODO 修改地址
-  axios.post('#', qs.stringify({
+  axios.post('/user/login', {
     "username": username.value,
     "password": password.value,
-  }))
+  })
       .then((res) => {
-        // console.log(res);
-        // if (res.status === 204) {
-        //   return;
-        // }
-        //
+        console.log(res.data)
         if (res.data.flag) {
           ElMessage({
             message: '登录成功!',
             type: 'success',
             duration: 2 * 1000
           });
-          router.push('/');
+          // TODO 登录成功后跳转逻辑
+          // router.push('/');
         } else {
           ElMessage({
             message: '登录失败，请重试!',

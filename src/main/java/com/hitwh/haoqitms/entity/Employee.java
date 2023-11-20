@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class Employee {
     private Integer employeeId;
     private String name;
+    private String username;
+    private String password;
     private String contactInfo;
     private String email;
     private String title;
