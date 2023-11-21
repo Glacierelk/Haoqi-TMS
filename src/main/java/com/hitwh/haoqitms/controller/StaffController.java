@@ -1,5 +1,6 @@
 package com.hitwh.haoqitms.controller;
 
+import com.hitwh.haoqitms.entity.Course;
 import com.hitwh.haoqitms.entity.ResultInfo;
 import com.hitwh.haoqitms.entity.StudentCourse;
 import com.hitwh.haoqitms.service.StaffService;
@@ -132,10 +133,10 @@ public class StaffController {
     @PutMapping("/report/{course_id}")
     public ResultInfo updateReport(HttpServletRequest request,
                                    @PathVariable("course_id") Integer courseId,
-                                   @RequestBody String report) {
+                                   @RequestBody Course course) {
         ResultInfo info = new ResultInfo();
         try {
-            info.setFlag(staffService.updateCourseSurveyReport(courseId, report));
+            info.setFlag(staffService.updateCourseSurveyReport(courseId, course.getReport()));
             if (!info.getFlag()) {
                 info.setErrorMsg("更新调查报告失败");
             }

@@ -14,4 +14,5 @@ public class TrainingEvaluation {
     // 满意度 1 - 5
     private Integer satisfactionLevel;
     private String comments;
+    private String evaluationTime;
 }

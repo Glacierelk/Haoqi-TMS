@@ -39,7 +39,7 @@
     </a-form>
 
     <div class="search-result-list" v-if="showTable">
-      <StudentListComponent :tableData="tableData" />
+      <StudentListComponent :tableData="tableData"/>
     </div>
   </div>
 </template>
@@ -50,7 +50,7 @@ import axios from 'axios';
 import {h, reactive, ref} from 'vue';
 import { ElMessage } from 'element-plus';
 import { SearchOutlined } from '@ant-design/icons-vue';
-import StudentListComponent from "@/components/site_staff/StudentListComponent.vue";
+import StudentListComponent from "@/components/site_staff/list/StudentListComponent.vue";
 
 const formRef = ref();
 const formState = reactive({});
@@ -84,7 +84,6 @@ const search = values => {
             duration: 2 * 1000
           });
           tableData = res.data.data;
-          console.log(tableData);
           showTable.value = true;
         } else {
           ElMessage({

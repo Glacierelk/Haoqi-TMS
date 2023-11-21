@@ -1,6 +1,6 @@
 <template>
   <el-table :data="props.tableData" border stripe style="width: 100%">
-    <el-table-column align="center" fixed label="学生姓名" prop="name" width="120"/>
+    <el-table-column align="center" fixed label="学员姓名" prop="name" width="120"/>
     <el-table-column align="center" label="性别" prop="gender" width="80">
       <template #default="scope">
         {{ scope.row.sex ? '女' : '男' }}
@@ -50,7 +50,7 @@
     </el-table-column>
     <el-table-column label="联系电话" prop="phone" width="150"/>
     <el-table-column label="邮箱" prop="email" width="200"/>
-    <el-table-column label="公司名称" prop="companyName" width="400"/>
+    <el-table-column label="公司名称" prop="companyName" width="800"/>
     <el-table-column align="center" fixed="right" label="操作" width="160">
       <template #default="scope">
         <el-button :disabled="scope.row.attendance === true" plain size="small" type="primary"
