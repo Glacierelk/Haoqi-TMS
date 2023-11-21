@@ -25,8 +25,8 @@
 <script setup>
 
 import { ref } from 'vue';
-import SSM from '@/components/site_staff/SiteStudentManagement.vue';
-import IRM from '@/components/site_staff/InvestigationReportManagement.vue';
+import SSM from '@/components/site_staff/SiteStudentManagementComponent.vue';
+import IRM from '@/components/site_staff/InvestigationReportManagementComponent.vue';
 import {ElMessage} from "element-plus";
 
 const activeKey = ref('1');
