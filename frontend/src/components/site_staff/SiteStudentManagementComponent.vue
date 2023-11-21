@@ -22,17 +22,9 @@
               <a-form-item
                   :label=columns[i-1]
                   :name=names[i-1]
-                  v-if="i <= 2 && i > 1"
+                  v-if="i > 1"
               >
                 <a-input v-model:value="formState[names[i-1]]" />
-              </a-form-item>
-
-              <a-form-item
-                  :label=columns[i-1]
-                  :name=names[i-1]
-                  v-if="i > 2"
-              >
-                <a-switch v-model:checked="formState[names[i-1]]" />
               </a-form-item>
             </a-col>
         </template>
@@ -41,19 +33,20 @@
       <a-row>
         <a-col :span="24" style="text-align: right">
           <a-button type="primary" :icon="h(SearchOutlined)" html-type="submit">查询</a-button>
-          <a-button style="margin: 0 8px" @click="() => formRef.resetFields()">清空输入</a-button>
+          <a-button style="margin: 0 8px" @click="reset">清空输入</a-button>
         </a-col>
       </a-row>
     </a-form>
 
-    <div class="search-result-list">
-      <StudentListComponent />
+    <div class="search-result-list" v-if="showTable">
+      <StudentListComponent :tableData="tableData" />
     </div>
   </div>
 </template>
 
 <script setup>
 
+import axios from 'axios';
 import {h, reactive, ref} from 'vue';
 import { ElMessage } from 'element-plus';
 import { SearchOutlined } from '@ant-design/icons-vue';
@@ -61,17 +54,58 @@ import StudentListComponent from "@/components/site_staff/StudentListComponent.v
 
 const formRef = ref();
 const formState = reactive({});
-const columns = reactive(["课程 ID", "学员姓名", "缴费状态", "出勤状态"]);
-const names = reactive(["courseId", "name", "paidStatus", "attendanceStatus"]);
+const columns = reactive(["课程 ID", "学员姓名", "联系电话", "公司名称"]);
+const names = reactive(["courseId", "name", "phone", "companyName"]);
+const showTable = ref(false);
+let tableData = reactive([]);
 
 const search = values => {
+  showTable.value = false;
 
-  ElMessage({
-    message: 'Search Success!',
-    type: 'success',
-    duration: 2 * 1000
-  });
+  if (values.name === undefined) values.name = 'null';
+  if (values.phone === undefined) values.phone = 'null';
+  if (values.companyName === undefined) values.companyName = 'null';
 
+  values.courseId = values.courseId.trim();
+  values.name = values.name.trim();
+  values.phone = values.phone.trim();
+  values.companyName = values.companyName.trim();
+
+  if (values.name === "") values.name = 'null';
+  if (values.phone === "") values.phone = 'null';
+  if (values.companyName === "") values.companyName = 'null';
+
+  axios.get(`/staff/students_list/${values.courseId}/${values.name}/${values.phone}/${values.companyName}`)
+      .then(res => {
+        if (res.data.flag) {
+          ElMessage({
+            message: '查询成功!',
+            type: 'success',
+            duration: 2 * 1000
+          });
+          tableData = res.data.data;
+          console.log(tableData);
+          showTable.value = true;
+        } else {
+          ElMessage({
+            message: '查询失败!',
+            type: 'error',
+            duration: 2 * 1000
+          });
+        }
+      })
+      .catch(() => {
+        ElMessage({
+          message: '查询失败!',
+          type: 'error',
+          duration: 2 * 1000
+        });
+      });
+};
+
+const reset = () => {
+  formRef.value.resetFields();
+  showTable.value = false;
 };
 
 </script>
@@ -102,6 +136,10 @@ const search = values => {
 [data-theme='dark'] #components-form-demo-advanced-search .search-result-list {
   border: 1px dashed #434343;
   background: rgba(255, 255, 255, 0.04);
+}
+
+.search-result-list {
+  margin-top: 16px;
 }
 
 </style>

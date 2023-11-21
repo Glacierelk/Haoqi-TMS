@@ -21,12 +21,11 @@ public interface StudentCourseViewMapper {
      * 根据学生id和课程id更新学生缴费状态
      * @param studentId 学生id
      * @param courseId 课程id
-     * @param paid 缴费状态
      * @return 是否更新成功
      */
-    @Update("update student_course_view set paid = #{paid} " +
+    @Update("update student_course_view set paid = true " +
             "where student_id = #{studentId} and course_id = #{courseId}")
-    Boolean updateStudentPayStatus(Integer studentId, Integer courseId, Boolean paid);
+    Boolean updateStudentPayStatus(Integer studentId, Integer courseId);
 
     /**
      * 根据学生id和课程id更新学生考勤状态

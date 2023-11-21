@@ -32,13 +32,23 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public List<StudentCourse> getStudentsByCourseId(Integer courseId) {
-        return studentCourseViewMapper.getStudentCourseByCourseId(courseId);
+    public List<StudentCourse> getStudents(StudentCourse studentCourse) {
+        List<StudentCourse> students = studentCourseViewMapper.getStudentCourseByCourseId(studentCourse.getCourseId());
+        if (studentCourse.getName() != null) {
+            students.removeIf(student -> !student.getName().contains(studentCourse.getName()));
+        }
+        if (studentCourse.getPhone() != null) {
+            students.removeIf(student -> !student.getPhone().equals(studentCourse.getPhone()));
+        }
+        if (studentCourse.getCompanyName() != null) {
+            students.removeIf(student -> !student.getCompanyName().contains(studentCourse.getCompanyName()));
+        }
+        return students;
     }
 
     @Override
-    public Boolean updateStudentPayStatus(Integer studentId, Integer courseId, Boolean paid) {
-        return studentCourseViewMapper.updateStudentPayStatus(studentId, courseId, paid);
+    public Boolean updateStudentPayStatus(Integer studentId, Integer courseId) {
+        return studentCourseViewMapper.updateStudentPayStatus(studentId, courseId);
     }
 
     @Override

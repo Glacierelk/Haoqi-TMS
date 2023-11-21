@@ -14,20 +14,19 @@ public interface StaffService {
     List<TrainingEvaluation> getTrainingEvaluationByCourseId(Integer courseId);
 
     /**
-     * 根据课程id获取学生信息, 用于现场工作人员完成学生身份核实、考勤和缴费
-     * @param courseId 课程id
-     * @return 选修该课程的学生信息列表
+     * 根据课程id等信息获取学生信息, 用于现场工作人员完成学生身份核实、考勤和缴费
+     * @param studentCourse 搜索条件
+     * @return 学生信息列表
      */
-    List<StudentCourse> getStudentsByCourseId(Integer courseId);
+    List<StudentCourse> getStudents(StudentCourse studentCourse);
 
     /**
      * 根据学生id和课程id更新学生缴费状态
      * @param studentId 学生id
      * @param courseId 课程id
-     * @param paid 缴费状态
      * @return 是否更新成功
      */
-    Boolean updateStudentPayStatus(Integer studentId, Integer courseId, Boolean paid);
+    Boolean updateStudentPayStatus(Integer studentId, Integer courseId);
 
     /**
      * 根据学生id和课程id更新学生考勤状态

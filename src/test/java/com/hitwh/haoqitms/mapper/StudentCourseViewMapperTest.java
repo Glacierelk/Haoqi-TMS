@@ -26,7 +26,7 @@ class StudentCourseViewMapperTest {
 
     @Test
     void updateStudentPayStatus() {
-        System.out.println(studentCourseViewMapper.updateStudentPayStatus(1, 4, false));
+        System.out.println(studentCourseViewMapper.updateStudentPayStatus(1, 4));
     }
 
     @Test
