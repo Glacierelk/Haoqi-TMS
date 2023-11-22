@@ -1,0 +1,39 @@
+<!-- StudentCourseMapper.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hitwh.haoqitms.mapper.StudentCourseViewMapper">
+
+    <select id="getStudentCourse" resultType="com.hitwh.haoqitms.entity.StudentCourse">
+        SELECT * FROM student_course_view
+        <where>
+            course_id = #{studentCourse.courseId}
+            <if test='studentCourse.name != null and studentCourse.name != ""'>
+                AND name like #{studentCourse.name}
+            </if>
+            <if test='studentCourse.phone != null and studentCourse.phone != ""'>
+                AND phone = #{studentCourse.phone}
+            </if>
+            <if test='studentCourse.companyName != null and studentCourse.companyName != ""'>
+                AND company_name like #{studentCourse.companyName}
+            </if>
+        </where>
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="getStudentCourseCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM student_course_view
+        <where>
+            course_id = #{studentCourse.courseId}
+            <if test='studentCourse.name != null and studentCourse.name != ""'>
+                AND name like #{studentCourse.name}
+            </if>
+            <if test='studentCourse.phone != null and studentCourse.phone != ""'>
+                AND phone = #{studentCourse.phone}
+            </if>
+            <if test='studentCourse.companyName != null and studentCourse.companyName != ""'>
+                AND company_name like #{studentCourse.companyName}
+            </if>
+        </where>
+    </select>
+
+</mapper>

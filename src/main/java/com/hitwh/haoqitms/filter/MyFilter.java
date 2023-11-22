@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 public class MyFilter implements Filter {
     @Override
@@ -18,7 +20,7 @@ public class MyFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         //获取请求方法
-        String method = request.getMethod();
+//        String method = request.getMethod();
         //解决post请求中文数据乱码问题
 //        if (method.equalsIgnoreCase("post")) {
 //            request.setCharacterEncoding("utf-8");
@@ -42,7 +44,14 @@ public class MyFilter implements Filter {
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         } else {
-            filterChain.doFilter(request, response);
+            String queryString = ((HttpServletRequest) servletRequest).getQueryString();
+            if (queryString != null) {
+                String decodedQueryString = URLDecoder.decode(queryString, StandardCharsets.UTF_8);
+                // 你可以在这里做一些操作，比如修改解码后的参数值，然后继续处理请求
+                filterChain.doFilter(new CustomRequestWrapper(request, decodedQueryString), response);
+            } else {
+                filterChain.doFilter(request, response);
+            }
         }
     }
 

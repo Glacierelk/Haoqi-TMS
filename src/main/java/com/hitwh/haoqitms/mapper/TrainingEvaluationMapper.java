@@ -16,6 +16,12 @@ public interface TrainingEvaluationMapper {
      */
     @Select("select * from training_evaluation where course_id = #{courseId}")
     List<TrainingEvaluation> getTrainingEvaluationByCourseId(Integer courseId);
+    @Select("select count(*) from training_evaluation where course_id = #{courseId}")
+    Integer getTrainingEvaluationCountByCourseId(Integer courseId);
+    @Select("select * from training_evaluation where course_id = #{courseId} limit #{pageSize} offset #{offset}")
+    List<TrainingEvaluation> getPaginationTrainingEvaluationByCourseId(Integer courseId,
+                                                            Integer pageSize,
+                                                            Integer offset);
 
     /**
      * 根据评价id删除评价 [现场工作人员]
