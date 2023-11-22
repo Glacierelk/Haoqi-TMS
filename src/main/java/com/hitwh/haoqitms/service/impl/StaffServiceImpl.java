@@ -1,5 +1,6 @@
 package com.hitwh.haoqitms.service.impl;
 
+import com.hitwh.haoqitms.entity.Pagination;
 import com.hitwh.haoqitms.entity.StudentCourse;
 import com.hitwh.haoqitms.entity.TrainingEvaluation;
 import com.hitwh.haoqitms.mapper.CourseMapper;
@@ -32,18 +33,43 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public List<StudentCourse> getStudents(StudentCourse studentCourse) {
-        List<StudentCourse> students = studentCourseViewMapper.getStudentCourseByCourseId(studentCourse.getCourseId());
+    public Pagination getTrainingEvaluationByCourseId(Integer courseId,
+                                                      Integer pageSize,
+                                                      Integer currentPage) {
+        Pagination pagination = new Pagination();
+        pagination.setPageSize(pageSize);
+        pagination.setCurrentPage(currentPage);
+        pagination.setData(trainingEvaluationMapper.getPaginationTrainingEvaluationByCourseId(courseId, pageSize, (currentPage - 1) * pageSize));
+        pagination.setTotal(trainingEvaluationMapper.getTrainingEvaluationCountByCourseId(courseId));
+        return pagination;
+    }
+
+    @Override
+    public Integer getStudentsCount(StudentCourse studentCourse) {
         if (studentCourse.getName() != null) {
-            students.removeIf(student -> !student.getName().contains(studentCourse.getName()));
+            studentCourse.setName("%" + studentCourse.getName() + "%");
         }
         if (studentCourse.getPhone() != null) {
-            students.removeIf(student -> !student.getPhone().equals(studentCourse.getPhone()));
+            studentCourse.setPhone("%" + studentCourse.getPhone() + "%");
         }
         if (studentCourse.getCompanyName() != null) {
-            students.removeIf(student -> !student.getCompanyName().contains(studentCourse.getCompanyName()));
+            studentCourse.setCompanyName("%" + studentCourse.getCompanyName() + "%");
         }
-        return students;
+        return studentCourseViewMapper.getStudentCourseCount(studentCourse);
+    }
+
+    @Override
+    public List<StudentCourse> getStudents(StudentCourse studentCourse, Integer pageSize, Integer currentPage) {
+        if (studentCourse.getName() != null) {
+            studentCourse.setName("%" + studentCourse.getName() + "%");
+        }
+        if (studentCourse.getPhone() != null) {
+            studentCourse.setPhone("%" + studentCourse.getPhone() + "%");
+        }
+        if (studentCourse.getCompanyName() != null) {
+            studentCourse.setCompanyName("%" + studentCourse.getCompanyName() + "%");
+        }
+        return studentCourseViewMapper.getStudentCourse(studentCourse, pageSize, (currentPage - 1) * pageSize);
     }
 
     @Override

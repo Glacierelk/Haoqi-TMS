@@ -9,7 +9,7 @@
     >
       <a-row :gutter="24">
         <template v-for="i in 1" :key="i">
-          <a-col :span="12">
+          <a-col :span="24">
             <a-form-item
                 :label=columns[i-1]
                 :name=names[i-1]
@@ -31,7 +31,7 @@
     </a-form>
 
     <div class="search-result-list" v-if="showTable">
-      <EvaluationListComponent :tableData="tableData" :courseId="courseID" />
+      <EvaluationListComponent :courseId="courseID" />
     </div>
   </div>
 </template>
@@ -53,42 +53,14 @@ let tableData = reactive([]);
 const courseID = ref("");
 
 const search = values => {
-  axios.get(`/staff/evaluation/${values.courseId}`).then(
-      res => {
-        if (res.data.flag) {
-          ElMessage({
-            message: "查询成功",
-            type: "success",
-            duration: 2 * 1000
-          });
-          tableData = res.data.data;
-          courseID.value = values.courseId;
-          showTable.value = true;
-        } else {
-          ElMessage({
-            message: "查询失败",
-            type: "error",
-            duration: 2 * 1000
-          })
-        }
-      }
-  ).catch(() => {
-    ElMessage({
-      message: "查询失败",
-      type: "error",
-      duration: 2 * 1000
-    })
-  });
+  courseID.value = values.courseId;
+  showTable.value = true;
 };
 
 const reset = () => {
   formRef.value.resetFields();
   showTable.value = false;
 };
-
-const submitReport = () => {
-
-}
 
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="props.tableData" border stripe style="width: 100%">
+  <el-table :data="tableData" border stripe style="width: 100%">
     <el-table-column align="center" fixed label="序号" width="100">
       <template #default="{ $index }">
         <span>{{ $index + 1 }}</span>
@@ -31,6 +31,17 @@
       </template>
     </el-table-column>
   </el-table>
+
+  <el-pagination
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize"
+      :page-sizes="[5, 10, 20, 50, 100]"
+      :total="dataCount"
+      layout="total, sizes, prev, pager, next, jumper"
+      style="margin-top: 20px; text-align: right;"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+  />
 
   <el-dialog v-model="reportDialogVisible" title="更新调查报告" width="50%">
     <span>
@@ -74,23 +85,29 @@
 <script setup>
 
 import {ElMessageBox, ElMessage} from "element-plus";
-import {defineProps, ref} from 'vue';
+import {defineProps, ref, watch} from 'vue';
 import axios from "axios";
 
 const reportDialogVisible = ref(false);
 const detailsDialogVisible = ref(false);
 const details = ref("");
 const report = ref("");
+let currentPage = ref(1);
+let pageSize = ref(10);
+let dataCount = ref(0);
+let tableData = ref([]);
 
 // 用于接收父组件传递的数据
 const props = defineProps({
-  tableData: {
-    type: Array,
-    required: true
-  },
   courseId: {
     required: true
   }
+});
+
+watch(() => props.courseId, () => {
+  pageSize.value = 10;
+  currentPage.value = 1;
+  search();
 });
 
 const showReportDialog = () => {
@@ -147,6 +164,46 @@ const submitReport = () => {
     })
   })
 };
+
+const handleSizeChange = (val) => {
+  pageSize.value = val;
+  search();
+};
+
+const handleCurrentChange = (val) => {
+  currentPage.value = val;
+  search();
+};
+
+const search = () => {
+  axios.get(`/staff/evaluation/${props.courseId}/${pageSize.value}/${currentPage.value}`).then(
+      res => {
+        if (res.data.flag) {
+          ElMessage({
+            message: "查询成功",
+            type: "success",
+            duration: 2 * 1000
+          });
+          tableData.value = res.data.data.data;
+          dataCount.value = res.data.data.total;
+        } else {
+          ElMessage({
+            message: "查询失败",
+            type: "error",
+            duration: 2 * 1000
+          })
+        }
+      }
+  ).catch(() => {
+    ElMessage({
+      message: "查询失败",
+      type: "error",
+      duration: 2 * 1000
+    })
+  });
+}
+
+search();
 
 </script>
 

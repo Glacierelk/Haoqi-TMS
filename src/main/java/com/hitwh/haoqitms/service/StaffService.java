@@ -1,5 +1,6 @@
 package com.hitwh.haoqitms.service;
 
+import com.hitwh.haoqitms.entity.Pagination;
 import com.hitwh.haoqitms.entity.StudentCourse;
 import com.hitwh.haoqitms.entity.TrainingEvaluation;
 
@@ -12,13 +13,15 @@ public interface StaffService {
      * @return 培训评价列表
      */
     List<TrainingEvaluation> getTrainingEvaluationByCourseId(Integer courseId);
+    Pagination getTrainingEvaluationByCourseId(Integer courseId, Integer pageSize, Integer currentPage);
 
     /**
      * 根据课程id等信息获取学生信息, 用于现场工作人员完成学生身份核实、考勤和缴费
      * @param studentCourse 搜索条件
      * @return 学生信息列表
      */
-    List<StudentCourse> getStudents(StudentCourse studentCourse);
+    Integer getStudentsCount(StudentCourse studentCourse);
+    List<StudentCourse> getStudents(StudentCourse studentCourse, Integer pageSize, Integer currentPage);
 
     /**
      * 根据学生id和课程id更新学生缴费状态

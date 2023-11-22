@@ -39,7 +39,7 @@
     </a-form>
 
     <div class="search-result-list" v-if="showTable">
-      <StudentListComponent :tableData="tableData"/>
+      <StudentListComponent :query="queryForm"/>
     </div>
   </div>
 </template>
@@ -57,11 +57,9 @@ const formState = reactive({});
 const columns = reactive(["课程 ID", "学员姓名", "联系电话", "公司名称"]);
 const names = reactive(["courseId", "name", "phone", "companyName"]);
 const showTable = ref(false);
-let tableData = reactive([]);
+let queryForm = ref({});
 
 const search = values => {
-  showTable.value = false;
-
   if (values.name === undefined) values.name = 'null';
   if (values.phone === undefined) values.phone = 'null';
   if (values.companyName === undefined) values.companyName = 'null';
@@ -75,31 +73,8 @@ const search = values => {
   if (values.phone === "") values.phone = 'null';
   if (values.companyName === "") values.companyName = 'null';
 
-  axios.get(`/staff/students_list/${values.courseId}/${values.name}/${values.phone}/${values.companyName}`)
-      .then(res => {
-        if (res.data.flag) {
-          ElMessage({
-            message: '查询成功!',
-            type: 'success',
-            duration: 2 * 1000
-          });
-          tableData = res.data.data;
-          showTable.value = true;
-        } else {
-          ElMessage({
-            message: '查询失败!',
-            type: 'error',
-            duration: 2 * 1000
-          });
-        }
-      })
-      .catch(() => {
-        ElMessage({
-          message: '查询失败!',
-          type: 'error',
-          duration: 2 * 1000
-        });
-      });
+  queryForm.value = values;
+  showTable.value = true;
 };
 
 const reset = () => {

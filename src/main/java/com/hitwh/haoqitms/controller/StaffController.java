@@ -27,12 +27,14 @@ public class StaffController {
      * @param companyName 学员公司名称
      * @return 学员列表
      */
-    @GetMapping("/students_list/{course_id}/{name}/{phone}/{company_name}")
+    @GetMapping("/students_list/{course_id}/{name}/{phone}/{company_name}/{page_size}/{current_page}")
     public ResultInfo getStudentList(HttpServletRequest request,
                                      @PathVariable("course_id") Integer courseId,
                                      @PathVariable(value = "name", required = false) String name,
                                      @PathVariable(value = "phone", required = false) String phone,
-                                     @PathVariable(value = "company_name", required = false) String companyName) {
+                                     @PathVariable(value = "company_name", required = false) String companyName,
+                                     @PathVariable(value = "page_size", required = false) Integer pageSize,
+                                     @PathVariable(value = "current_page", required = false) Integer currentPage) {
         StudentCourse studentCourse = new StudentCourse();
         studentCourse.setCourseId(courseId);
         studentCourse.setName(name.equals("null") ? null : name);
@@ -42,7 +44,11 @@ public class StaffController {
         ResultInfo info = new ResultInfo();
         try {
             info.setFlag(true);
-            info.setData(staffService.getStudents(studentCourse));
+            if (pageSize == null || currentPage == null || pageSize == 0 || currentPage == 0) {
+                info.setData(staffService.getStudentsCount(studentCourse));
+            } else {
+                info.setData(staffService.getStudents(studentCourse, pageSize, currentPage));
+            }
         } catch (Exception e) {
             info.setFlag(false);
             info.setErrorMsg("获取学员列表失败");
@@ -56,12 +62,19 @@ public class StaffController {
      * @param courseId 课程id
      * @return 评价列表
      */
-    @GetMapping("/evaluation/{course_id}")
-    public ResultInfo getEvaluation(HttpServletRequest request, @PathVariable("course_id") Integer courseId) {
+    @GetMapping("/evaluation/{course_id}/{page_size}/{current_page}")
+    public ResultInfo getEvaluation(HttpServletRequest request,
+                                    @PathVariable("course_id") Integer courseId,
+                                    @PathVariable(value = "page_size", required = false) Integer pageSize,
+                                    @PathVariable(value = "current_page", required = false) Integer currentPage) {
         ResultInfo info = new ResultInfo();
         try {
             info.setFlag(true);
-            info.setData(staffService.getTrainingEvaluationByCourseId(courseId));
+            if (pageSize == null || currentPage == null) {
+                info.setData(staffService.getTrainingEvaluationByCourseId(courseId));
+            } else {
+                info.setData(staffService.getTrainingEvaluationByCourseId(courseId, pageSize, currentPage));
+            }
         } catch (Exception e) {
             info.setFlag(false);
             info.setErrorMsg("获取评价列表失败");

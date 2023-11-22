@@ -17,14 +17,6 @@ class StudentCourseViewMapperTest {
     }
 
     @Test
-    void getStudentCourseByCourseId() {
-        List<StudentCourse> studentCourseList = studentCourseViewMapper.getStudentCourseByCourseId(4);
-        for (StudentCourse studentCourse : studentCourseList) {
-            System.out.println(studentCourse);
-        }
-    }
-
-    @Test
     void updateStudentPayStatus() {
         System.out.println(studentCourseViewMapper.updateStudentPayStatus(1, 4));
     }
@@ -32,5 +24,26 @@ class StudentCourseViewMapperTest {
     @Test
     void updateStudentAttendanceStatus() {
         System.out.println(studentCourseViewMapper.updateStudentAttendanceStatus(1, 4, true));
+    }
+
+    @Test
+    void getStudentCourse() {
+        StudentCourse studentCourse = new StudentCourse();
+        studentCourse.setCourseId(4);
+        studentCourse.setPhone("13587168037");
+//        studentCourse.setName("%周浩%");
+        studentCourse.setCompanyName("%华%");
+        List<StudentCourse> studentCourseList = studentCourseViewMapper.getStudentCourse(studentCourse, 10, 0);
+        for (StudentCourse studentCourse1 : studentCourseList) {
+            System.out.println(studentCourse1);
+        }
+    }
+
+    @Test
+    void getStudentCourseCount() {
+        StudentCourse studentCourse = new StudentCourse();
+        studentCourse.setCourseId(4);
+//        studentCourse.setPhone("13587168037");
+        System.out.println(studentCourseViewMapper.getStudentCourseCount(studentCourse));
     }
 }
