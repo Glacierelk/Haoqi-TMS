@@ -4,5 +4,6 @@
 <configuration>
     <mappers>
         <mapper resource="com/hitwh/haoqitms/mapper/StudentCourseViewMapper.xml"/>
+        <mapper resource="com/hitwh/haoqitms/mapper/CourseMapper.xml"/>
     </mappers>
 </configuration>

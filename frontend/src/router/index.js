@@ -6,7 +6,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('../App.vue')
+      component: () => import('../views/BrowseTrainingNotificationsView.vue')
     },
     {
       path:'/user',
@@ -21,17 +21,17 @@ const router = createRouter({
         {
           path: 'InstructorSearchInformation',
           name: 'InstructorSearchInformation',
-          component: () => import('../views/InstructorSearchInformation.vue')
+          component: () => import('../views/Instructor/InstructorSearchInformation.vue')
         },
         {
           path: 'ExecutorChangeInstructor',
           name: 'ExecutorChangeInstructor',
-          component: () => import('../views/ExecutorChangeInstructorold.vue')
+          component: () => import('../views/Executor/ExecutorChangeInstructorold.vue')
         },
         {
           path: 'ExecutorChangeInstructor2',
           name: 'ExecutorChangeInstructor2',
-          component: () => import('../views/ExecutorChangeInstructor.vue')
+          component: () => import('../views/Executor/ExecutorChangeInstructor.vue')
         }
       ]
     },
