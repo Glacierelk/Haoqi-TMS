@@ -2,6 +2,7 @@ package com.hitwh.haoqitms.mapper;
 
 import com.hitwh.haoqitms.entity.CourseList;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -33,6 +34,8 @@ public interface CourseMapper {
      * @param offset 偏移量
      * @return 课程列表
      */
-    List<CourseList> getCourses(CourseList courseList, Integer pageSize, Integer offset);
-    Integer getCoursesCount(CourseList courseList);
+    List<CourseList> getCourses(@Param("courseList") CourseList courseList,
+                                @Param("pageSize") Integer pageSize,
+                                @Param("offset") Integer offset);
+    Integer getCoursesCount(@Param("courseList") CourseList courseList);
 }

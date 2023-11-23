@@ -18,6 +18,11 @@ public class HomeServiceImpl implements HomeService {
 
     @Override
     public Pagination getCourses(CourseList courseList, Integer pageSize, Integer currentPage) {
-        return null;
+        Pagination pagination = new Pagination();
+        pagination.setPageSize(pageSize);
+        pagination.setCurrentPage(currentPage);
+        pagination.setTotal(courseMapper.getCoursesCount(courseList));
+        pagination.setData(courseMapper.getCourses(courseList, pageSize, (currentPage - 1) * pageSize));
+        return pagination;
     }
 }

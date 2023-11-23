@@ -2,4 +2,45 @@
 
 <mapper namespace="com.hitwh.haoqitms.mapper.CourseMapper">
 
+    <select id="getCourses" resultType="com.hitwh.haoqitms.entity.CourseList">
+        SELECT course.*, employee.name AS instructor_name
+        FROM course, employee
+        <where>
+            course.instructor_id = employee.employee_id
+            <if test="courseList.name != null and courseList.name != ''">
+                AND course.name LIKE CONCAT('%', #{courseList.name}, '%')
+            </if>
+            <if test="courseList.companyName != null and courseList.companyName != ''">
+                AND course.company_name LIKE CONCAT('%', #{courseList.companyName}, '%')
+            </if>
+            <if test="courseList.startDate != null and courseList.startDate != ''">
+                AND course.start_date >= #{courseList.startDate, jdbcType=TIMESTAMP}
+            </if>
+            <if test="courseList.instructorName != null and courseList.instructorName != ''">
+                AND employee.name LIKE CONCAT('%', #{courseList.instructorName}, '%')
+            </if>
+        </where>
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="getCoursesCount" resultType="com.hitwh.haoqitms.entity.CourseList">
+        SELECT count(*)
+        FROM course, employee
+        <where>
+            course.instructor_id = employee.employee_id
+            <if test="courseList.name != null and courseList.name != ''">
+                AND course.name LIKE CONCAT('%', #{courseList.name}, '%')
+            </if>
+            <if test="courseList.companyName != null and courseList.companyName != ''">
+                AND course.company_name LIKE CONCAT('%', #{courseList.companyName}, '%')
+            </if>
+            <if test="courseList.startDate != null and courseList.startDate != ''">
+                AND course.start_date >= courseList.startDate
+            </if>
+            <if test="courseList.instructorName != null and courseList.instructorName != ''">
+                AND employee.name LIKE CONCAT('%', #{courseList.instructorName}, '%')
+            </if>
+        </where>
+    </select>
+
 </mapper>
