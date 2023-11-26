@@ -68,7 +68,7 @@
       :page-sizes="[5, 10, 20, 50, 100]"
       :total="dataCount"
       layout="total, sizes, prev, pager, next, jumper"
-      style="margin-top: 20px; text-align: right;"
+      style="margin-top: 20px; text-align: right; margin-bottom: 20px;"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
   />
@@ -77,14 +77,13 @@
 <script setup>
 
 import {ElMessage, ElMessageBox} from "element-plus";
-import {defineProps, reactive, ref, watch} from 'vue';
+import {defineProps, ref, watch} from 'vue';
 import axios from "axios";
 
 let tableData = ref([]);
 let dataCount = ref(100);
 let pageSize = ref(10);
 let currentPage = ref(1);
-// let queryForm = ref({});
 
 // 用于接收父组件传递的数据
 const props = defineProps({

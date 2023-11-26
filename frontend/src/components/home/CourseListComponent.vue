@@ -6,21 +6,22 @@
       </template>
     </el-table-column>
     <el-table-column align="center" label="课程名称" prop="name" width="200" />
-    <el-table-column label="授课教师" prop="instructorName" width="260" align="center" sortable />
-    <el-table-column label="课程时间" width="500" align="center">
+    <el-table-column label="授课教师" prop="instructorName" width="150" align="center" sortable />
+    <el-table-column label="签约公司" prop="companyName" width="260" align="center" sortable />
+    <el-table-column label="课程时间" width="200" align="center">
       <template #default="{ row }">
-        <span>{{ row.startDate }} 至 {{ row.endDate }}</span>
+        <span>{{ row.startDate.substring(0, 10) }} 至 {{ row.endDate.substring(0, 10) }}</span>
       </template>
     </el-table-column>
     <el-table-column label="课程介绍" prop="description" width="1000">
       <template #default="{ row }">
-        <span>{{ row.description.length <= 100 ? row.description : row.description.substring(0, 100) + "..." }}</span>
+        <span>{{ row.description.length <= 100 ? row.description : row.description.substring(0, 500) + "..." }}</span>
       </template>
     </el-table-column>
-    <el-table-column align="center" fixed="right" label="操作" width="160">
+    <el-table-column align="center" fixed="right" label="操作" width="180">
       <template #default="scope">
         <el-button plain size="small" type="primary" @click="showDetailsDialog(scope.row.description)">介绍详情</el-button>
-        <el-button plain size="small" type="success" @click="showRegisterDialog(scopr.row)">报名</el-button>
+        <el-button plain size="small" type="success" @click="showRegisterDialog(scope.row)">报名</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -31,7 +32,7 @@
       :page-sizes="[5, 10, 20, 50, 100]"
       :total="dataCount"
       layout="total, sizes, prev, pager, next, jumper"
-      style="margin-top: 20px; text-align: right;"
+      style="margin-top: 20px; text-align: right; margin-bottom: 20px"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
   />
@@ -127,17 +128,16 @@ const showRegisterDialog = (row) => {
 }
 
 const search = () => {
-  // TODO 查询数据
-  axios.get(`#`).then(
+  axios.get(`/home/courses/${props.queryForm.courseName}/${props.queryForm.instructorName}/${props.queryForm.companyName}/${props.queryForm.earliestStartTime}/${pageSize.value}/${currentPage.value}`).then(
       res => {
         if (res.data.flag) {
-          ElMessage({
-            message: "查询成功",
-            type: "success",
-            duration: 2 * 1000
-          });
-          tableData.value = res.data.data.data;
+          // ElMessage({
+          //   message: "查询成功",
+          //   type: "success",
+          //   duration: 2 * 1000
+          // });
           dataCount.value = res.data.data.total;
+          tableData.value = res.data.data.data;
         } else {
           ElMessage({
             message: "查询失败",

@@ -20,19 +20,15 @@
 
 <script setup>
 
+import {useRouter} from "vue-router";
 import { ref } from 'vue';
-import {ElMessage} from "element-plus";
 import BrowseTrainingNotificationsComponent from "@/components/home/BrowseTrainingNotificationsComponent.vue";
 
 const activeKey = ref('1');
+const router = useRouter();
 
 function login() {
-  // TODO login
-  ElMessage({
-    message: '登陆成功!',
-    type: 'success',
-    duration: 2 * 1000
-  });
+  router.push({name: 'login'});
 }
 
 </script>
