@@ -13,8 +13,17 @@
             <a-form-item
                 :label=columns[i-1]
                 :name=names[i-1]
+                v-if="i < 4"
             >
               <a-input v-model:value="formState[names[i-1]]"/>
+            </a-form-item>
+
+            <a-form-item
+                :label=columns[i-1]
+                :name=names[i-1]
+                v-else
+            >
+              <a-date-picker v-model:value="formState[names[i-1]]" style="width: 100%" />
             </a-form-item>
           </a-col>
         </template>
@@ -43,30 +52,44 @@ import CourseListComponent from "@/components/home/CourseListComponent.vue";
 const formRef = ref();
 const formState = reactive({});
 const columns = reactive(["课程名称", "教师名称", "公司名称", "最早开始时间"]);
-const names = reactive(["courseName", "teacherName", "companyName", "earliestStartTime"]);
+const names = reactive(["courseName", "instructorName", "companyName", "earliestStartTime"]);
 let queryForm = ref({});
 
 const search = values => {
-  if (values.name === undefined) values.name = 'null';
-  if (values.phone === undefined) values.phone = 'null';
+  if (values.courseName === undefined) values.courseName = 'null';
+  if (values.instructorName === undefined) values.instructorName = 'null';
   if (values.companyName === undefined) values.companyName = 'null';
 
-  values.courseId = values.courseId.trim();
-  values.name = values.name.trim();
-  values.phone = values.phone.trim();
+  if (values.earliestStartTime === undefined) values.earliestStartTime = '1970-01-01';
+  else values.earliestStartTime = values.earliestStartTime.format('YYYY-MM-DD');
+
+  values.courseName = values.courseName.trim();
+  values.instructorName = values.instructorName.trim();
   values.companyName = values.companyName.trim();
 
-  if (values.name === "") values.name = 'null';
-  if (values.phone === "") values.phone = 'null';
-  if (values.companyName === "") values.companyName = 'null';
+  if (values.courseName === '') values.courseName = 'null';
+  if (values.instructorName === '') values.instructorName = 'null';
+  if (values.companyName === '') values.companyName = 'null';
 
   queryForm.value = values;
 };
 
 const reset = () => {
   formRef.value.resetFields();
-  queryForm.value = formRef.value.getFieldsValue();
+  search({
+    courseName: 'null',
+    instructorName: 'null',
+    companyName: 'null',
+    earliestStartTime: undefined
+  });
 };
+
+search({
+  courseName: 'null',
+  instructorName: 'null',
+  companyName: 'null',
+  earliestStartTime: undefined
+});
 
 </script>
 

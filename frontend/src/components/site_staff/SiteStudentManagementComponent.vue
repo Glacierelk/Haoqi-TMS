@@ -46,9 +46,7 @@
 
 <script setup>
 
-import axios from 'axios';
 import {h, reactive, ref} from 'vue';
-import { ElMessage } from 'element-plus';
 import { SearchOutlined } from '@ant-design/icons-vue';
 import StudentListComponent from "@/components/site_staff/list/StudentListComponent.vue";
 

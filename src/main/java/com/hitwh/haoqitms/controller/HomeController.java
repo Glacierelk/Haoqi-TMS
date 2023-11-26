@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 @RequestMapping("/home")
 @RestController
 public class HomeController {
@@ -37,7 +34,7 @@ public class HomeController {
     public ResultInfo getCourses(@PathVariable(value = "name", required = false) String name,
                                  @PathVariable(value = "instructor_name", required = false) String instructorName,
                                  @PathVariable(value = "company_name", required = false) String companyName,
-                                 @PathVariable(value = "start_date", required = false) Timestamp startDate,
+                                 @PathVariable(value = "start_date", required = false) String startDate,
                                  @PathVariable(value = "page_size", required = false) Integer pageSize,
                                  @PathVariable(value = "current_page", required = false) Integer currentPage) {
         CourseList courseList = new CourseList();

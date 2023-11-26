@@ -38,9 +38,7 @@
 
 <script setup>
 
-import axios from 'axios';
 import {h, reactive, ref} from 'vue';
-import { ElMessage } from 'element-plus';
 import { SearchOutlined } from '@ant-design/icons-vue';
 import EvaluationListComponent from "@/components/site_staff/list/EvaluationListComponent.vue";
 
@@ -49,7 +47,6 @@ const formState = reactive({});
 const columns = reactive(["课程 ID"]);
 const names = reactive(["courseId"]);
 const showTable = ref(false);
-let tableData = reactive([]);
 const courseID = ref("");
 
 const search = values => {

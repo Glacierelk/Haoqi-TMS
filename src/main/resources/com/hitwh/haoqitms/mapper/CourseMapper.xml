@@ -14,7 +14,7 @@
                 AND course.company_name LIKE CONCAT('%', #{courseList.companyName}, '%')
             </if>
             <if test="courseList.startDate != null and courseList.startDate != ''">
-                AND course.start_date >= #{courseList.startDate, jdbcType=TIMESTAMP}
+                AND DATE_FORMAT(course.start_date, '%Y-%m-%d') >= DATE_FORMAT(#{courseList.startDate}, '%Y-%m-%d')
             </if>
             <if test="courseList.instructorName != null and courseList.instructorName != ''">
                 AND employee.name LIKE CONCAT('%', #{courseList.instructorName}, '%')
@@ -23,7 +23,7 @@
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-    <select id="getCoursesCount" resultType="com.hitwh.haoqitms.entity.CourseList">
+    <select id="getCoursesCount" resultType="java.lang.Integer">
         SELECT count(*)
         FROM course, employee
         <where>
@@ -35,7 +35,7 @@
                 AND course.company_name LIKE CONCAT('%', #{courseList.companyName}, '%')
             </if>
             <if test="courseList.startDate != null and courseList.startDate != ''">
-                AND course.start_date >= courseList.startDate
+                AND DATE_FORMAT(course.start_date, '%Y-%m-%d') >= DATE_FORMAT(#{courseList.startDate}, '%Y-%m-%d')
             </if>
             <if test="courseList.instructorName != null and courseList.instructorName != ''">
                 AND employee.name LIKE CONCAT('%', #{courseList.instructorName}, '%')

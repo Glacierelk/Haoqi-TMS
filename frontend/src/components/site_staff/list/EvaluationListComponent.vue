@@ -38,7 +38,7 @@
       :page-sizes="[5, 10, 20, 50, 100]"
       :total="dataCount"
       layout="total, sizes, prev, pager, next, jumper"
-      style="margin-top: 20px; text-align: right;"
+      style="margin-top: 20px; text-align: right; margin-bottom: 20px;"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
   />
