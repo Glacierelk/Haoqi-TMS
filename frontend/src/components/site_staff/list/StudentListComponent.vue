@@ -1,6 +1,6 @@
 <template>
   <el-table :data="tableData" border stripe style="width: 100%">
-    <el-table-column align="center" fixed label="学员姓名" prop="name" width="120"/>
+    <el-table-column align="center" fixed label="学员姓名" prop="name" width="200"/>
     <el-table-column align="center" label="性别" prop="gender" width="80">
       <template #default="scope">
         {{ scope.row.sex ? '女' : '男' }}
@@ -77,14 +77,13 @@
 <script setup>
 
 import {ElMessage, ElMessageBox} from "element-plus";
-import {defineProps, reactive, ref, watch} from 'vue';
+import {defineProps, ref, watch} from 'vue';
 import axios from "axios";
 
 let tableData = ref([]);
 let dataCount = ref(100);
 let pageSize = ref(10);
 let currentPage = ref(1);
-// let queryForm = ref({});
 
 // 用于接收父组件传递的数据
 const props = defineProps({

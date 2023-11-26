@@ -13,12 +13,12 @@
     </el-table-column>
     <el-table-column label="评价时间" prop="evaluationTime" width="260" align="center" sortable>
       <template #default="{ row }">
-        <span>{{ row.evaluationTime | timeFormat }}</span>
+        <span>{{ row.evaluationTime }}</span>
       </template>
     </el-table-column>
     <el-table-column label="学员评价" prop="comments" width="2000">
       <template #default="{ row }">
-        <span>{{ row.comments.length <= 100 ? row.comments : row.comments.substring(0, 100) + "..." }}</span>
+        <span>{{ row.comments.length <= 100 ? row.comments : row.comments.substring(0, 1000) + "..." }}</span>
       </template>
     </el-table-column>
     <el-table-column align="center" fixed="right" label="操作" width="160">
@@ -186,6 +186,7 @@ const search = () => {
           });
           tableData.value = res.data.data.data;
           dataCount.value = res.data.data.total;
+          console.log(tableData.value)
         } else {
           ElMessage({
             message: "查询失败",

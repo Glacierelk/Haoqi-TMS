@@ -49,9 +49,6 @@ public class StaffServiceImpl implements StaffService {
         if (studentCourse.getName() != null) {
             studentCourse.setName("%" + studentCourse.getName() + "%");
         }
-        if (studentCourse.getPhone() != null) {
-            studentCourse.setPhone("%" + studentCourse.getPhone() + "%");
-        }
         if (studentCourse.getCompanyName() != null) {
             studentCourse.setCompanyName("%" + studentCourse.getCompanyName() + "%");
         }
@@ -62,9 +59,6 @@ public class StaffServiceImpl implements StaffService {
     public List<StudentCourse> getStudents(StudentCourse studentCourse, Integer pageSize, Integer currentPage) {
         if (studentCourse.getName() != null) {
             studentCourse.setName("%" + studentCourse.getName() + "%");
-        }
-        if (studentCourse.getPhone() != null) {
-            studentCourse.setPhone("%" + studentCourse.getPhone() + "%");
         }
         if (studentCourse.getCompanyName() != null) {
             studentCourse.setCompanyName("%" + studentCourse.getCompanyName() + "%");
