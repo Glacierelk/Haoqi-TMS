@@ -15,7 +15,7 @@
     </el-table-column>
     <el-table-column label="课程介绍" prop="description" width="1000">
       <template #default="{ row }">
-        <span>{{ row.description.length <= 100 ? row.description : row.description.substring(0, 500) + "..." }}</span>
+        <span>{{ row.description.length <= 300 ? row.description : row.description.substring(0, 300) + "..." }}</span>
       </template>
     </el-table-column>
     <el-table-column align="center" fixed="right" label="操作" width="180">
