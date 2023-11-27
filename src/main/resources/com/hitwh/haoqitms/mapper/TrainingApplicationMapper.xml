@@ -1,0 +1,38 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hitwh.haoqitms.mapper.TrainingApplicationMapper">
+
+    <select id="selectTrainingApplications" resultType="com.hitwh.haoqitms.entity.TrainingApplication">
+        select * from training_application
+        <where>
+            training_application.company_name LIKE '%%'
+            <if test="trainingApplication.companyName != null and trainingApplication.companyName != ''">
+                AND training_application.company_name LIKE CONCAT('%', #{trainingApplication.companyName}, '%')
+            </if>
+            <if test="trainingApplication.status != null and trainingApplication.status != -1">
+                AND training_application.status = #{trainingApplication.status}
+            </if>
+            <if test="trainingApplication.applicationDate != null and trainingApplication.applicationDate != ''">
+                AND DATE_FORMAT(training_application.application_date, '%Y-%m-%d') >= DATE_FORMAT(#{trainingApplication.applicationDate}, '%Y-%m-%d')
+            </if>
+        </where>
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="selectTrainingApplicationsCount" resultType="java.lang.Integer">
+        select count(*) from training_application
+        <where>
+            training_application.company_name LIKE '%%'
+            <if test="trainingApplication.companyName != null and trainingApplication.companyName != ''">
+                AND training_application.company_name LIKE CONCAT('%', #{trainingApplication.companyName}, '%')
+            </if>
+            <if test="trainingApplication.status != null and trainingApplication.status != -1">
+                AND training_application.status = #{trainingApplication.status}
+            </if>
+            <if test="trainingApplication.applicationDate != null and trainingApplication.applicationDate != ''">
+                AND DATE_FORMAT(training_application.application_date, '%Y-%m-%d') >= DATE_FORMAT(#{trainingApplication.applicationDate}, '%Y-%m-%d')
+            </if>
+        </where>
+    </select>
+
+</mapper>
