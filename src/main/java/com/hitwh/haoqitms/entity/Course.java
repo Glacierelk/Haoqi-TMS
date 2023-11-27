@@ -15,7 +15,7 @@ public class Course {
     private String startDate;
     private String endDate;
     private String location;
-    private Double course_fee;
+    private Double courseFee;
     private Integer instructorId;
     private Integer executorId;
     private String report;

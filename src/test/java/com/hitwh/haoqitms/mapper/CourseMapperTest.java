@@ -1,5 +1,6 @@
 package com.hitwh.haoqitms.mapper;
 
+import com.hitwh.haoqitms.entity.Course;
 import com.hitwh.haoqitms.entity.CourseList;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,41 @@ class CourseMapperTest {
 
     @Test
     void getCoursesCount() {
+    }
+
+    @Test
+    void insertCourse() {
+        Course course = new Course();
+        course.setName("这是一个测试课程");
+        course.setCompanyName("宇宁有限责任公司");
+        course.setDescription("test");
+        course.setStartDate("2020-01-01");
+        course.setEndDate("2020-01-01");
+        course.setLocation("test");
+        course.setCourseFee(123.456);
+        course.setInstructorId(4);
+        course.setExecutorId(1);
+        System.out.println(courseMapper.insertCourse(course));
+    }
+
+    @Test
+    void deleteCourseByCourseId() {
+        System.out.println(courseMapper.deleteCourseByCourseId(102));
+    }
+
+    @Test
+    void updateCourse() {
+        Course course = new Course();
+        course.setCourseId(103);
+        course.setName("这是一个测试课程");
+        course.setCompanyName("宇宁有限责任公司");
+        course.setDescription("test");
+        course.setStartDate("2021-01-01");
+        course.setEndDate("2020-01-01");
+        course.setLocation("test");
+        course.setCourseFee(12345.6);
+        course.setInstructorId(4);
+        course.setExecutorId(2);
+        System.out.println(courseMapper.updateCourse(course));
     }
 }

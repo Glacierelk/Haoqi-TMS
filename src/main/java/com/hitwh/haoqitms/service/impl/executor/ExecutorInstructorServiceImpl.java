@@ -1,8 +1,8 @@
-package com.hitwh.haoqitms.service.impl;
+package com.hitwh.haoqitms.service.impl.executor;
 
 import com.hitwh.haoqitms.entity.Employee;
 import com.hitwh.haoqitms.mapper.EmployeeMapper;
-import com.hitwh.haoqitms.service.ExecutorInstructorService;
+import com.hitwh.haoqitms.service.executor.ExecutorInstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

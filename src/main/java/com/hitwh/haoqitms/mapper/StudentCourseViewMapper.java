@@ -3,6 +3,7 @@ package com.hitwh.haoqitms.mapper;
 import com.hitwh.haoqitms.entity.StudentCourse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public interface StudentCourseViewMapper {
     List<StudentCourse> getStudentCourse(@Param("studentCourse") StudentCourse studentCourse,
                                                    @Param("pageSize") int pageSize,
                                                    @Param("offset") int offset);
+    @Select("select * from student_course_view where course_id = #{courseId}")
+    List<StudentCourse> getStudentCourseByCourseId(@Param("courseId") Integer courseId);
 
     /**
      * 根据学生id和课程id更新学生缴费状态
