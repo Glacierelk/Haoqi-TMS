@@ -4,6 +4,7 @@ import com.hitwh.haoqitms.entity.TrainingApplication;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -27,4 +28,20 @@ public interface TrainingApplicationMapper {
                                                          @Param("pageSize") Integer pageSize,
                                                          @Param("offset") Integer offset);
     Integer selectTrainingApplicationsCount(@Param("trainingApplication") TrainingApplication trainingApplication);
+
+    /**
+     * 接受培训申请 [经理]
+     * @param applicationId 培训申请id
+     * @return 是否成功
+     */
+    @Update("UPDATE training_application SET status = 1 WHERE application_id = #{applicationId}")
+    Boolean acceptApplication(Integer applicationId);
+
+    /**
+     * 拒绝培训申请 [经理]
+     * @param applicationId 培训申请id
+     * @return 是否成功
+     */
+    @Update("UPDATE training_application SET status = 2 WHERE application_id = #{applicationId}")
+    Boolean rejectApplication(Integer applicationId);
 }

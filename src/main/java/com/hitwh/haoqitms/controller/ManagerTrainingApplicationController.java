@@ -4,10 +4,7 @@ import com.hitwh.haoqitms.entity.ResultInfo;
 import com.hitwh.haoqitms.entity.TrainingApplication;
 import com.hitwh.haoqitms.service.TrainingApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/manager/application")
 @RestController
@@ -37,6 +34,30 @@ public class ManagerTrainingApplicationController {
         } catch (Exception e) {
             resultInfo.setFlag(false);
             resultInfo.setErrorMsg("获取培训申请列表失败");
+        }
+        return resultInfo;
+    }
+
+    @PutMapping("/accept/{application_id}")
+    public ResultInfo acceptApplication(@PathVariable("application_id") Integer applicationId){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            resultInfo.setFlag(trainingApplicationService.acceptApplication(applicationId));
+        } catch (Exception e) {
+            resultInfo.setFlag(false);
+            resultInfo.setErrorMsg("接受培训申请失败");
+        }
+        return resultInfo;
+    }
+
+    @PutMapping("/reject/{application_id}")
+    public ResultInfo rejectApplication(@PathVariable("application_id") Integer applicationId){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            resultInfo.setFlag(trainingApplicationService.rejectApplication(applicationId));
+        } catch (Exception e) {
+            resultInfo.setFlag(false);
+            resultInfo.setErrorMsg("拒绝培训申请失败");
         }
         return resultInfo;
     }

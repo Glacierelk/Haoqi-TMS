@@ -17,4 +17,18 @@ public interface TrainingApplicationService {
      * @return 分页对象
      */
     Pagination selectTrainingApplications(TrainingApplication trainingApplication, Integer pageSize, Integer currentPage);
+
+    /**
+     * 拒绝培训申请
+     * @param applicationId 培训申请id
+     * @return 是否成功
+     */
+    Boolean acceptApplication(Integer applicationId);
+
+    /**
+     * 接受培训申请
+     * @param applicationId 培训申请id
+     * @return 是否成功
+     */
+    Boolean rejectApplication(Integer applicationId);
 }

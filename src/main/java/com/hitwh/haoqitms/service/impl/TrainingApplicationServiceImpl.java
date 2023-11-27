@@ -38,4 +38,14 @@ public class TrainingApplicationServiceImpl implements TrainingApplicationServic
         return pagination;
     }
 
+    @Override
+    public Boolean acceptApplication(Integer applicationId) {
+        return trainingApplicationMapper.acceptApplication(applicationId);
+    }
+
+    @Override
+    public Boolean rejectApplication(Integer applicationId) {
+        return trainingApplicationMapper.rejectApplication(applicationId);
+    }
+
 }

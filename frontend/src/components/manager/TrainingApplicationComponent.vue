@@ -13,7 +13,7 @@
             <a-form-item
                 :label=columns[i-1]
                 :name=names[i-1]
-                v-if="i < 3"
+                v-if="i === 1"
             >
               <a-input v-model:value="formState[names[i-1]]"/>
             </a-form-item>
@@ -21,7 +21,20 @@
             <a-form-item
                 :label=columns[i-1]
                 :name=names[i-1]
-                v-else
+                v-if="i === 3"
+            >
+              <a-select
+                  v-model:value="formState[names[i-1]]"
+                  style="width: 100%"
+                  :options="options"
+
+              />
+            </a-form-item>
+
+            <a-form-item
+                :label=columns[i-1]
+                :name=names[i-1]
+                v-if="i === 2"
             >
               <a-date-picker v-model:value="formState[names[i-1]]" style="width: 100%" />
             </a-form-item>
@@ -38,7 +51,7 @@
     </a-form>
 
     <div class="search-result-list">
-      <CourseListComponent :queryForm="queryForm"/>
+      <ApplicationListComponent :queryForm="queryForm" />
     </div>
   </div>
 </template>
@@ -47,29 +60,31 @@
 
 import {h, reactive, ref} from 'vue';
 import { SearchOutlined } from '@ant-design/icons-vue';
-import CourseListComponent from "@/components/home/CourseListComponent.vue";
+import ApplicationListComponent from "@/components/manager/list/ApplicationListComponent.vue";
 
 const formRef = ref();
 const formState = reactive({});
 const columns = reactive(["公司名称", "最早提交时间", "审批状态"]);
 const names = reactive(["companyName", "earliestSubmitTime", "status"]);
 let queryForm = ref({});
+const options = reactive([
+  {value: '-1', label: '不限'},
+  {value: '0', label: '待审批'},
+  {value: '1', label: '接受'},
+  {value: '2', label: '拒绝'}
+]);
 
 const search = values => {
-  if (values.courseName === undefined) values.courseName = 'null';
-  if (values.instructorName === undefined) values.instructorName = 'null';
   if (values.companyName === undefined) values.companyName = 'null';
+  if (values.earliestSubmitTime === undefined) values.earliestSubmitTime = '1970-01-01';
+  else values.earliestSubmitTime = values.earliestSubmitTime.format('YYYY-MM-DD');
+  if (values.status === undefined) values.status = '-1';
 
-  if (values.earliestStartTime === undefined) values.earliestStartTime = '1970-01-01';
-  else values.earliestStartTime = values.earliestStartTime.format('YYYY-MM-DD');
-
-  values.courseName = values.courseName.trim();
-  values.instructorName = values.instructorName.trim();
   values.companyName = values.companyName.trim();
 
-  if (values.courseName === '') values.courseName = 'null';
-  if (values.instructorName === '') values.instructorName = 'null';
   if (values.companyName === '') values.companyName = 'null';
+
+  console.log(values);
 
   queryForm.value = values;
 };
@@ -77,18 +92,16 @@ const search = values => {
 const reset = () => {
   formRef.value.resetFields();
   search({
-    courseName: 'null',
-    instructorName: 'null',
     companyName: 'null',
-    earliestStartTime: undefined
+    earliestSubmitTime: undefined,
+    status: '-1'
   });
 };
 
 search({
-  courseName: 'null',
-  instructorName: 'null',
   companyName: 'null',
-  earliestStartTime: undefined
+  earliestSubmitTime: undefined,
+  status: '-1'
 });
 
 </script>
