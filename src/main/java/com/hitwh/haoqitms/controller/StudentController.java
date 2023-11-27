@@ -34,7 +34,6 @@ public class StudentController {
         } catch (Exception e) {
             info.setFlag(false);
             info.setErrorMsg("创建失败");
-            e.printStackTrace();
         }
         return info;
     }

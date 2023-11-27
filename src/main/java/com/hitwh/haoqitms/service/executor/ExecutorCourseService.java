@@ -1,6 +1,8 @@
-package com.hitwh.haoqitms.service;
+package com.hitwh.haoqitms.service.executor;
 
 import com.hitwh.haoqitms.entity.Course;
+
+import java.io.InputStream;
 
 public interface ExecutorCourseService {
     /**
@@ -26,4 +28,12 @@ public interface ExecutorCourseService {
      * @return 是否修改成功
      */
     Boolean updateCourse(Course course);
+
+    /**
+     * 获取课程所有学员的邮箱
+     *
+     * @param courseId 课程id
+     * @return 所有学员的邮箱
+     */
+    InputStream getAllCourseStudentEmail(Integer courseId);
 }

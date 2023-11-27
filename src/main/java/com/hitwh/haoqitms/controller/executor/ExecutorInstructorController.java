@@ -1,10 +1,9 @@
-package com.hitwh.haoqitms.controller;
+package com.hitwh.haoqitms.controller.executor;
 
 import com.hitwh.haoqitms.entity.Employee;
 import com.hitwh.haoqitms.entity.ResultInfo;
-import com.hitwh.haoqitms.service.ExecutorInstructorService;
+import com.hitwh.haoqitms.service.executor.ExecutorInstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
