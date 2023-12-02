@@ -81,4 +81,14 @@ class CourseMapperTest {
         course.setExecutorId(2);
         System.out.println(courseMapper.updateCourse(course));
     }
+
+    @Test
+    void getCourseByName() {
+        courseMapper.getCourseByName(null, 10, 0).forEach(System.out::println);
+    }
+
+    @Test
+    void getCourseCountByName() {
+        System.out.println(courseMapper.getCourseCountByName(null));
+    }
 }

@@ -71,4 +71,17 @@ public interface CourseMapper {
             "where course_id = #{courseId}")
     Boolean updateCourse(Course course);
 
+    /**
+     * 根据课程名称查询课程 [执行人]
+     *
+     * @param name 课程名称
+     * @param pageSize 每页大小
+     * @param offset 偏移量
+     * @return 课程列表
+     */
+    List<Course> getCourseByName(@Param("name") String name,
+                                 @Param("pageSize") Integer pageSize,
+                                 @Param("offset") Integer offset);
+    Integer getCourseCountByName(@Param("name") String name);
+
 }
