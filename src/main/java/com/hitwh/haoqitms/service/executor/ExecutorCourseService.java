@@ -1,6 +1,7 @@
 package com.hitwh.haoqitms.service.executor;
 
 import com.hitwh.haoqitms.entity.Course;
+import com.hitwh.haoqitms.entity.Pagination;
 
 import java.io.InputStream;
 
@@ -36,4 +37,14 @@ public interface ExecutorCourseService {
      * @return 所有学员的邮箱
      */
     InputStream getAllCourseStudentEmail(Integer courseId);
+
+    /**
+     * 获取课程列表
+     *
+     * @param courseName 课程名
+     * @param pageSize 每页大小
+     * @param currentPage 当前页
+     * @return 课程列表
+     */
+    Pagination getCourseList(String courseName, Integer pageSize, Integer currentPage);
 }

@@ -1,6 +1,7 @@
 package com.hitwh.haoqitms.service.impl.executor;
 
 import com.hitwh.haoqitms.entity.Course;
+import com.hitwh.haoqitms.entity.Pagination;
 import com.hitwh.haoqitms.entity.StudentCourse;
 import com.hitwh.haoqitms.mapper.CourseMapper;
 import com.hitwh.haoqitms.mapper.StudentCourseViewMapper;
@@ -46,5 +47,16 @@ public class ExecutorCourseServiceImpl implements ExecutorCourseService {
     public InputStream getAllCourseStudentEmail(Integer courseId) {
         List<StudentCourse> students = studentCourseViewMapper.getStudentCourseByCourseId(courseId);
         return excelService.generateStudentEmailExcel(students);
+    }
+
+    @Override
+    public Pagination getCourseList(String courseName, Integer pageSize, Integer currentPage) {
+        System.out.println(courseName);
+        Pagination pagination = new Pagination();
+        pagination.setPageSize(pageSize);
+        pagination.setCurrentPage(currentPage);
+        pagination.setTotal(courseMapper.getCourseCountByName(courseName));
+        pagination.setData(courseMapper.getCourseByName(courseName, pageSize, (currentPage - 1) * pageSize));
+        return pagination;
     }
 }

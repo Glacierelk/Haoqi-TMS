@@ -6,6 +6,7 @@ import com.hitwh.haoqitms.service.ExcelService;
 import com.hitwh.haoqitms.service.executor.ExecutorStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.util.List;
@@ -25,5 +26,10 @@ public class ExecutorStudentServiceImpl implements ExecutorStudentService {
     public InputStream getAllStudentEmail() {
         List<Student> students = studentMapper.getAllStudent();
         return excelService.generateStudentEmailExcel(students);
+    }
+
+    @Override
+    public Boolean importStudent(MultipartFile file) {
+        return null;
     }
 }
