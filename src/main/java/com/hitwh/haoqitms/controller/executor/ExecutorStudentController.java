@@ -111,7 +111,7 @@ public class ExecutorStudentController {
      * @param student
      */
     @PostMapping("/update")
-    public ResultInfo updateStudent(Student student){
+    public ResultInfo updateStudent(@RequestBody Student student){
         ResultInfo resultInfo = new ResultInfo();
         if(executorStudentService.updateStudent(student)){
             resultInfo.setFlag(true);

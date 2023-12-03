@@ -3,9 +3,7 @@
     <el-card>
       <el-row :gutter="20">
         <el-col :span="8">
-          <!-- 搜索与添加区域 -->
-<!--          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getUserList">-->
-          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getUserList">
+          <el-input placeholder="请输入内容" v-model="queryInfo.query">
             <template #append>
               <el-button @click="getUserList">
                 搜索
@@ -15,60 +13,82 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="addDialogVisible = true">添加用户</el-button>
+          <el-button type="primary" @click="addDialogVisible = true">添加讲师</el-button>
         </el-col>
       </el-row>
       <!-- 用户列表区域  -->
-      <el-table :data="userlist" border stripe>
+      <el-table :data="instructorList" border stripe class="table-with-margin">
         <el-table-column type="index"></el-table-column>
-        <el-table-column label="姓名" prop="name"></el-table-column>
+        <el-table-column label="讲师姓名" prop="name"></el-table-column>
         <el-table-column label="联系电话" prop="contactInfo"></el-table-column>
         <el-table-column label="邮箱" prop="email"></el-table-column>
         <el-table-column label="职称" prop="title"></el-table-column>
-        <el-table-column label="擅长的领域" prop="expertiseArea"></el-table-column>
-        <el-table-column label="操作" width="180px">
+        <el-table-column label="擅长的领域" prop="expertiseArea" show-overflow-tooltip></el-table-column>
+        <el-table-column label="操作" width="300px">
           <template v-slot="scope">
             <!-- 修改按钮 -->
-            <el-button type="primary" v-model="scope.row.Id" size="mini">修改</el-button>
+            <el-button type="primary"  size="mini" @click="openChangeCourse(scope.row)">修改</el-button>
             <!-- 删除按钮 -->
-            <el-button type="danger" size="mini">删除</el-button>
+            <el-button type="danger" size="mini" @click="deleteInstructor(scope.row)">删除</el-button>
+            <!-- 查看所授课程按钮 -->
+            <el-button type="success"  size="mini" @click="searchCourse(scope.row)">查看所授课程</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <!-- 页面区域 -->
-      <el-pagination :current-page="queryInfo.pagenum" :page-sizes="[1, 2, 5, 10]"
-                     :page-size="queryInfo.pagesize" layout="total, sizes, prev, pager, next, jumper"
-                     :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-      >
-      </el-pagination>
+
       <!-- 添加用户的对话框 -->
-      <el-dialog v-model="addDialogVisible" title="添加用户" width="50%" :before-close="handleClose" >
+      <el-dialog v-model="addDialogVisible" title="添加讲师" width="40%"  >
         <!-- 内容主体区域 -->
-        <el-form ref="addFormRef" :model="addForm"
-                 :rules="addFormRules"
-                 label-width="70px">
+        <el-form ref="addFormRef" :model="addForm" label-width="70px">
           <el-form-item label="姓名" prop="name">
             <el-input v-model="addForm.name"></el-input>
           </el-form-item>
           <el-form-item label="联系电话" prop="contactInfo">
-            <el-input v-model="addForm.password"></el-input>
+            <el-input v-model="addForm.contactInfo"></el-input>
           </el-form-item>
           <el-form-item label="Email" prop="email">
             <el-input v-model="addForm.email"></el-input>
           </el-form-item>
           <el-form-item label="职称" prop="title">
-            <el-input v-model="addForm.mobile"></el-input>
+            <el-input v-model="addForm.title"></el-input>
           </el-form-item>
           <el-form-item label="擅长的领域" prop="expertiseArea">
-            <el-input v-model="addForm.mobile"></el-input>
+            <el-input v-model="addForm.expertiseArea"></el-input>
           </el-form-item>
         </el-form>
         <!-- 底部区域 -->
         <template #footer>
       <span class="dialog-footer">
         <el-button @click="addDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="addDialogVisible = false"
-        >确定</el-button>
+        <el-button type="primary" @click="addInstructor">确定</el-button>
+      </span>
+        </template>
+      </el-dialog>
+      <!-- 修改用户的对话框 -->
+      <el-dialog v-model="changeDialogVisible" title="修改讲师" width="40%"  >
+        <!-- 内容主体区域 -->
+        <el-form ref="addFormRef" :model="changeForm" label-width="70px">
+          <el-form-item label="姓名" prop="name">
+            <el-input v-model="changeForm.name"></el-input>
+          </el-form-item>
+          <el-form-item label="联系电话" prop="contactInfo">
+            <el-input v-model="changeForm.contactInfo"></el-input>
+          </el-form-item>
+          <el-form-item label="Email" prop="email">
+            <el-input v-model="changeForm.email"></el-input>
+          </el-form-item>
+          <el-form-item label="职称" prop="title">
+            <el-input v-model="changeForm.title"></el-input>
+          </el-form-item>
+          <el-form-item label="擅长的领域" prop="expertiseArea">
+            <el-input v-model="changeForm.expertiseArea"></el-input>
+          </el-form-item>
+        </el-form>
+        <!-- 底部区域 -->
+        <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="changeDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="changeInstructor">确定</el-button>
       </span>
         </template>
       </el-dialog>
@@ -77,138 +97,142 @@
 </template>
 
 <script >
+import axios from "axios";
+import {ElMessageBox} from "element-plus";
+
 export default {
   data () {
     return {
       // 获取用户列表的参数对象
       queryInfo: {
         query: '', // 查询参数
-        pagenum: 1, // 当前页码
-        pagesize: 2 // 每页显示条数
       },
       // 用户列表
-      userlist: [
-        {
-        name: 'name',
-        contactInfo: 'contactInfo',
-        email: 'email',
-        title: 'title',
-        expertiseArea: 'expertiseArea',
-        },
-        {
-          name: 'name',
-          contactInfo: 'contactInfo',
-          email: 'email',
-          title: 'title',
-          expertiseArea: 'expertiseArea',
-        },
-        {
-          name: 'name',
-          contactInfo: 'contactInfo',
-          email: 'email',
-          title: 'title',
-          expertiseArea: 'expertiseArea',
-        }
-      ],
-      // 总数据条数
-      total: 0,
-      // 控制添加用对话框的显示和隐藏，默认false,表示隐藏对话框
+      instructorList: [],
       addDialogVisible: false,
+      changeDialogVisible:false,
+      approvalDialogVisible:false,
       // 添加用户的表单数据对象
       addForm: {
-        username: '',
-        password: '',
+        name: '',
+        contactInfo: '',
         email: '',
-        mobile: ''
+        title: '',
+        expertiseArea: ''
       },
-      // 添加表单的验证规则对象
-      // addFormRules: {
-      //   username: [
-      //     {
-      //       required: true,
-      //       message: '请输入用户名',
-      //       trigger: 'blur'
-      //     },
-      //     {
-      //       min: 3,
-      //       max: 10,
-      //       message: '用户名的长度在 3 - 10个字符之间',
-      //       trigger: 'blur'
-      //     }
-      //   ],
-      //   password: [
-      //     {
-      //       required: true,
-      //       message: '请输入密码',
-      //       trigger: 'blur'
-      //     },
-      //     {
-      //       min: 6,
-      //       max: 15,
-      //       message: '密码的长度在 6 - 15个字符之间',
-      //       trigger: 'blur'
-      //     }
-      //   ],
-      //   email: [
-      //     {
-      //       required: true,
-      //       message: '请输入邮箱',
-      //       trigger: 'blur'
-      //     }
-      //   ],
-      //   mobile: [
-      //     {
-      //       required: true,
-      //       message: '请输入手机号',
-      //       trigger: 'blur'
-      //     },
-      //     {
-      //       min: 11,
-      //       max: 11,
-      //       message: '手机号长度在11个字符',
-      //       trigger: 'blur'
-      //     }
-      //   ]
-      // }
+      changeForm: {
+        employeeId:'',
+        name: '',
+        contactInfo: '',
+        email: '',
+        title: '',
+        expertiseArea: ''
+      },
     }
   },
   created () {
+    //接收参数
+    const name=this.$route.query.name;
+    //console.log(name);
     this.getUserList()
   },
   methods: {
-    async getUserList () {
-      const { data: res } = await this.$http.get('users', {
-        params: this.queryInfo
-      })
-      if (res.meta.status !== 200) return this.$message.error('获取用户列表失败')
-      this.userlist = res.data.users
-      this.total = res.data.total
-      console.log(res)
+     getUserList () {
+       axios
+           .get("/executor/Instructor/search")
+           .then(
+               response => {
+                 this.instructorList = response.data;
+               },
+               response => {
+                 console.log("error");
+                 alert("请求失败");
+               }
+           );
     },
-    // 监听 page size 改变的事件
-    handleSizeChange (newSize) {
-      this.queryInfo.pagesize = newSize
-      this.getUserList()
+    //删除讲师
+    deleteInstructor(row){
+      // 弹出确认对话框，确认后执行删除操作
+      //console.log("row"+row.courseId);
+      ElMessageBox.confirm('确定删除['+row.name+']的信息吗?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 发送删除请求
+        axios.get(`/executor/Instructor/delete?id=${row.employeeId}`)
+            .then(response => {
+              this.$message.success('删除成功');
+              // 删除成功后刷新数据
+              this.getUserList();
+            })
+            .catch(error => {
+              console.error("删除失败", error);
+              this.$message.error('删除失败');
+            });
+      }).catch(() => {
+        // 用户取消删除操作
+      });
     },
-    // 监听 页码值 改变的事件
-    handleCurrentChange (newPage) {
-      this.queryInfo.pagenum = newPage
-      this.getUserList()
+    //打开修改框的时候把原来的数据填上
+    openChangeCourse(row){
+      this.changeForm.employeeId=row.employeeId;
+      this.changeForm.name=row.name;
+      this.changeForm.contactInfo=row.contactInfo;
+      this.changeForm.email=row.email;
+      this.changeForm.title=row.title;
+      this.changeForm.expertiseArea=row.expertiseArea;
+      this.changeDialogVisible = true;
     },
-    // 监听 switch 开头状态的改变
-    async userStateChanged (userinfo) {
-      const { data: res } = await this.$http.put(`users/${userinfo.id}/state/${userinfo.mg_state}`)
-      if (res.meta.status !== 200) {
-        userinfo.mg_state = !userinfo.mg_state
-        return this.$message.error('更新用户状态失败')
-      }
-      this.$message.success('更新用户状态成功')
-    }
+    //修改讲师
+    changeInstructor(){
+      console.log("changeForm"+this.changeForm.name)
+      axios
+          .post("/executor/Instructor/update", this.changeForm)
+          .then((response) => {
+            this.$message.success("修改成功");
+            // 添加成功后刷新数据
+            this.getUserList();
+            // 关闭添加对话框
+            this.changeDialogVisible = false;
+          })
+          .catch((error) => {
+            console.error("修改失败", error);
+            this.$message.error("修改失败");
+          });
+      // 关闭编辑对话框
+      this.changeDialogVisible = false;
+    },
+    //新建讲师,关闭对话框
+    addInstructor(){
+      axios
+          .post("/executor/Instructor/add", this.addForm)
+          .then((response) => {
+            this.$message.success("添加成功");
+            // 添加成功后刷新数据
+            this.getUserList();
+            // 关闭添加对话框
+            this.addDialogVisible = false;
+          })
+          .catch((error) => {
+            console.error("添加失败", error);
+            this.$message.error("添加失败");
+          });
+      // 关闭编辑对话框
+      this.addDialogVisible = false;
+    },
+    //跳转并传参
+    searchCourse(row){
+       //console.log("row.employeeId"+row.employeeId);
+      this.$router.push({name:'ExecutorInstructorCourse',query:{name:row.employeeId}});
+    },
   }
 
 }
 </script>
 
-<style lang="less" scoped>
-
+<style scoped>
+.table-with-margin {
+  margin-top: 20px; /* 调整表格与上方内容的间距，根据实际需要设置 */
+}
 </style>
