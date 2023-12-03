@@ -18,6 +18,7 @@ public class TrainingApplication {
     // 0: 等待审批
     // 1: 接受
     // 2: 拒绝
+    // 3: 已完成
     private Integer status;
 
     private String description;

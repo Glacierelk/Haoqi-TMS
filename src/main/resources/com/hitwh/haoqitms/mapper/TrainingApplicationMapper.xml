@@ -5,7 +5,7 @@
     <select id="selectTrainingApplications" resultType="com.hitwh.haoqitms.entity.TrainingApplication">
         select * from training_application
         <where>
-            training_application.company_name LIKE '%%'
+            training_application.status != 3
             <if test="trainingApplication.companyName != null and trainingApplication.companyName != ''">
                 AND training_application.company_name LIKE CONCAT('%', #{trainingApplication.companyName}, '%')
             </if>
@@ -22,7 +22,7 @@
     <select id="selectTrainingApplicationsCount" resultType="java.lang.Integer">
         select count(*) from training_application
         <where>
-            training_application.company_name LIKE '%%'
+            training_application.status != 3
             <if test="trainingApplication.companyName != null and trainingApplication.companyName != ''">
                 AND training_application.company_name LIKE CONCAT('%', #{trainingApplication.companyName}, '%')
             </if>
