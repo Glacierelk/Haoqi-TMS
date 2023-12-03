@@ -8,11 +8,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -54,5 +56,28 @@ public class ExcelServiceImpl implements ExcelService {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    @Override
+    public List<?> readExcel(MultipartFile file, Class<?> clazz) {
+        List<Object> list = new ArrayList<>();
+
+        try (InputStream inputStream = file.getInputStream()) {
+            Workbook workbook = new HSSFWorkbook(inputStream);
+            Sheet sheet = workbook.getSheetAt(0);
+
+            for (Row row : sheet) {
+                Object obj = clazz.getDeclaredConstructor().newInstance();
+
+                // 在这里处理如何将 Excel 中的数据赋值给对象 obj
+                // 例如，根据列的索引读取单元格的值，并将值设置到对象的相应字段上
+
+                list.add(obj);
+            }
+        } catch (Exception e) {
+            return null;
+        }
+
+        return list;
     }
 }
