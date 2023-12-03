@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CourseApplication {
     private Integer courseId;
+    private Integer applicationId;
+    private Integer studentId;
+    private String courseName;
     private String name;
     // 0 女 1 男
     private Integer gender;

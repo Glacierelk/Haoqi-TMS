@@ -63,5 +63,12 @@ public interface TrainingApplicationMapper {
     @Select("SELECT company_name FROM training_application GROUP BY company_name")
     List<String> selectAllCompanyName();
 
+    /**
+     * 根据课程ID查询预算 [经理]
+     * @param courseId 课程ID
+     * @return 预算
+     */
+    @Select("SELECT budget FROM training_application WHERE course_id = #{courseId}")
+    Double getBudgetByCourseId(Integer courseId);
 
 }

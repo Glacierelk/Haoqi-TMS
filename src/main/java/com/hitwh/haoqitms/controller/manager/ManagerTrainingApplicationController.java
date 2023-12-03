@@ -1,4 +1,4 @@
-package com.hitwh.haoqitms.controller;
+package com.hitwh.haoqitms.controller.manager;
 
 import com.hitwh.haoqitms.entity.ResultInfo;
 import com.hitwh.haoqitms.entity.TrainingApplication;
@@ -16,6 +16,15 @@ public class ManagerTrainingApplicationController {
         this.trainingApplicationService = trainingApplicationService;
     }
 
+    /**
+     * 获取培训申请列表
+     * @param companyName 企业名称
+     * @param applicationDate 申请日期
+     * @param status 申请状态
+     * @param pageSize 每页显示条数
+     * @param currentPage 当前页码
+     * @return 培训申请列表
+     */
     @GetMapping("/list/{company_name}/{application_date}/{status}/{pageSize}/{currentPage}")
     public ResultInfo selectApplications(@PathVariable("company_name") String companyName,
                                          @PathVariable("application_date") String applicationDate,
@@ -38,6 +47,11 @@ public class ManagerTrainingApplicationController {
         return resultInfo;
     }
 
+    /**
+     * 通过培训申请
+     * @param applicationId 培训申请编号
+     * @return 操作是否成功
+     */
     @PutMapping("/accept/{application_id}")
     public ResultInfo acceptApplication(@PathVariable("application_id") Integer applicationId){
         ResultInfo resultInfo = new ResultInfo();
@@ -50,6 +64,11 @@ public class ManagerTrainingApplicationController {
         return resultInfo;
     }
 
+    /**
+     * 拒绝培训申请
+     * @param applicationId 培训申请编号
+     * @return 操作是否成功
+     */
     @PutMapping("/reject/{application_id}")
     public ResultInfo rejectApplication(@PathVariable("application_id") Integer applicationId){
         ResultInfo resultInfo = new ResultInfo();
