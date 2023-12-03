@@ -4,9 +4,11 @@ package com.hitwh.haoqitms.controller;
 import com.hitwh.haoqitms.entity.CourseApplication;
 import com.hitwh.haoqitms.entity.CourseList;
 import com.hitwh.haoqitms.entity.ResultInfo;
+import com.hitwh.haoqitms.entity.TrainingApplication;
 import com.hitwh.haoqitms.service.CourseApplicationService;
 import com.hitwh.haoqitms.service.HomeService;
 import com.hitwh.haoqitms.service.TrainingApplicationService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -79,24 +81,6 @@ public class HomeController {
     }
 
     /**
-     * 检查团报码是否有效
-     * @param promoCode 团报码
-     */
-    @GetMapping("/checkPromoCode/{promoCode}")
-    public ResultInfo checkPromoCode(@PathVariable(value = "promoCode") String promoCode) {
-        ResultInfo info = new ResultInfo();
-        String companyName = trainingApplicationService.selectCompanyNameByPromoCode(promoCode);
-        try {
-            info.setFlag(true);
-            info.setData(companyName);
-        } catch (Exception e) {
-            info.setFlag(false);
-            info.setErrorMsg("检查团报码失败");
-        }
-        return info;
-    }
-
-    /**
      * 新建课程申请
      * @param courseApplication 课程id
      */
@@ -140,4 +124,32 @@ public class HomeController {
         }
         return info;
     }
+
+    /**
+     * 创建软件公司培训申请
+     * @param request
+     * @param trainingApplication
+     * @return
+     */
+    @PostMapping("/createTrainingApplication")
+    public ResultInfo create(HttpServletRequest request, @RequestBody TrainingApplication trainingApplication){
+        // 设置为等待审批状态
+        trainingApplication.setStatus(0);
+        System.out.println(trainingApplication);
+        ResultInfo info = new ResultInfo();
+        try {
+            Boolean result = trainingApplicationService.createTrainingApplication(trainingApplication);
+            if (result) {
+                info.setFlag(true);
+            } else {
+                info.setFlag(false);
+                info.setErrorMsg("创建失败");
+            }
+        } catch (Exception e) {
+            info.setFlag(false);
+            info.setErrorMsg("创建失败");
+        }
+        return info;
+    }
+
 }
