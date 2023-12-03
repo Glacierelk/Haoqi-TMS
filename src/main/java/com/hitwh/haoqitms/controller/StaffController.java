@@ -23,7 +23,7 @@ public class StaffController {
      * @param request 请求
      * @param courseId 课程id
      * @param name 学员姓名
-     * @param phone 学员电话
+     * @param contactInfo 学员电话
      * @param companyName 学员公司名称
      * @return 学员列表
      */
@@ -31,14 +31,14 @@ public class StaffController {
     public ResultInfo getStudentList(HttpServletRequest request,
                                      @PathVariable("course_id") Integer courseId,
                                      @PathVariable(value = "name", required = false) String name,
-                                     @PathVariable(value = "phone", required = false) String phone,
+                                     @PathVariable(value = "phone", required = false) String contactInfo,
                                      @PathVariable(value = "company_name", required = false) String companyName,
                                      @PathVariable(value = "page_size", required = false) Integer pageSize,
                                      @PathVariable(value = "current_page", required = false) Integer currentPage) {
         StudentCourse studentCourse = new StudentCourse();
         studentCourse.setCourseId(courseId);
         studentCourse.setName(name.equals("null") ? null : name);
-        studentCourse.setPhone(phone.equals("null") ? null : phone);
+        studentCourse.setContactInfo(contactInfo.equals("null") ? null : contactInfo);
         studentCourse.setCompanyName(companyName.equals("null") ? null : companyName);
 
         ResultInfo info = new ResultInfo();

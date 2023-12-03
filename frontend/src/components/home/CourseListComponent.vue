@@ -167,6 +167,7 @@ let tableData = ref([]);
 let detailsDialogVisible = ref(false);
 let details = ref("");
 let courseId = ref("");
+let courseName = ref("");
 const companyList = ref([]);
 // 用于接收父组件传递的数据
 const props = defineProps({
@@ -211,6 +212,7 @@ const submitRegistration = (row) => {
   registerDialogVisible.value = true;
   axios.post(`/home/createCourseApplication`, {
     "courseId": courseId.value,
+    "courseName": courseName.value,
     "name": registerForm.value.name,
     "gender": registerForm.value.gender,
     "email": registerForm.value.email,
@@ -267,8 +269,9 @@ const showDetailsDialog = (description) => {
 
 const showRegisterDialog = (row) => {
   courseId.value = row.courseId;
+  courseName.value = row.name;
   resetRegisterForm();
-  registerDialogVisible.value = true;
+  registerDialogVisible.value = true;a
 }
 
 const search = () => {

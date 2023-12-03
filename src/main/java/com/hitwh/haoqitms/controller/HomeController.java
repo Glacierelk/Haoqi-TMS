@@ -87,6 +87,8 @@ public class HomeController {
     @PostMapping("/createCourseApplication")
     public ResultInfo createCourseApplication(@RequestBody CourseApplication courseApplication) {
         ResultInfo info = new ResultInfo();
+        // 等待审批
+        courseApplication.setStatus(0);
         String promoCode = trainingApplicationService.selectPromoCodeByCourseId(courseApplication.getCourseId());
         if ("" == courseApplication.getCompanyName() || ("" != courseApplication.getCompanyName() && ""  == courseApplication.getPromoCode())) {
             // 公司名为null，团报码肯定为null,直接新建课程申请

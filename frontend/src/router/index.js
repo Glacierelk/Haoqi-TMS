@@ -28,7 +28,7 @@ const router = createRouter({
     {
       path: '/manager',
         name: 'manager',
-        component: () => import('../views/ManagerView.vue'),
+        component: () => import('../views/Manager/ManagerView.vue'),
     },
     {
       path: '/instructor',
@@ -64,7 +64,7 @@ const router = createRouter({
         },
       ]
     }
-  ]
-})
+      ]
+    })
 
 export default router

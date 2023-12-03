@@ -1,10 +1,7 @@
 package com.hitwh.haoqitms.mapper;
 
 import com.hitwh.haoqitms.entity.StudentCourse;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -55,4 +52,7 @@ public interface StudentCourseViewMapper {
     @Select("select * from student_course_view where course_id = #{courseId} and paid = true")
     List<StudentCourse> getPaidStudentsByCourseId(Integer courseId);
 
+    @Insert("insert into student_course(student_id, course_id, paid, attendance) " +
+            "values(#{studentId}, #{courseId}, #{paid}, #{attendance})")
+    Boolean createStudentCourse(StudentCourse studentCourse);
 }
