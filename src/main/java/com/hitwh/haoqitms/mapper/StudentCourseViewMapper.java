@@ -1,10 +1,7 @@
 package com.hitwh.haoqitms.mapper;
 
 import com.hitwh.haoqitms.entity.StudentCourse;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -46,5 +43,8 @@ public interface StudentCourseViewMapper {
             "where student_id = #{studentId} and course_id = #{courseId}")
     Boolean updateStudentAttendanceStatus(Integer studentId, Integer courseId, Boolean attendance);
 
+    @Insert("insert into student_course(student_id, course_id, paid, attendance) " +
+            "values(#{studentId}, #{courseId}, #{paid}, #{attendance})")
+    Boolean createStudentCourse(StudentCourse studentCourse);
 
 }

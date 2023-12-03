@@ -18,5 +18,5 @@ public class StudentCourse {
     private String companyName;
     private String jobPosition;
     private String skillLevel;
-    private String phone;
+    private String contactInfo;
 }
