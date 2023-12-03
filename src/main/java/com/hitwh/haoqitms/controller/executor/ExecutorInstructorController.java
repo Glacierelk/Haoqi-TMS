@@ -62,4 +62,10 @@ public class ExecutorInstructorController {
         }
         return  resultInfo;
     }
+
+    @GetMapping("/getAllTeachers")
+    public List<Employee> getAllTeachers(){
+        return executorInstructorService.getAllTeachers();
+    }
+
 }

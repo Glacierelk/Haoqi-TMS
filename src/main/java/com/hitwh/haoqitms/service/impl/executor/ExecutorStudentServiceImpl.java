@@ -32,4 +32,25 @@ public class ExecutorStudentServiceImpl implements ExecutorStudentService {
     public Boolean importStudent(MultipartFile file) {
         return null;
     }
+
+    @Override
+    public Boolean createStudent(Student student) {
+        return studentMapper.createStudent(student);
+    }
+
+    @Override
+    public List<Student> getAllStudents() {
+        return studentMapper.getAllStudentAllInfo();
+    }
+
+    @Override
+    public Boolean updateStudent(Student student) {
+        return studentMapper.updateStudent(student);
+    }
+
+    @Override
+    public Boolean deleteStudent(Integer studentId) {
+        return studentMapper.deleteStudent(studentId);
+    }
+
 }

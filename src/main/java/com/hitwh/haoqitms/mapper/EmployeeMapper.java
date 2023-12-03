@@ -54,4 +54,11 @@ public interface EmployeeMapper {
      */
     @Select("SELECT employee_id, name FROM employee WHERE employee_type=1 LIMIT #{pageSize} OFFSET #{offset}")
     List<Employee> selectExecutorSummary(Integer pageSize, Integer offset);
+  
+    @Insert("INSERT INTO employee(name, username, password, contact_info,email,title,expertise_area,employee_type) " +
+            "VALUES(#{name}, #{username}, #{password}, #{contactInfo}, #{email}, #{title}, #{expertiseArea}, #{employeeType})")
+    Boolean addEmployee(Employee employee);
+
+    @Select("SELECT * FROM employee WHERE employee_type=2")
+    List<Employee> getAllTeachers();
 }

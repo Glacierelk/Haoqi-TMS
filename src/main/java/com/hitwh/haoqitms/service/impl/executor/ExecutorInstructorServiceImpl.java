@@ -19,7 +19,7 @@ public class ExecutorInstructorServiceImpl implements ExecutorInstructorService 
 
     @Override
     public Boolean insertInstructor(Employee instructor){
-        return employeeMapper.createEmployee(instructor);
+        return employeeMapper.addEmployee(instructor);
     }
 
     @Override
@@ -35,5 +35,10 @@ public class ExecutorInstructorServiceImpl implements ExecutorInstructorService 
     @Override
     public Boolean update(Employee employee) {
         return employeeMapper.update(employee);
+    }
+
+    @Override
+    public List<Employee> getAllTeachers() {
+        return employeeMapper.getAllTeachers();
     }
 }

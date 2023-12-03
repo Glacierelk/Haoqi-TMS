@@ -9,4 +9,6 @@ public interface ExecutorInstructorService {
     Boolean deleteInstructor(Integer id);
     List<Employee> searchByName(String name);
     Boolean update(Employee employee);
+
+    List<Employee> getAllTeachers();
 }

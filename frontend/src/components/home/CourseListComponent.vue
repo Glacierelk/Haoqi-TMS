@@ -222,7 +222,7 @@ const submitRegistration = (row) => {
 
   }).then(
       res => {
-        console.log(res);
+        // console.log(res);
         if (res.data.flag) {
           ElMessage({
             message: "报名成功",
