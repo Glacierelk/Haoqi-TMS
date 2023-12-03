@@ -36,6 +36,18 @@ const font = reactive({
 });
 const username = ref("");
 
+function checkLogin() {
+  axios.get('/user/checkLogin').then((res) => {
+    if (!res.data.flag) {
+      window.location.href = '/';
+    }
+  }).catch(() => {
+    window.location.href = '/';
+  });
+}
+
+checkLogin();
+
 function logout() {
   axios.get('/user/logout').then((res) => {
     if (res.data.flag) {
