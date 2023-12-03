@@ -101,7 +101,7 @@ public interface CourseMapper {
     List<Course> getAllStartCourses();
 
     /**
-     * 获取课程收入 [经理]
+     * 获取课程收入 [经理、现场工作人员]
      *
      * @param courseId 课程id
      * @return 课程收入
@@ -134,5 +134,14 @@ public interface CourseMapper {
      */
     @Select("select count(*) from course where executor_id = #{executorId}")
     Integer getCourseCountByExecutorId(Integer executorId);
+
+    /**
+     * 根据课程id获取课程费用 [现场工作人员]
+     *
+     * @param courseId 课程id
+     * @return 课程费用
+     */
+    @Select("select course_fee from course where course_id = #{courseId}")
+    Double getCourseFeeByCourseId(Integer courseId);
 
 }
