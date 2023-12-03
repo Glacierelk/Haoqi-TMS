@@ -20,6 +20,12 @@ public class TraingApplicationController {
         this.trainingApplicationService = trainingApplicationService;
     }
 
+    /**
+     * 创建培训申请
+     * @param request
+     * @param trainingApplication
+     * @return
+     */
     @PostMapping("/create")
     public ResultInfo create(HttpServletRequest request, @RequestBody TrainingApplication trainingApplication){
         ResultInfo info = new ResultInfo();
@@ -37,6 +43,13 @@ public class TraingApplicationController {
         }
         return info;
     }
+
+    /**
+     * 检查团报码和公司名称是否匹配
+     * @param request
+     * @param trainingApplication
+     * @return
+     */
     @PostMapping("/checkIdentity")
     public ResultInfo checkIdentity(HttpServletRequest request, @RequestBody TrainingApplication trainingApplication){
         ResultInfo info = new ResultInfo();

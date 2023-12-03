@@ -4,10 +4,10 @@
       <el-form class="form-wrap" label-width="60px" @submit.native.prevent="submitForm">
         <h2>登录</h2>
         <el-form-item class="label" label="用户名" prop="username">
-          <el-input v-model.trim="username" clearable required />
+          <el-input v-model.trim="username" placeholder="请输入用户名" clearable required />
         </el-form-item>
         <el-form-item class="label" label="密码" prop="password">
-          <el-input required v-model.trim="password" clearable show-password type="password" />
+          <el-input required v-model.trim="password" placeholder="请输入密码" clearable show-password type="password" />
         </el-form-item>
         <el-form-item>
           <el-button native-type="submit" type="primary">登录</el-button>

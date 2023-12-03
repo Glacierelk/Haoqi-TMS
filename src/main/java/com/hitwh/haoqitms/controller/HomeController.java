@@ -1,23 +1,29 @@
 package com.hitwh.haoqitms.controller;
 
 
+import com.hitwh.haoqitms.entity.CourseApplication;
 import com.hitwh.haoqitms.entity.CourseList;
 import com.hitwh.haoqitms.entity.ResultInfo;
+import com.hitwh.haoqitms.service.CourseApplicationService;
 import com.hitwh.haoqitms.service.HomeService;
+import com.hitwh.haoqitms.service.TrainingApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/home")
 @RestController
 public class HomeController {
     private final HomeService homeService;
+    private final TrainingApplicationService trainingApplicationService;
+    private final CourseApplicationService courseApplicationService;
 
     @Autowired
-    public HomeController(HomeService homeService) {
+    public HomeController(HomeService homeService, TrainingApplicationService trainingApplicationService, CourseApplicationService courseApplicationService) {
         this.homeService = homeService;
+        this.trainingApplicationService = trainingApplicationService;
+        this.courseApplicationService = courseApplicationService;
     }
 
     /**
@@ -54,4 +60,84 @@ public class HomeController {
         return info;
     }
 
+    /**
+     * 获取所有公司名称
+     * @return 公司名称列表
+     */
+    @GetMapping("/companyNames")
+    public ResultInfo getCompanyNames() {
+        ResultInfo info = new ResultInfo();
+        List<String> companyNames = trainingApplicationService.selectAllCompanyName();
+        try {
+            info.setFlag(true);
+            info.setData(companyNames);
+        } catch (Exception e) {
+            info.setFlag(false);
+            info.setErrorMsg("获取公司名称列表失败");
+        }
+        return info;
+    }
+
+    /**
+     * 检查团报码是否有效
+     * @param promoCode 团报码
+     */
+    @GetMapping("/checkPromoCode/{promoCode}")
+    public ResultInfo checkPromoCode(@PathVariable(value = "promoCode") String promoCode) {
+        ResultInfo info = new ResultInfo();
+        String companyName = trainingApplicationService.selectCompanyNameByPromoCode(promoCode);
+        try {
+            info.setFlag(true);
+            info.setData(companyName);
+        } catch (Exception e) {
+            info.setFlag(false);
+            info.setErrorMsg("检查团报码失败");
+        }
+        return info;
+    }
+
+    /**
+     * 新建课程申请
+     * @param courseApplication 课程id
+     */
+    @PostMapping("/createCourseApplication")
+    public ResultInfo createCourseApplication(@RequestBody CourseApplication courseApplication) {
+        ResultInfo info = new ResultInfo();
+        String promoCode = trainingApplicationService.selectPromoCodeByCourseId(courseApplication.getCourseId());
+        if ("" == courseApplication.getCompanyName() || ("" != courseApplication.getCompanyName() && ""  == courseApplication.getPromoCode())) {
+            // 公司名为null，团报码肯定为null,直接新建课程申请
+            // 公司名不为null，团报码为null，也新建课程申请
+            if("" == courseApplication.getCompanyName()){
+                courseApplication.setCompanyName(null);
+            }else {
+                courseApplication.setPromoCode(null);
+            }
+            try {
+                info.setFlag(true);
+                info.setData(courseApplicationService.createCourseApplication(courseApplication));
+            } catch (Exception e) {
+                info.setFlag(false);
+                info.setErrorMsg("新建课程申请失败");
+                e.printStackTrace();
+            }
+        }else{
+            // 公司名不为null，团报码不为null，检查团报码是否有效
+            if (promoCode.equals(courseApplication.getPromoCode())) {
+                // 团报码有效，新建课程申请
+                try {
+                    info.setFlag(true);
+                    info.setData(courseApplicationService.createCourseApplication(courseApplication));
+                } catch (Exception e) {
+                    info.setFlag(false);
+                    info.setErrorMsg("新建课程申请失败");
+                    e.printStackTrace();
+                }
+            }else{
+                // 团报码无效，返回错误信息
+                info.setFlag(false);
+                info.setErrorMsg("团报码无效，请检查团报码是否正确");
+            }
+        }
+        return info;
+    }
 }

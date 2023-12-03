@@ -1,9 +1,8 @@
 package com.hitwh.haoqitms.controller;
 
 import com.hitwh.haoqitms.entity.ResultInfo;
-import com.hitwh.haoqitms.entity.Student;
-import com.hitwh.haoqitms.service.StudentService;
-import com.hitwh.haoqitms.service.TrainingApplicationService;
+import com.hitwh.haoqitms.entity.TrainingEvaluation;
+import com.hitwh.haoqitms.service.TrainingEvaluationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,28 +10,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/student")
+@RequestMapping("/trainingEvaluation")
 @RestController
-public class StudentController {
-    private final StudentService studentService;
+public class TrainingEvaluationController {
+    private final TrainingEvaluationService trainingEvaluationService;
 
     @Autowired
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
+    public TrainingEvaluationController(TrainingEvaluationService trainingEvaluationService) {
+        this.trainingEvaluationService = trainingEvaluationService;
     }
 
-
-    /**
-     * 创建学员(前端首先要判断学员填报的团报码和公司名称是否合法)
-     * @param request
-     * @param student
-     * @return
-     */
     @PostMapping("/create")
-    public ResultInfo create(HttpServletRequest request, @RequestBody Student student){
+    public ResultInfo create(HttpServletRequest request, @RequestBody TrainingEvaluation trainingEvaluation){
         ResultInfo info = new ResultInfo();
         try {
-            Boolean result = studentService.createStudent(student);
+            Boolean result = trainingEvaluationService.createTrainingEvaluation(trainingEvaluation);
             if (result) {
                 info.setFlag(true);
             } else {
@@ -41,8 +33,9 @@ public class StudentController {
             }
         } catch (Exception e) {
             info.setFlag(false);
-            info.setErrorMsg("创建失败");
+            info.setErrorMsg("创建失败,请检查是否已经评价过");
         }
+
         return info;
     }
 }

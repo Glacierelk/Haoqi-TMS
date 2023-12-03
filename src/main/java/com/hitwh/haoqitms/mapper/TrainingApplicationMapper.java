@@ -1,10 +1,7 @@
 package com.hitwh.haoqitms.mapper;
 
 import com.hitwh.haoqitms.entity.TrainingApplication;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -14,8 +11,21 @@ public interface TrainingApplicationMapper {
             "VALUES(#{companyName}, #{promoCode}, #{budget}, #{contactInfo}, #{status})")
     Boolean createTrainingApplication(TrainingApplication trainingApplication);
 
-    @Insert("SELECT company_name FROM training_application WHERE promo_code = #{promoCode}")
+    /**
+     * 根据团报码查询公司名称
+     * @param promoCode 团报码
+     * @return 公司名称
+     */
+    @Select("SELECT company_name FROM training_application WHERE promo_code = #{promoCode}")
     String selectCompanyNameByPromoCode(String promoCode);
+
+    /**
+     * 根据课程id查询团报码
+     * @param courseId 课程id
+     * @return 团报码
+     */
+    @Select("SELECT promo_code FROM training_application WHERE course_id = #{courseId}")
+    String selectPromoCodeByCourseId(Integer courseId);
 
     /**
      * 根据条件查询培训申请 [经理]
@@ -44,4 +54,14 @@ public interface TrainingApplicationMapper {
      */
     @Update("UPDATE training_application SET status = 2 WHERE application_id = #{applicationId}")
     Boolean rejectApplication(Integer applicationId);
+
+    /**
+     * 查询所有公司名称 [提交报名表界面]
+     * @param
+     * @return
+     */
+    @Select("SELECT company_name FROM training_application GROUP BY company_name")
+    List<String> selectAllCompanyName();
+
+
 }
