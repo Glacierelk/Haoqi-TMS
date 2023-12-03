@@ -19,4 +19,5 @@ public class Course {
     private Integer instructorId;
     private Integer executorId;
     private String report;
+    private Double revenue;
 }
