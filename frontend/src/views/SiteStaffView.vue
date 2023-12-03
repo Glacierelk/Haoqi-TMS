@@ -28,15 +28,20 @@ import { ref } from 'vue';
 import SSM from '@/components/site_staff/SiteStudentManagementComponent.vue';
 import IRM from '@/components/site_staff/InvestigationReportManagementComponent.vue';
 import {ElMessage} from "element-plus";
+import axios from "axios";
 
 const activeKey = ref('1');
 
 function logout() {
-  // TODO logout
-  ElMessage({
-    message: '退出登陆成功!',
-    type: 'success',
-    duration: 2 * 1000
+  axios.get('/user/logout').then((res) => {
+    if (res.data.flag) {
+      ElMessage({
+        message: '退出登陆成功!',
+        type: 'success',
+        duration: 2 * 1000
+      });
+      window.location.href = '/';
+    }
   });
 }
 

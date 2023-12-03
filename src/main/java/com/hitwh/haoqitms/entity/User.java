@@ -10,5 +10,6 @@ public class User {
     private Integer userStudentId;
     private String username;
     private String password;
+    // 0: 员工 1: 学员
     private Integer userType;
 }

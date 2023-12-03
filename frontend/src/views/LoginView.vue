@@ -42,7 +42,6 @@ function submitForm() {
     return false;
   }
 
-  //TODO 修改地址
   axios.post('/user/login', {
     "username": username.value,
     "password": password.value,
@@ -55,8 +54,29 @@ function submitForm() {
             type: 'success',
             duration: 2 * 1000
           });
-          // TODO 登录成功后跳转逻辑
-          // router.push('/');
+          switch (res.data.data.userType) {
+            case 0:
+              router.push('/manager');
+              break;
+            case 1:
+              // TODO 跳转到执行人界面
+              // router.push('/');
+              break;
+            case 2:
+              // TODO 跳转到教师界面
+              // router.push('/student');
+              break;
+            case 3:
+              router.push('/staff')
+              break;
+            case 4:
+              // TODO admin
+              // router.push('/manager')
+              break;
+            case 5:
+              // TODO 跳转到学员界面
+              break;
+          }
         } else {
           ElMessage({
             message: '登录失败，请重试!',
