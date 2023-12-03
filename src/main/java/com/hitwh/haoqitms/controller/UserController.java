@@ -57,4 +57,30 @@ public class UserController {
         }
         return info;
     }
+
+    /**
+     * 检查用户是否登录
+     *
+     * @param request 请求
+     * @return 检查结果
+     */
+    @GetMapping("/checkLogin")
+    public ResultInfo checkLogin(HttpServletRequest request) {
+        ResultInfo info = new ResultInfo();
+        try {
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("user");
+            if (user != null) {
+                info.setFlag(true);
+                info.setData(user);
+            } else {
+                info.setFlag(false);
+                info.setErrorMsg("未登录");
+            }
+        } catch (Exception e) {
+            info.setFlag(false);
+            info.setErrorMsg("未登录");
+        }
+        return info;
+    }
 }

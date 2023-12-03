@@ -28,4 +28,12 @@ public interface EmployeeMapper {
             "expertise_area=#{expertiseArea} "+
             "WHERE employee_id=#{employeeId}")
     Boolean update(Employee Instructor);
+
+    /**
+     * 根据id查询员工信息 [login]
+     * @param id 员工id
+     * @return 员工信息
+     */
+    @Select("SELECT employee_type FROM employee WHERE employee_id=#{id}")
+    Integer selectEmployeeTypeById(Integer id);
 }

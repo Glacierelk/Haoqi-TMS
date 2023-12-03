@@ -1,4 +1,5 @@
 <template>
+  <el-watermark :font="font" :content="username" style="height: 100%">
 
   <div class="tab-list-div">
     <a-tabs
@@ -19,22 +20,44 @@
     </a-tabs>
   </div>
 
+  </el-watermark>
 </template>
 
 <script setup>
 
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import {ElMessage} from "element-plus";
 import TrainingApplicationComponent from "@/components/manager/TrainingApplicationComponent.vue";
+import axios from "axios";
 
 const activeKey = ref('1');
+const font = reactive({
+  color: 'rgba(0, 0, 0, .15)',
+});
+const username = ref("");
+
+function checkLogin() {
+  axios.get('/user/checkLogin').then((res) => {
+    if (!res.data.flag) {
+      window.location.href = '/';
+    }
+  }).catch(() => {
+    window.location.href = '/';
+  });
+}
+
+checkLogin();
 
 function logout() {
-  // TODO logout
-  ElMessage({
-    message: '退出登陆成功!',
-    type: 'success',
-    duration: 2 * 1000
+  axios.get('/user/logout').then((res) => {
+    if (res.data.flag) {
+      ElMessage({
+        message: '退出登陆成功!',
+        type: 'success',
+        duration: 2 * 1000
+      });
+      window.location.href = '/';
+    }
   });
 }
 
