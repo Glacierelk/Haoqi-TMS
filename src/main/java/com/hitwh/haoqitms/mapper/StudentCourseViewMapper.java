@@ -43,8 +43,24 @@ public interface StudentCourseViewMapper {
             "where student_id = #{studentId} and course_id = #{courseId}")
     Boolean updateStudentAttendanceStatus(Integer studentId, Integer courseId, Boolean attendance);
 
+    /**
+     * 新增学员选课记录
+     *
+     * @param studentCourse 学员选课记录
+     * @return 是否新增成功
+     */
     @Insert("insert into student_course(student_id, course_id, paid, attendance) " +
             "values(#{studentId}, #{courseId}, #{paid}, #{attendance})")
     Boolean createStudentCourse(StudentCourse studentCourse);
+
+    /**
+     * 根据课程id获取已缴费学生信息
+     *
+     * @param courseId 课程id
+     * @return 已缴费学生信息列表
+     */
+    @Select("select * from student_course_view where course_id = #{courseId} and paid = true")
+    List<StudentCourse> getPaidStudentsByCourseId(Integer courseId);
+
 
 }

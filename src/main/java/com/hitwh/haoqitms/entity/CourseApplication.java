@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class CourseApplication {
     private Integer applicationId;
     private Integer courseId;
+    private Integer studentId;
     private String courseName;
     private String name;
     // 0 女 1 男

@@ -84,4 +84,64 @@ public interface CourseMapper {
                                  @Param("offset") Integer offset);
     Integer getCourseCountByName(@Param("name") String name);
 
+    /**
+     * 获取课程总数 [经理]
+     *
+     * @return 课程总数
+     */
+    @Select("select count(*) from course")
+    Integer getCourseTotalCount();
+
+    /**
+     * 获取已经开课的课程用于计算课程收入 [经理]
+     *
+     * @return 已经开课的课程列表
+     */
+    @Select("select * from course where start_date < now()")
+    List<Course> getAllStartCourses();
+
+    /**
+     * 获取课程收入 [经理、现场工作人员]
+     *
+     * @param courseId 课程id
+     * @return 课程收入
+     */
+    @Select("select revenue from course where course_id = #{courseId}")
+    Double getRevenueByCourseId(int courseId);
+
+    /**
+     * 更新课程收入 [现场工作人员]
+     *
+     * @param courseId 课程id
+     * @param revenue 课程收入
+     * @return 是否插入成功
+     */
+    @Update("update course set revenue = #{revenue} where course_id = #{courseId}")
+    Boolean updateRevenueByCourseId(int courseId, Double revenue);
+
+    /**
+     * 获取课程总收入 [经理]
+     *
+     * @return 课程总收入
+     */
+    @Select("select sum(revenue) from course where start_date < now()")
+    Double getCourseTotalRevenue();
+
+    /**
+     * 获取执行人负责的课程总数 [经理]
+     *
+     * @return 课程总数
+     */
+    @Select("select count(*) from course where executor_id = #{executorId}")
+    Integer getCourseCountByExecutorId(Integer executorId);
+
+    /**
+     * 根据课程id获取课程费用 [现场工作人员]
+     *
+     * @param courseId 课程id
+     * @return 课程费用
+     */
+    @Select("select course_fee from course where course_id = #{courseId}")
+    Double getCourseFeeByCourseId(Integer courseId);
+
 }

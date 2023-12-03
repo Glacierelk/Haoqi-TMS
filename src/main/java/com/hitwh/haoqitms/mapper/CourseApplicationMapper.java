@@ -4,7 +4,9 @@ import com.hitwh.haoqitms.entity.CourseApplication;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
 import org.apache.ibatis.annotations.Update;
+
 
 import java.util.List;
 
@@ -51,4 +53,12 @@ public interface CourseApplicationMapper {
      */
     @Update("update course_application set student_id = #{studentId} where application_id = #{applicationId}")
     Boolean backPatchStudentId(Integer applicationId, Integer studentId);
+
+     * 获取团报申请的学生列表
+     * @param courseId 课程编号
+     * @return 学生列表
+     */
+    @Select("select student_id from course_application where course_id = #{courseId} and promo_code is not null")
+    List<Integer> getPromotedCourseApplications(Integer courseId);
+
 }

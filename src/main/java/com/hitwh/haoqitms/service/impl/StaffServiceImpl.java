@@ -68,7 +68,15 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public Boolean updateStudentPayStatus(Integer studentId, Integer courseId) {
-        return studentCourseViewMapper.updateStudentPayStatus(studentId, courseId);
+        Boolean flag = studentCourseViewMapper.updateStudentPayStatus(studentId, courseId);
+
+        if (flag) {
+            Double courseFee = courseMapper.getCourseFeeByCourseId(courseId);
+            Double revenue = courseMapper.getRevenueByCourseId(courseId);
+            return courseMapper.updateRevenueByCourseId(courseId, revenue + courseFee);
+        } else {
+            return false;
+        }
     }
 
     @Override
