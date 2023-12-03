@@ -19,12 +19,8 @@
         <ExecutorSummaryComponent/>
       </a-tab-pane>
 
-      <a-tab-pane key="4" tab="培训讲师情况汇总">
+      <a-tab-pane key="4" tab="讲师、学员情况汇总">
         <InstructorSummaryComponent/>
-      </a-tab-pane>
-
-      <a-tab-pane key="5" tab="培训学员情况汇总">
-        <StudentSummaryComponent/>
       </a-tab-pane>
 
       <template #rightExtra>
@@ -44,8 +40,7 @@ import {ElMessage} from "element-plus";
 import TrainingApplicationComponent from "@/components/manager/TrainingApplicationComponent.vue";
 import CourseSummaryComponent from "@/components/manager/CourseSummaryComponent.vue";
 import ExecutorSummaryComponent from "@/components/manager/ExecutorSummaryComponent.vue";
-import InstructorSummaryComponent from "@/components/manager/InstructorSummaryComponent.vue";
-import StudentSummaryComponent from "@/components/manager/StudentSummaryComponent.vue";
+import InstructorSummaryComponent from "@/components/manager/InstructorSudentSummaryComponent.vue";
 
 const activeKey = ref('1');
 const font = reactive({

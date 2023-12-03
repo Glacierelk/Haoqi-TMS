@@ -127,4 +127,12 @@ public interface CourseMapper {
     @Select("select sum(revenue) from course where start_date < now()")
     Double getCourseTotalRevenue();
 
+    /**
+     * 获取执行人负责的课程总数 [经理]
+     *
+     * @return 课程总数
+     */
+    @Select("select count(*) from course where executor_id = #{executorId}")
+    Integer getCourseCountByExecutorId(Integer executorId);
+
 }

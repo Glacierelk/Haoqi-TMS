@@ -36,4 +36,22 @@ public interface EmployeeMapper {
      */
     @Select("SELECT employee_type FROM employee WHERE employee_id=#{id}")
     Integer selectEmployeeTypeById(Integer id);
+
+    /**
+     * 获取执行人数量 [manager]
+     *
+     * @return 执行人数量
+     */
+    @Select("SELECT COUNT(*) FROM employee WHERE employee_type=1")
+    Integer selectExecutorCount();
+
+    /**
+     * 获取执行人概要信息 [manager]
+     *
+     * @param pageSize    页面大小
+     * @param offset     偏移量
+     * @return 执行人概要信息
+     */
+    @Select("SELECT employee_id, name FROM employee WHERE employee_type=1 LIMIT #{pageSize} OFFSET #{offset}")
+    List<Employee> selectExecutorSummary(Integer pageSize, Integer offset);
 }
