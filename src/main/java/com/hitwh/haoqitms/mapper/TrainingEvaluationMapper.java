@@ -2,6 +2,7 @@ package com.hitwh.haoqitms.mapper;
 
 import com.hitwh.haoqitms.entity.TrainingEvaluation;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -30,4 +31,13 @@ public interface TrainingEvaluationMapper {
      */
     @Delete("delete from training_evaluation where evaluation_id = #{evaluationId}")
     Boolean deleteTrainingEvaluation(Integer evaluationId);
+
+    /**
+     * 创建培训评价 [学员]
+     * @param trainingEvaluation
+     * @return
+     */
+    @Insert("insert into training_evaluation(course_id, student_id, satisfaction_level, comments) " +
+            "values(#{courseId}, #{studentId}, #{satisfaction_level}， #{comments})")
+    Boolean createTrainingEvaluation(TrainingEvaluation trainingEvaluation);
 }

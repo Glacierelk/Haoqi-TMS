@@ -37,10 +37,78 @@
       @current-change="handleCurrentChange"
   />
 
-  <el-dialog v-model="registerDialogVisible" title="提交报名表" width="50%">
-    <span>
+  <el-dialog v-model="registerDialogVisible" title="提交报名表" width="40%" draggable="draggable" :show-close="false">
+    <div>
+      <el-form :model="registerForm" label-width="80px">
+        <!-- 第一行 -->
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="姓名" required>
+              <el-input v-model="registerForm.name" placeholder="请输入姓名"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="性别" required>
+              <el-radio-group v-model="registerForm.gender">
+                <el-radio label=1>男</el-radio>
+                <el-radio label=0>女</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-    </span>
+        <!-- 第二行 -->
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="邮箱" required>
+              <el-input v-model="registerForm.email" placeholder="请输入邮箱"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="联系方式" required>
+              <el-input v-model="registerForm.contactInfo" placeholder="请输入联系方式"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <!-- 单独一行的公司名称 -->
+        <el-form-item label="公司名称">
+          <el-select v-model="registerForm.companyName" placeholder="请选择公司名称" filterable clearable>
+            <el-option
+                v-for="company in companyList"
+                :key="company"
+                :label="company"
+                :value="company">
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <!-- 第三行 -->
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="团报码">
+              <el-input v-model="registerForm.promoCode" placeholder="如果有团报码，请输入"
+                :disabled="registerForm.companyName.trim() === ''" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="工作岗位">
+              <el-input v-model="registerForm.jobPosition" placeholder="请输入工作岗位"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <!-- 第四行 -->
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item label="技术水平">
+              <el-input v-model="registerForm.skillLevel" placeholder="请描述您的技术水平"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+
+    </div>
 
     <template #footer>
       <span class="dialog-footer">
@@ -81,6 +149,17 @@ import {defineProps, ref, watch} from 'vue';
 import axios from "axios";
 
 const registerDialogVisible = ref(false);
+const registerForm = ref({
+  name: '',
+  gender: '',
+  email: '',
+  contactInfo: '',
+  companyName: '',
+  promoCode: '',
+  jobPosition: '',
+  skillLevel: ''
+});
+
 let currentPage = ref(1);
 let pageSize = ref(10);
 let dataCount = ref(0);
@@ -88,7 +167,7 @@ let tableData = ref([]);
 let detailsDialogVisible = ref(false);
 let details = ref("");
 let courseId = ref("");
-
+const companyList = ref([]);
 // 用于接收父组件传递的数据
 const props = defineProps({
   queryForm: {
@@ -103,8 +182,72 @@ watch(() => props.queryForm, () => {
   search();
 });
 
+// 查询公司列表
+const fetchCompanyList = async () => {
+  try {
+    const response = await axios.get('/home/companyNames'); // 修改为实际的API路径
+    companyList.value = response.data.data;
+    // console.log('公司名称列表', companyList.value);
+  } catch (error) {
+    console.error('获取公司名称列表失败', error);
+  }
+};
+
+const resetRegisterForm = () => {
+  registerForm.value = {
+    name: '',
+    gender: '',
+    email: '',
+    contactInfo: '',
+    companyName: '',
+    promoCode: '',
+    jobPosition: '',
+    skillLevel: ''
+  };
+}
+
 const submitRegistration = (row) => {
   // TODO 提交报名表
+  registerDialogVisible.value = true;
+  axios.post(`/home/createCourseApplication`, {
+    "courseId": courseId.value,
+    "name": registerForm.value.name,
+    "gender": registerForm.value.gender,
+    "email": registerForm.value.email,
+    "contactInfo": registerForm.value.contactInfo,
+    "companyName": registerForm.value.companyName,
+    "promoCode": registerForm.value.promoCode,
+    "jobPosition": registerForm.value.jobPosition,
+    "skillLevel": registerForm.value.skillLevel
+
+  }).then(
+      res => {
+        console.log(res);
+        if (res.data.flag) {
+          ElMessage({
+            message: "报名成功",
+            type: "success",
+            duration: 2000
+          });
+          registerDialogVisible.value = false;
+        } else {
+          ElMessage({
+            message: res.data.errorMsg,
+            type: "error",
+            duration: 2000
+          });
+        }
+      }
+  ).catch(
+      err => {
+        ElMessage({
+          message: "报名失败",
+          type: "error",
+          duration: 2000
+        });
+      }
+  );
+
 }
 
 const handleSizeChange = (val) => {
@@ -124,6 +267,7 @@ const showDetailsDialog = (description) => {
 
 const showRegisterDialog = (row) => {
   courseId.value = row.courseId;
+  resetRegisterForm();
   registerDialogVisible.value = true;
 }
 
@@ -155,8 +299,8 @@ const search = () => {
   });
 }
 
+fetchCompanyList()
 search();
-
 </script>
 
 <style scoped>

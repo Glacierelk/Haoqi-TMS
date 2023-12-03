@@ -7,6 +7,8 @@ import com.hitwh.haoqitms.service.TrainingApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TrainingApplicationServiceImpl implements TrainingApplicationService {
 
@@ -29,6 +31,11 @@ public class TrainingApplicationServiceImpl implements TrainingApplicationServic
     }
 
     @Override
+    public String selectPromoCodeByCourseId(Integer courseId) {
+        return trainingApplicationMapper.selectPromoCodeByCourseId(courseId);
+    }
+
+    @Override
     public Pagination selectTrainingApplications(TrainingApplication trainingApplication, Integer pageSize, Integer currentPage) {
         Pagination pagination = new Pagination();
         pagination.setPageSize(pageSize);
@@ -46,6 +53,11 @@ public class TrainingApplicationServiceImpl implements TrainingApplicationServic
     @Override
     public Boolean rejectApplication(Integer applicationId) {
         return trainingApplicationMapper.rejectApplication(applicationId);
+    }
+
+    @Override
+    public List<String> selectAllCompanyName() {
+        return trainingApplicationMapper.selectAllCompanyName();
     }
 
 }
