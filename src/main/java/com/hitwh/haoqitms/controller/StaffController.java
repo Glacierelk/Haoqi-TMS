@@ -3,6 +3,7 @@ package com.hitwh.haoqitms.controller;
 import com.hitwh.haoqitms.entity.Course;
 import com.hitwh.haoqitms.entity.ResultInfo;
 import com.hitwh.haoqitms.entity.StudentCourse;
+import com.hitwh.haoqitms.entity.User;
 import com.hitwh.haoqitms.service.StaffService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,5 +176,21 @@ public class StaffController {
         }
         return info;
     }
+
+    /**
+     * 讲师查询个人信息
+     * @author 刘佳豪
+     * @return 讲师个人信息
+     */
+//    public User getLoginUser(HttpServletRequest request) {
+//        if (request == null){
+//            return null;
+//        }
+//        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
+//        if (userObj == null){
+//            return null;
+//        }
+//        return (User) userObj;
+//    }
 
 }

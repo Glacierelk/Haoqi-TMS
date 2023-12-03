@@ -19,4 +19,11 @@ public interface ExecutorStudentService {
      * @return 是否导入成功
      */
     Boolean importStudent(MultipartFile file);
+
+    /**
+     * 删除学生
+     * @param id
+     * @return
+     */
+    boolean deleteStudent(Integer id);
 }

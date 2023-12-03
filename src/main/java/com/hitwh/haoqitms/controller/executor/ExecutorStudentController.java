@@ -59,4 +59,16 @@ public class ExecutorStudentController {
         return resultInfo;
     }
 
+    @GetMapping("/delete")
+    public ResultInfo deleteStudent(Integer id){
+        ResultInfo resultInfo = new ResultInfo();
+        if(executorStudentService.deleteStudent(id)){
+            resultInfo.setFlag(true);
+        }else{
+            resultInfo.setFlag(false);
+            resultInfo.setErrorMsg("fail to delete!");
+        }
+        return resultInfo;
+    }
+
 }

@@ -17,6 +17,8 @@ public interface EmployeeMapper {
     @Delete("DELETE FROM employee WHERE employee_id=#{id}")
     Boolean deleteEmployee(Integer id);
 
+    @Delete("DELETE FROM student WHERE student_id=#{id}")
+    Boolean deleteStudent(Integer id);
     @Select("SELECT * FROM employee WHERE name LIKE '%${name}%'")
     List<Employee> searchByName(String name);
 
