@@ -1,11 +1,8 @@
-package com.hitwh.haoqitms.controller.Instructor;
+package com.hitwh.haoqitms.controller.instructor;
 
 import com.hitwh.haoqitms.entity.Course;
 import com.hitwh.haoqitms.entity.ResultInfo;
-import com.hitwh.haoqitms.entity.Student;
-import com.hitwh.haoqitms.service.Instructor.InstructorCourseService;
-import com.hitwh.haoqitms.service.executor.ExecutorStudentService;
-import com.hitwh.haoqitms.service.manager.ManagerCourseService;
+import com.hitwh.haoqitms.service.instructor.InstructorCourseService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

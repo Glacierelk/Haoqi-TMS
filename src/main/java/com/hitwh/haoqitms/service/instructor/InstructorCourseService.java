@@ -1,4 +1,4 @@
-package com.hitwh.haoqitms.service.Instructor;
+package com.hitwh.haoqitms.service.instructor;
 
 import com.hitwh.haoqitms.entity.Course;
 

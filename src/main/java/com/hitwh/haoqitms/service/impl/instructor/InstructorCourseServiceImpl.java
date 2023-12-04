@@ -1,8 +1,8 @@
-package com.hitwh.haoqitms.service.impl.Instructor;
+package com.hitwh.haoqitms.service.impl.instructor;
 
 import com.hitwh.haoqitms.entity.Course;
 import com.hitwh.haoqitms.mapper.CourseMapper;
-import com.hitwh.haoqitms.service.Instructor.InstructorCourseService;
+import com.hitwh.haoqitms.service.instructor.InstructorCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
