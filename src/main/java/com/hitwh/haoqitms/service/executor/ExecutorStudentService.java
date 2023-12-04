@@ -3,6 +3,7 @@ package com.hitwh.haoqitms.service.executor;
 import com.hitwh.haoqitms.entity.Student;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -52,4 +53,10 @@ public interface ExecutorStudentService {
      * @return 学生信息的excel文件
      */
     InputStream exportStudent();
+
+    /**
+     * 获取学生信息模板
+     * @return 学生信息模板
+     */
+    InputStream getTemplate() throws FileNotFoundException;
 }

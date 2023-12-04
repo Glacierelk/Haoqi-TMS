@@ -14,13 +14,13 @@
         <el-button type="primary" plain @click="exportStudentEmail">导出全部学员邮箱</el-button>
       </el-col>
       <el-col :span="3">
-        <el-button type="primary" @click="exportAllStudents">导出全部学员信息</el-button>
+        <el-button type="primary" plain @click="exportAllStudents">导出全部学员信息</el-button>
       </el-col>
       <el-col :span="3">
-        <el-button type="primary" plain @click="exportStudentEmail">下载批量导入模板</el-button>
+        <el-button type="primary" plain @click="downloadTemplate">下载批量导入模板</el-button>
       </el-col>
       <el-col :span="3">
-        <el-button type="primary" @click="exportStudentEmail">批量导入学员</el-button>
+        <el-button type="primary" plain @click="exportStudentEmail">批量导入学员</el-button>
       </el-col>
 <!--      <div style="text-align: right; margin: 0">-->
 <!--        <el-button type="success"  float:right @click="exportStudentEmail">导出全部学生邮箱</el-button>-->
@@ -165,6 +165,28 @@ export default {
             const link = document.createElement('a');
             link.href = url;
             link.setAttribute('download', '学员.xlsx'); // 设置下载文件名，确保是 Excel 格式（.xlsx）
+            document.body.appendChild(link);
+            link.click(); // 模拟点击链接进行下载
+            link.parentNode.removeChild(link); // 下载完成后移除元素
+          })
+          .catch(error => {
+            // 处理下载失败的情况
+            // console.error('下载失败', error);
+            ElMessage.error('下载失败');
+          });
+    },
+    downloadTemplate() {
+      axios({
+        url: `/executor/student/template`,
+        method: 'GET',
+        responseType: 'arraybuffer', // 设置响应数据类型为 arraybuffer
+      })
+          .then(response => {
+            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); // 创建一个 Blob 对象
+            const url = window.URL.createObjectURL(blob); // 创建一个 URL 对象
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', '学员批量导入模板.xlsx'); // 设置下载文件名，确保是 Excel 格式（.xlsx）
             document.body.appendChild(link);
             link.click(); // 模拟点击链接进行下载
             link.parentNode.removeChild(link); // 下载完成后移除元素

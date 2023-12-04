@@ -68,6 +68,34 @@ public class ExecutorStudentController {
     }
 
     /**
+     * 下载学员批量导入模板
+     *
+     * @return 学员批量导入模板
+     */
+    @GetMapping("/template")
+    public ResponseEntity<InputStreamResource> downloadTemplate() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        try {
+            String encodedFileName = URLEncoder.encode("学生信息模板.xlsx", StandardCharsets.UTF_8);
+            headers.add("Content-Disposition", "attachment; filename*=UTF-8''" + encodedFileName);
+        } catch (Exception e) {
+            headers.add("Content-Disposition", "attachment; filename=students_template.xlsx");
+        }
+
+        try {
+            InputStream inputStream = executorStudentService.getTemplate();
+            InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(inputStreamResource);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().headers(headers).build();
+        }
+    }
+
+    /**
      * 导出学生信息
      * @return 学生信息的excel文件
      */
