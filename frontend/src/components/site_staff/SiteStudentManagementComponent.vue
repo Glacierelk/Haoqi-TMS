@@ -53,22 +53,22 @@ import StudentListComponent from "@/components/site_staff/list/StudentListCompon
 const formRef = ref();
 const formState = reactive({});
 const columns = reactive(["课程 ID", "学员姓名", "联系电话", "公司名称"]);
-const names = reactive(["courseId", "name", "phone", "companyName"]);
+const names = reactive(["courseId", "name", "contactInfo", "companyName"]);
 const showTable = ref(false);
 let queryForm = ref({});
 
 const search = values => {
   if (values.name === undefined) values.name = 'null';
-  if (values.phone === undefined) values.phone = 'null';
+  if (values.contactInfo === undefined) values.contactInfo = 'null';
   if (values.companyName === undefined) values.companyName = 'null';
 
   values.courseId = values.courseId.trim();
   values.name = values.name.trim();
-  values.phone = values.phone.trim();
+  values.contactInfo = values.contactInfo.trim();
   values.companyName = values.companyName.trim();
 
   if (values.name === "") values.name = 'null';
-  if (values.phone === "") values.phone = 'null';
+  if (values.contactInfo === "") values.contactInfo = 'null';
   if (values.companyName === "") values.companyName = 'null';
 
   queryForm.value = values;
