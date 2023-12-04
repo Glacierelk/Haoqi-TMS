@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TrainingApplication {
     private Integer applicationId;
+    private Integer courseId;
     private String companyName;
     private String promoCode;
     private Double budget;
@@ -20,6 +21,5 @@ public class TrainingApplication {
     // 2: 拒绝
     // 3: 已完成
     private Integer status;
-
     private String description;
 }

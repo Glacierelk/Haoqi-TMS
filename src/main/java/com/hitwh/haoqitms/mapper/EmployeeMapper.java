@@ -64,4 +64,8 @@ public interface EmployeeMapper {
 
     @Select("SELECT COUNT(*) FROM employee WHERE employee_type = 2")
     Integer countTotalInstructor();
+
+    @Select("SELECT * FROM employee WHERE employee_type=1")
+    List<Employee> getAllExecutors();
+
 }

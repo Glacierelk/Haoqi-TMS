@@ -1,9 +1,12 @@
 package com.hitwh.haoqitms.service.executor;
 
 import com.hitwh.haoqitms.entity.Course;
+import com.hitwh.haoqitms.entity.Employee;
 import com.hitwh.haoqitms.entity.Pagination;
+import com.hitwh.haoqitms.entity.TrainingApplication;
 
 import java.io.InputStream;
+import java.util.List;
 
 public interface ExecutorCourseService {
     /**
@@ -47,4 +50,27 @@ public interface ExecutorCourseService {
      * @return 课程列表
      */
     Pagination getCourseList(String courseName, Integer pageSize, Integer currentPage);
+
+    /**
+     * 获取所有已通过的培训申请
+     * @return 所有已通过的培训申请
+     */
+    List<TrainingApplication> getAllApprovedTrainingApplication();
+
+    /**
+     * 新建课程
+     * @param course 课程信息
+     * @return 是否新建成功
+     */
+    Boolean createCourse(Course course);
+
+    /**
+     * 获取所有讲师
+     */
+    List<Employee> getAllInstructor();
+
+    /**
+     * 获取所有执行人
+     */
+    List<Employee> getAllExecutor();
 }

@@ -132,7 +132,6 @@ public class HomeController {
     public ResultInfo create(HttpServletRequest request, @RequestBody TrainingApplication trainingApplication){
         // 设置为等待审批状态
         trainingApplication.setStatus(0);
-        System.out.println(trainingApplication);
         ResultInfo info = new ResultInfo();
         try {
             Boolean result = homeService.createTrainingApplication(trainingApplication);

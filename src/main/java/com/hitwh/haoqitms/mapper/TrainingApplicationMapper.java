@@ -71,4 +71,28 @@ public interface TrainingApplicationMapper {
     @Select("SELECT budget FROM training_application WHERE course_id = #{courseId}")
     Double getBudgetByCourseId(Integer courseId);
 
+    /**
+     * 获取所有已通过的培训申请 [执行人]
+     * @param
+     * @return 培训申请列表
+     */
+    @Select("SELECT * FROM training_application WHERE status = 1")
+    List<TrainingApplication> getAllAcceptedTrainingApplication();
+
+    /**
+     * 根据课程表id回填课程id
+     * @param applicationId 申请表id
+     * @param courseId 课程id
+     * return 是否成功
+     */
+    @Update("UPDATE training_application SET course_id = #{courseId} WHERE application_id = #{applicationId}")
+    Boolean backPatchCourseId(Integer applicationId, Integer courseId);
+
+    /**
+     * 完成培训申请
+     * @param applicationId 申请表id
+     * return 是否成功
+     */
+    @Update("UPDATE training_application SET status = 3 WHERE application_id = #{applicationId}")
+    Boolean finishApplication(Integer applicationId);
 }
