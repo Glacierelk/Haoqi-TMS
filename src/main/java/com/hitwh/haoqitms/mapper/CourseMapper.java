@@ -154,4 +154,12 @@ public interface CourseMapper {
             "WHERE course.instructor_id = employee.employee_id AND course.course_id = #{courseId}")
     CourseList getCourseByCourseId(Integer courseId);
 
+    /**
+     * 讲师查询课程信息
+     * @param employee_id
+     * @return
+     */
+    @Select("select * from course where instructor_id = #{employee_id}")
+    List<Course> getAllYourCourse(Integer employee_id);
+
 }

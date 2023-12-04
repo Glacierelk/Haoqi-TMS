@@ -1,5 +1,6 @@
 package com.hitwh.haoqitms.mapper;
 
+import com.hitwh.haoqitms.entity.Course;
 import com.hitwh.haoqitms.entity.Employee;
 import org.apache.ibatis.annotations.*;
 
@@ -68,6 +69,8 @@ public interface EmployeeMapper {
     @Select("SELECT * FROM employee WHERE employee_type=1")
     List<Employee> getAllExecutors();
 
+    @Select("select * from employee where employee_type = 2 and employee_id = #{employee_id}")
+    Employee getAllYourInfo(Integer employee_id);
     /**
      * 获取所有讲师信息
      * @return 讲师信息

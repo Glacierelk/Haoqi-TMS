@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class Course {
     private Integer applicationId;
     private Integer courseId;
+    // 课程名称
     private String name;
     private String companyName;
     private String description;
@@ -18,7 +19,11 @@ public class Course {
     private String location;
     private Double courseFee;
     private Integer instructorId;
+    // 讲师名称
+    private String instructorName;
     private Integer executorId;
+    // 执行人名称
+    private String executorName;
     private String report;
     private Double revenue;
 }

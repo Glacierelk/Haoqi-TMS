@@ -50,12 +50,11 @@
           <el-table-column label="公司名称" prop="companyName"></el-table-column>
           <el-table-column label="预算" prop="budget"></el-table-column>
           <el-table-column label="联系方式" prop="contactInfo"></el-table-column>
-          <el-table-column label="愿景描述" prop="description"></el-table-column>
-          <el-table-column label="操作" width="300px">
+          <el-table-column label="愿景描述" prop="description" show-overflow-tooltip></el-table-column>
+          <el-table-column label="操作" width="100px">
             <template v-slot="scope">
-              <!-- 修改按钮 -->
+              <!-- 创建按钮 -->
               <el-button type="primary"   @click="openAddCourse(scope.row)">创建</el-button>
-              <!-- 删除按钮 -->
             </template>
           </el-table-column>
         </el-table>
@@ -67,23 +66,45 @@
           <el-form-item label="课程名称" prop="name">
             <el-input v-model="addForm.name"></el-input>
           </el-form-item>
-          <el-form-item label="公司名称" prop="companyName">
-            <el-input v-model="addForm.companyName"></el-input>
+          <el-form-item label="公司名称" prop="companyName" :disabled = "true">
+            <el-input v-model="addForm.companyName" :disabled = "true"></el-input>
           </el-form-item>
           <el-form-item label="描述" prop="description">
             <el-input v-model="addForm.description"></el-input>
           </el-form-item>
           <el-form-item label="开始时间" prop="startDate">
-            <a-date-picker  v-model:value="addForm.startDate"  style="width: 100%" append-to-body="true" />
+            <el-date-picker
+                v-model="addForm.startDate"
+                type="date"
+                placeholder="Pick a Date"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
+            />
           </el-form-item>
           <el-form-item label="结束时间" prop="endDate">
-            <a-date-picker  v-model:value="addForm.endDate" style="width: 100%" append-to-body="true"/>
+            <el-date-picker
+              v-model="addForm.endDate"
+              type="date"
+              placeholder="Pick a Date"
+              format="YYYY-MM-DD"
+              value-format="YYYY-MM-DD"
+          />
           </el-form-item>
           <el-form-item label="上课地点" prop="location">
             <el-input v-model="addForm.location"></el-input>
           </el-form-item>
           <el-form-item label="课程费用" prop="courseFee">
             <el-input v-model="addForm.courseFee"></el-input>
+          </el-form-item>
+          <el-form-item label="选择讲师" prop="employeeId">
+          <el-select v-model="addForm.instructorId" placeholder="请选择讲师名称" filterable clearable>
+            <el-option
+                v-for="teacher in teacherList"
+                :key="teacher.employeeId"
+                :label="teacher.name"
+                :value="teacher.employeeId">
+            </el-option>
+          </el-select>
           </el-form-item>
         </el-form>
         <!-- 底部区域 -->
@@ -149,6 +170,7 @@ export default {
       // 用户列表
       courserList: [],
       approvalList:[],
+      teacherList:[],
       // 总数据条数
       // total: 0,
       // 控制添加用对话框的显示和隐藏，默认false,表示隐藏对话框
@@ -157,6 +179,7 @@ export default {
       approvalDialogVisible:false,
       // 添加用户的表单数据对象
       addForm: {
+        applicationId:'',
         courseId:'',
         name: '',
         companyName: '',
@@ -166,7 +189,7 @@ export default {
         location: '',
         courseFee: '',
         instructorId:'',
-        executorId:''
+        executorId:'1',
       },
       changeForm: {
         courseId:'',
@@ -239,7 +262,7 @@ export default {
     },
     //打开并展示审批通过的内容
     openApprovalTraining(){
-      axios.get(`url`).then(
+      axios.get(`/executor/course/allApprovedTrainingApplication`).then(
           response => {
             //console.log("数据库"+response.data.data.data);
              this.approvalList = response.data.data;
@@ -252,9 +275,23 @@ export default {
       );
       this.approvalDialogVisible=true;
     },
-    openAddCourse(row){
-      this.addDialogVisible =true;
 
+    openAddCourse(row){
+      this.addForm.applicationId=row.applicationId;
+      axios.get(`/executor/course/allInstructor`).then(
+          response => {
+            //console.log("数据库"+response.data.data.data);
+            this.teacherList = response.data.data;
+            //console.log("tableData"+this.tableData);
+          },
+          response => {
+            console.log("error");
+            alert("请求失败");
+          }
+      );
+      this.addForm.companyName=row.companyName;
+      this.addDialogVisible =true;
+      this.approvalDialogVisible=false;
     },
     //打开修改框的时候把原来的数据填上
     openChangeCourse(row){
@@ -292,10 +329,9 @@ export default {
     //新建课程,关闭对话框
     addCourse(){
       console.log("addForm.startDate"+this.addForm.startDate);
-      this.addForm.startDate = this.addForm.startDate.format('YYYY-MM-DD');
-      this.addForm.endDate = this.addForm.endDate.format('YYYY-MM-DD');
+
       axios
-          .post("/executor/course/add", this.addForm)
+          .post("/executor/course/createCourse", this.addForm)
           .then((response) => {
             this.$message.success("添加成功");
             // 添加成功后刷新数据
@@ -308,11 +344,12 @@ export default {
             this.$message.error("添加失败");
           });
       // 关闭编辑对话框
-      this.editDialogVisible = false;
+      this.addDialogVisible = false;
     },
+
     getUserList (name) {
       console.log("getUserList"+name);
-      axios.get(`/executor/course/list/${name}/150/1`).then(
+      axios.get(`/executor/course/list/${name}/200/1`).then(
           response => {
             //console.log("数据库"+response.data.data.data);
             this.courserList = response.data.data.data;

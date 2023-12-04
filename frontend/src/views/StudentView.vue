@@ -10,9 +10,9 @@
         <CourseEvaluationComponent/>
       </a-tab-pane>
 
-      <a-tab-pane key="2" tab="待添加">
+<!--      <a-tab-pane key="2" tab="待添加">-->
 
-      </a-tab-pane>
+<!--      </a-tab-pane>-->
 
       <template #rightExtra>
         <a-button danger @click="logout">退出登陆</a-button>
