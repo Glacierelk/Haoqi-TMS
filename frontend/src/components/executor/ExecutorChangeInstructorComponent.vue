@@ -1,23 +1,37 @@
 <template>
   <div>
     <el-card>
-      <el-row :gutter="20">
+      <el-row :gutter="24">
         <el-col :span="8">
-          <el-input placeholder="请输入内容" v-model="queryInfo.query">
+          <el-input v-model="queryInfo.query" placeholder="请输入内容">
             <template #append>
               <el-button @click="getUserList">
                 搜索
               </el-button>
             </template>
-
           </el-input>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="2">
           <el-button type="primary" @click="addDialogVisible = true">添加讲师</el-button>
+        </el-col>
+        <el-col :span="2">
+          <el-button type="primary" @click="downloadTemplate">下载模板</el-button>
+        </el-col>
+        <el-col :span="12">
+          <el-upload
+              :limit="1"
+              :show-file-list="false"
+              :auto-upload="false"
+              :on-change="upload"
+              accept=".xlsx"
+              ref="uploadFile"
+          >
+            <el-button type="success">上传文件</el-button>
+          </el-upload>
         </el-col>
       </el-row>
       <!-- 用户列表区域  -->
-      <el-table :data="instructorList" border stripe class="table-with-margin">
+      <el-table :data="instructorList" border class="table-with-margin" stripe>
         <el-table-column type="index"></el-table-column>
         <el-table-column label="讲师姓名" prop="name"></el-table-column>
         <el-table-column label="联系电话" prop="contactInfo"></el-table-column>
@@ -27,17 +41,17 @@
         <el-table-column label="操作" width="300px">
           <template v-slot="scope">
             <!-- 修改按钮 -->
-            <el-button type="primary"  size="mini" @click="openChangeCourse(scope.row)">修改</el-button>
+            <el-button size="mini" type="primary" @click="openChangeCourse(scope.row)">修改</el-button>
             <!-- 删除按钮 -->
-            <el-button type="danger" size="mini" @click="deleteInstructor(scope.row)">删除</el-button>
+            <el-button size="mini" type="danger" @click="deleteInstructor(scope.row)">删除</el-button>
             <!-- 查看所授课程按钮 -->
-            <el-button type="success"  size="mini" @click="searchCourse(scope.row)">查看所授课程</el-button>
+            <el-button size="mini" type="success" @click="searchCourse(scope.row)">查看所授课程</el-button>
           </template>
         </el-table-column>
       </el-table>
 
       <!-- 添加用户的对话框 -->
-      <el-dialog v-model="addDialogVisible" title="添加讲师" width="40%"  >
+      <el-dialog v-model="addDialogVisible" title="添加讲师" width="40%">
         <!-- 内容主体区域 -->
         <el-form ref="addFormRef" :model="addForm" label-width="auto">
           <el-form-item label="姓名" prop="name">
@@ -65,9 +79,9 @@
         </template>
       </el-dialog>
       <!-- 修改用户的对话框 -->
-      <el-dialog v-model="changeDialogVisible" title="修改讲师" width="40%"  >
+      <el-dialog v-model="changeDialogVisible" title="修改讲师" width="40%">
         <!-- 内容主体区域 -->
-        <el-form ref="addFormRef" :model="changeForm" label-width="auto" >
+        <el-form ref="addFormRef" :model="changeForm" label-width="auto">
           <el-form-item label="姓名" prop="name">
             <el-input v-model="changeForm.name"></el-input>
           </el-form-item>
@@ -96,12 +110,12 @@
   </div>
 </template>
 
-<script >
+<script>
 import axios from "axios";
-import {ElMessageBox} from "element-plus";
+import {ElMessageBox, ElMessage} from "element-plus";
 
 export default {
-  data () {
+  data() {
     return {
       // 获取用户列表的参数对象
       queryInfo: {
@@ -110,8 +124,8 @@ export default {
       // 用户列表
       instructorList: [],
       addDialogVisible: false,
-      changeDialogVisible:false,
-      approvalDialogVisible:false,
+      changeDialogVisible: false,
+      approvalDialogVisible: false,
       // 添加用户的表单数据对象
       addForm: {
         name: '',
@@ -119,10 +133,10 @@ export default {
         email: '',
         title: '',
         expertiseArea: '',
-        employeeType:'2'
+        employeeType: '2'
       },
       changeForm: {
-        employeeId:'',
+        employeeId: '',
         name: '',
         contactInfo: '',
         email: '',
@@ -131,31 +145,74 @@ export default {
       },
     }
   },
-  created () {
+  created() {
     //接收参数
-    const name=this.$route.query.name;
+    const name = this.$route.query.name;
     //console.log(name);
     this.getUserList()
   },
   methods: {
-     getUserList () {
-       axios
-           .get("/executor/Instructor/getAllTeachers")
-           .then(
-               response => {
-                 this.instructorList = response.data;
-               },
-               response => {
-                 console.log("error");
-                 alert("请求失败");
-               }
-           );
+    getUserList() {
+      axios
+          .get("/executor/Instructor/getAllTeachers")
+          .then(
+              response => {
+                this.instructorList = response.data;
+              },
+              response => {
+                console.log("error");
+                alert("请求失败");
+              }
+          );
+    },
+    downloadTemplate() {
+      axios({
+        url: `/executor/Instructor/importTemplate`,
+        method: 'GET',
+        responseType: 'arraybuffer', // 设置响应数据类型为 arraybuffer
+      })
+          .then(response => {
+            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); // 创建一个 Blob 对象
+            const url = window.URL.createObjectURL(blob); // 创建一个 URL 对象
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', '讲师导入模板.xlsx'); // 设置下载文件名，确保是 Excel 格式（.xlsx）
+            document.body.appendChild(link);
+            link.click(); // 模拟点击链接进行下载
+            link.parentNode.removeChild(link); // 下载完成后移除元素
+          })
+          .catch(error => {
+            // 处理下载失败的情况
+            // console.error('下载失败', error);
+            ElMessage.error('下载失败');
+          });
+    },
+    upload(file) {
+      const formData = new FormData();
+      formData.append('instructors', file.raw);
+
+      axios.post('/executor/Instructor/import', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+          .then(response => {
+            if (response.data.flag) {
+              ElMessage.success('上传成功');
+            } else {
+              ElMessage.error(response.data.errorMsg);
+            }
+          })
+          .catch(() => {
+            ElMessage.error('上传失败');
+          });
+      this.$refs.uploadFile.clearFiles()
     },
     //删除讲师
-    deleteInstructor(row){
+    deleteInstructor(row) {
       // 弹出确认对话框，确认后执行删除操作
       //console.log("row"+row.courseId);
-      ElMessageBox.confirm('确定删除['+row.name+']的信息吗?', '警告', {
+      ElMessageBox.confirm('确定删除[' + row.name + ']的信息吗?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -176,18 +233,18 @@ export default {
       });
     },
     //打开修改框的时候把原来的数据填上
-    openChangeCourse(row){
-      this.changeForm.employeeId=row.employeeId;
-      this.changeForm.name=row.name;
-      this.changeForm.contactInfo=row.contactInfo;
-      this.changeForm.email=row.email;
-      this.changeForm.title=row.title;
-      this.changeForm.expertiseArea=row.expertiseArea;
+    openChangeCourse(row) {
+      this.changeForm.employeeId = row.employeeId;
+      this.changeForm.name = row.name;
+      this.changeForm.contactInfo = row.contactInfo;
+      this.changeForm.email = row.email;
+      this.changeForm.title = row.title;
+      this.changeForm.expertiseArea = row.expertiseArea;
       this.changeDialogVisible = true;
     },
     //修改讲师
-    changeInstructor(){
-      console.log("changeForm"+this.changeForm.name)
+    changeInstructor() {
+      console.log("changeForm" + this.changeForm.name)
       axios
           .post("/executor/Instructor/update", this.changeForm)
           .then((response) => {
@@ -205,17 +262,17 @@ export default {
       this.changeDialogVisible = false;
     },
     //新建讲师,关闭对话框
-    addInstructor(){
+    addInstructor() {
       axios
           .post("/executor/Instructor/add", this.addForm)
           .then((response) => {
             this.$message.success("添加成功");
             // 添加成功后刷新数据
-            this.addForm.name='';
-            this.addForm.contactInfo='';
-            this.addForm.email='';
-            this.addForm.title='';
-            this.addForm.expertiseArea='';
+            this.addForm.name = '';
+            this.addForm.contactInfo = '';
+            this.addForm.email = '';
+            this.addForm.title = '';
+            this.addForm.expertiseArea = '';
             this.getUserList();
             // 关闭添加对话框
             this.addDialogVisible = false;
@@ -228,12 +285,11 @@ export default {
       this.addDialogVisible = false;
     },
     //跳转并传参
-    searchCourse(row){
-       //console.log("row.employeeId"+row.employeeId);
-      this.$router.push({name:'ExecutorInstructorCourse',query:{name:row.employeeId}});
+    searchCourse(row) {
+      //console.log("row.employeeId"+row.employeeId);
+      this.$router.push({name: 'ExecutorInstructorCourse', query: {name: row.employeeId}});
     },
-  }
-
+  },
 }
 </script>
 

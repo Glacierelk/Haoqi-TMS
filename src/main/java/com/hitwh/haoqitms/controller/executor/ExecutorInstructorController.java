@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.net.URLEncoder;
@@ -98,6 +99,23 @@ public class ExecutorInstructorController {
         } catch (Exception e) {
             return ResponseEntity.notFound().headers(headers).build();
         }
+    }
+
+    /**
+     * 导入讲师信息
+     * @param file 讲师信息的excel文件
+     * @return 是否导入成功
+     */
+    @PostMapping("/import")
+    public ResultInfo importInstructor(@RequestParam("instructors") MultipartFile file){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            resultInfo.setFlag(executorInstructorService.importInstructor(file));
+        } catch (Exception e) {
+            resultInfo.setFlag(false);
+            resultInfo.setErrorMsg(e.getMessage());
+        }
+        return resultInfo;
     }
 
 }

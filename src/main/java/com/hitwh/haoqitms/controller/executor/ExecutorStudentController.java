@@ -51,6 +51,11 @@ public class ExecutorStudentController {
                 .body(inputStreamResource);
     }
 
+    /**
+     * 导入学生信息
+     * @param file 学生信息的excel文件
+     * @return 是否导入成功
+     */
     @PostMapping("/import")
     public ResultInfo importStudent(@RequestParam("students") MultipartFile file){
         ResultInfo resultInfo = new ResultInfo();
