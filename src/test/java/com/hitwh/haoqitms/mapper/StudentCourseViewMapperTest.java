@@ -30,7 +30,7 @@ class StudentCourseViewMapperTest {
     void getStudentCourse() {
         StudentCourse studentCourse = new StudentCourse();
         studentCourse.setCourseId(4);
-        studentCourse.setPhone("13587168037");
+        //studentCourse.setPhone("13587168037");
 //        studentCourse.setName("%周浩%");
         studentCourse.setCompanyName("%华%");
         List<StudentCourse> studentCourseList = studentCourseViewMapper.getStudentCourse(studentCourse, 10, 0);
