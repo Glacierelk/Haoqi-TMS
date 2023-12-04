@@ -2,7 +2,6 @@ package com.hitwh.haoqitms.controller.executor;
 
 import com.hitwh.haoqitms.entity.Course;
 import com.hitwh.haoqitms.entity.ResultInfo;
-import com.hitwh.haoqitms.entity.TrainingApplication;
 import com.hitwh.haoqitms.service.executor.ExecutorCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -102,6 +101,11 @@ public class ExecutorCourseController {
         return resultInfo;
     }
 
+    /**
+     * 获取课程所有学员的邮箱
+     * @param courseId 课程id
+     * @return 所有学员的邮箱
+     */
     @GetMapping("/email/{course_id}")
     public ResponseEntity<InputStreamResource> downloadEmail(@PathVariable("course_id") Integer courseId){
         System.out.println("downloadEmail" + courseId);
@@ -193,6 +197,30 @@ public class ExecutorCourseController {
             resultInfo.setErrorMsg("获取所有执行人失败");
         }
         return resultInfo;
+    }
+
+    /**
+     * 获取课程通知HTML
+     * @param courseId 课程id
+     * @return 课程通知HTML
+     */
+    @GetMapping("/notice/{course_id}")
+    public ResponseEntity<InputStreamResource> downloadNotice(@PathVariable("course_id") Integer courseId){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("text/html"));
+        try {
+            String encodedFileName = URLEncoder.encode("课程通知.html", StandardCharsets.UTF_8);
+            headers.add("Content-Disposition", "attachment; filename*=UTF-8''" + encodedFileName);
+        } catch (Exception e) {
+            headers.add("Content-Disposition", "attachment; filename=course_notice.html");
+        }
+
+        InputStream inputStream = executorCourseService.courseNoticeHTML(courseId);
+        InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(inputStreamResource);
     }
 
 }

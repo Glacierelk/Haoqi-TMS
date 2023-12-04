@@ -49,8 +49,8 @@ public class UserNameAndPassWordGenerator {
     }
 
     public static void main(String[] args) {
-        System.out.println(generateUserName("13@456.com", "12345678902"));
-        System.out.println(generatePassWord("13@456.com", "12"));
+        System.out.println(generateUserName("13@456.com", "1234.5678902"));
+        System.out.println(generatePassWord("13@456.com", "12e"));
     }
 }
 

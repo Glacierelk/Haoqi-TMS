@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card">
-    <el-row :gutter="20">
-      <el-col :span="8">
+    <el-row :gutter="24">
+      <el-col :span="12">
         <el-input placeholder="请输入内容" v-model="queryInfo.query">
           <template #append>
             <el-button @click="getData">
@@ -10,8 +10,26 @@
           </template>
         </el-input>
       </el-col>
-      <el-col :span="8">
-        <el-button type="success" @click="exportStudentEmail">导出全部学生邮箱</el-button>
+      <el-col :span="3">
+        <el-button type="primary" plain @click="exportStudentEmail">导出全部学员邮箱</el-button>
+      </el-col>
+      <el-col :span="3">
+        <el-button type="primary" plain @click="exportAllStudents">导出全部学员信息</el-button>
+      </el-col>
+      <el-col :span="3">
+        <el-button type="primary" plain @click="downloadTemplate">下载批量导入模板</el-button>
+      </el-col>
+      <el-col :span="3">
+        <el-upload
+            :limit="1"
+            :show-file-list="false"
+            :auto-upload="false"
+            :on-change="uploadStudent"
+            accept=".xlsx"
+            ref="uploadFile"
+        >
+          <el-button type="success" plain>批量导入学员</el-button>
+        </el-upload>
       </el-col>
 <!--      <div style="text-align: right; margin: 0">-->
 <!--        <el-button type="success"  float:right @click="exportStudentEmail">导出全部学生邮箱</el-button>-->
@@ -143,6 +161,72 @@ export default {
     this.getData()
   },
   methods: {
+    // 导出全部学员信息
+    exportAllStudents() {
+      axios({
+        url: `/executor/student/export`,
+        method: 'GET',
+        responseType: 'arraybuffer', // 设置响应数据类型为 arraybuffer
+      })
+          .then(response => {
+            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); // 创建一个 Blob 对象
+            const url = window.URL.createObjectURL(blob); // 创建一个 URL 对象
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', '学员.xlsx'); // 设置下载文件名，确保是 Excel 格式（.xlsx）
+            document.body.appendChild(link);
+            link.click(); // 模拟点击链接进行下载
+            link.parentNode.removeChild(link); // 下载完成后移除元素
+          })
+          .catch(error => {
+            // 处理下载失败的情况
+            // console.error('下载失败', error);
+            ElMessage.error('下载失败');
+          });
+    },
+    uploadStudent(file) {
+      const formData = new FormData();
+      formData.append('students', file.raw);
+
+      axios.post('/executor/student/import', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+          .then(response => {
+            if (response.data.flag) {
+              ElMessage.success('上传成功');
+            } else {
+              ElMessage.error(response.data.errorMsg);
+            }
+          })
+          .catch(() => {
+            ElMessage.error('上传失败');
+          });
+      this.$refs.uploadFile.clearFiles()
+    },
+    downloadTemplate() {
+      axios({
+        url: `/executor/student/template`,
+        method: 'GET',
+        responseType: 'arraybuffer', // 设置响应数据类型为 arraybuffer
+      })
+          .then(response => {
+            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); // 创建一个 Blob 对象
+            const url = window.URL.createObjectURL(blob); // 创建一个 URL 对象
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', '学员批量导入模板.xlsx'); // 设置下载文件名，确保是 Excel 格式（.xlsx）
+            document.body.appendChild(link);
+            link.click(); // 模拟点击链接进行下载
+            link.parentNode.removeChild(link); // 下载完成后移除元素
+          })
+          .catch(error => {
+            // 处理下载失败的情况
+            // console.error('下载失败', error);
+            ElMessage.error('下载失败');
+          });
+    },
     //获取后端数据
     getData() {
       axios.get("/executor/student/getAll").then(
