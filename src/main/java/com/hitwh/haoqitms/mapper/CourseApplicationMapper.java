@@ -29,6 +29,17 @@ public interface CourseApplicationMapper {
     List<CourseApplication> getAllCourseApplication();
 
     /**
+     * 根据执行人id获取课程申请信息
+     * @param executorId 执行人id
+     */
+    @Select("select ca.*\n" +
+            "    from course_application ca\n" +
+            "        join\n" +
+            "    course c on ca.course_id = c.course_id\n" +
+            "    where executor_id = #{executorId}")
+    List<CourseApplication> getCourseApplicationByExecutorId(Integer executorId);
+
+    /**
      * 通过学员课程申请
      */
     @Update("update course_application set status = 1 where application_id = #{applicationId}")

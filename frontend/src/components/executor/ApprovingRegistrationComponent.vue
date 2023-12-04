@@ -49,6 +49,9 @@ const pageSize = ref(10);
 const currentPage = ref(1);
 const totalItems = ref(tableData.value.length); // 总条目数
 const activeTab = ref('pending');
+// TODO: 登录后获取执行人ID
+const executorId = ref(183);
+
 
 // 根据当前页和分页大小计算显示的数据
 const currentTableData = computed(() => {
@@ -74,8 +77,17 @@ const updateCurrentTableData = () => {
   currentTableData.value = tableData.value.slice(start, end);
 };
 
+// const fetchAllCourseApplicationList = () => {
+//   axios.get('/executor/courseApplication/allApplications').then(res => {
+//     originalTableData.value = res.data.data;
+//     filterDataByTab(activeTab.value);
+//     totalItems.value = tableData.value.length;
+//   });
+//
+// };
+
 const fetchAllCourseApplicationList = () => {
-  axios.get('/executor/courseApplication/allApplications').then(res => {
+  axios.get(`/executor/courseApplication/allApplications/${executorId.value}`).then(res => {
     originalTableData.value = res.data.data;
     filterDataByTab(activeTab.value);
     totalItems.value = tableData.value.length;

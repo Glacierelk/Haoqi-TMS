@@ -19,6 +19,13 @@ public interface ExecutorCourseApplicationService {
     List<CourseApplication> getAllCourseApplication();
 
     /**
+     * 根据执行人id获取课程申请信息
+     * @param executorId 执行人id
+     * @return 课程申请信息
+     */
+    List<CourseApplication> getCourseApplicationByExecutorId(Integer executorId);
+
+    /**
      * 通过学员课程申请
      *  @param applicationId 申请id
      */
