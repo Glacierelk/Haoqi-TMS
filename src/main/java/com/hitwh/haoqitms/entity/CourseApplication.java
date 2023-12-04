@@ -21,5 +21,5 @@ public class CourseApplication {
     private String jobPosition;
     private String skillLevel;
     private String contactInfo;
-
+    private Integer status;
 }

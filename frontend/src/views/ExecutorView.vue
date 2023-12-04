@@ -10,8 +10,16 @@
       <ApprovingRegistrationComponent/>
       </a-tab-pane>
 
-      <a-tab-pane key="2" tab="待添加">
+      <a-tab-pane key="2" tab="管理课程">
+        <ExecutorInstructorCourseComponent/>
+      </a-tab-pane>
 
+      <a-tab-pane key="3" tab="管理讲师">
+        <ExecutorChangeInstructorComponent/>
+      </a-tab-pane>
+
+      <a-tab-pane key="4" tab="管理学生">
+        <ExecutorChangeStudentComponent/>
       </a-tab-pane>
 
       <template #rightExtra>
@@ -25,7 +33,10 @@
 <script setup>
 
 import { ref } from 'vue';
-import ApprovingRegistrationComponent from '@/components/executor/ApprovingRegistrationComponent.vue';
+import ApprovingRegistrationComponent from '../components/executor/ApprovingRegistrationComponent.vue';
+import ExecutorChangeInstructorComponent from "../components/executor/ExecutorChangeInstructorComponent.vue";
+import ExecutorInstructorCourseComponent from "../components/executor/ExecutorInstructorCourseComponent.vue";
+import ExecutorChangeStudentComponent from "../components/executor/ExecutorChangeStudentComponent.vue";
 import {ElMessage} from "element-plus";
 import axios from "axios";
 
@@ -41,7 +52,7 @@ function checkLogin() {
   });
 }
 // 检查登录状态
-checkLogin();
+// checkLogin();
 
 function logout() {
   axios.get('/user/logout').then((res) => {

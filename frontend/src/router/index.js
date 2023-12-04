@@ -28,7 +28,7 @@ const router = createRouter({
     {
       path: '/manager',
         name: 'manager',
-        component: () => import('../views/Manager/ManagerView.vue'),
+        component: () => import('../views/ManagerView.vue'),
     },
     {
       path: '/instructor',
@@ -45,24 +45,7 @@ const router = createRouter({
     {
       path: '/executor',
       name: 'executor',
-      //component: () => import('../views/ManagerView.vue'),
-      children: [
-        {
-          path: 'ExecutorChangeInstructor',
-          name: 'ExecutorChangeInstructor',
-          component: () => import('../views/Executor/ExecutorChangeInstructor.vue')
-        },
-        {
-          path: 'ExecutorInstructorCourse',
-          name: 'ExecutorInstructorCourse',
-          component: () => import('../views/Executor/ExecutorInstructorCourse.vue')
-        },
-        {
-          path: 'ExecutorChangeStudent',
-          name: 'ExecutorChangeStudent',
-          component: () => import('../views/Executor/ExecutorChangeStudent.vue')
-        },
-      ]
+      component: () => import('../views/ExecutorView.vue')
     }
       ]
     })

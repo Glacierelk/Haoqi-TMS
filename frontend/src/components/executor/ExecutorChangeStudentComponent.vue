@@ -10,13 +10,16 @@
           </template>
         </el-input>
       </el-col>
-      <el-col :span="4">
-        <el-button type="primary" @click="addDialogVisible = true">添加学员</el-button>
+      <el-col :span="8">
+        <el-button type="success" @click="exportStudentEmail">导出全部学生邮箱</el-button>
       </el-col>
+<!--      <div style="text-align: right; margin: 0">-->
+<!--        <el-button type="success"  float:right @click="exportStudentEmail">导出全部学生邮箱</el-button>-->
+<!--      </div>-->
     </el-row>
 
     <el-table :data="tableData" border stripe class="table-with-margin" style="width: 100% " @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center"></el-table-column>
+<!--      <el-table-column type="selection" width="55" align="center"></el-table-column>-->
       <el-table-column prop="studentId" label="学号" align="center"></el-table-column>
       <el-table-column prop="name" label="姓名" align="center"></el-table-column>
       <el-table-column prop="gender" label="性别" align="center" width="70px"></el-table-column>
@@ -25,12 +28,12 @@
       <el-table-column prop="jobPosition" label="工作岗位" align="center"></el-table-column>
       <el-table-column prop="skillLevel" label="技术水平" align="center"></el-table-column>
       <el-table-column prop="contactInfo" label="联系方式" align="center"></el-table-column>
-      <el-table-column label="操作" align="center" width="200px">
-        <template v-slot="scope">
-          <el-button @click="openChangeCourse(scope.row)" type="primary" >修改</el-button>
-          <el-button @click="removeData(scope.row)" type="danger" >删除</el-button>
-        </template>
-      </el-table-column>
+<!--      <el-table-column label="操作" align="center" width="200px">-->
+<!--        <template v-slot="scope">-->
+<!--          <el-button @click="openChangeCourse(scope.row)" type="primary" >修改</el-button>-->
+<!--          <el-button @click="removeData(scope.row)" type="danger" >删除</el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
     </el-table>
     <el-dialog v-model="addDialogVisible" title="添加学员" width="40%"  >
       <!-- 内容主体区域 -->
@@ -58,12 +61,12 @@
         </el-form-item>
       </el-form>
       <!-- 底部区域 -->
-      <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleAdd">添加学员</el-button>
-      </span>
-      </template>
+<!--      <template #footer>-->
+<!--      <span class="dialog-footer">-->
+<!--        <el-button @click="addDialogVisible = false">取消</el-button>-->
+<!--        <el-button type="primary" @click="handleAdd">添加学员</el-button>-->
+<!--      </span>-->
+<!--      </template>-->
     </el-dialog>
     <el-dialog v-model="changeDialogVisible" title="修改学员" width="40%"  >
       <!-- 内容主体区域 -->
@@ -91,12 +94,12 @@
         </el-form-item>
       </el-form>
       <!-- 底部区域 -->
-      <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="changeDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="changeInstructor">修改</el-button>
-      </span>
-      </template>
+<!--      <template #footer>-->
+<!--      <span class="dialog-footer">-->
+<!--        <el-button @click="changeDialogVisible = false">取消</el-button>-->
+<!--        <el-button type="primary" @click="changeInstructor">修改</el-button>-->
+<!--      </span>-->
+<!--      </template>-->
     </el-dialog>
   </el-card>
 </template>
@@ -151,6 +154,16 @@ export default {
                 alert("请求失败");
               }
           );
+    },
+    exportStudentEmail(){
+      axios.get("/executor/student/email/download").then(
+          response => {
+          },
+          response => {
+            console.log("error");
+            alert("请求失败");
+          }
+      );
     },
     //打开修改框的时候把原来的数据填上
     openChangeCourse(row){
@@ -232,4 +245,5 @@ export default {
 .table-with-margin {
   margin-top: 20px; /* 调整表格与上方内容的间距，根据实际需要设置 */
 }
+
 </style>

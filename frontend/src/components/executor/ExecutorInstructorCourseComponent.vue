@@ -11,32 +11,39 @@
                 搜索
               </el-button>
             </template>
-
           </el-input>
         </el-col>
         <el-col :span="4">
           <el-button type="primary" @click="openApprovalTraining">添加课程</el-button>
         </el-col>
+        <el-col :span="9"></el-col>
+        <el-col :span="1">
+        </el-col>
       </el-row>
       <!-- 公司列表区域  -->
       <el-table :data="courserList" border stripe class="table-with-margin">
         <el-table-column type="index"></el-table-column>
-        <el-table-column label="课程名称" prop="name"></el-table-column>
-        <el-table-column label="公司名称" prop="companyName"></el-table-column>
-        <el-table-column label="描述" prop="description" show-overflow-tooltip></el-table-column>
-        <el-table-column label="开始时间" prop="startDate"></el-table-column>
+        <el-table-column label="课程名称" prop="name" ></el-table-column>
+        <el-table-column label="公司名称" prop="companyName" ></el-table-column>
+        <el-table-column label="描述" prop="description"  show-overflow-tooltip></el-table-column>
+        <el-table-column label="开始时间" prop="startDate" width="170px"></el-table-column>
         <el-table-column label="结束时间" prop="endDate" width="170px"></el-table-column>
         <el-table-column label="地点" prop="location"></el-table-column>
-        <el-table-column label="课程费用" prop="courseFee"></el-table-column>
-        <el-table-column label="操作" width="260px">
+        <el-table-column label="课程费用" prop="courseFee" ></el-table-column>
+        <el-table-column label="操作" width="260px" align="center" >
           <template v-slot="scope">
             <!-- 修改按钮 -->
-            <el-button type="primary"  size="mini" @click="openChangeCourse(scope.row)">修改</el-button>
+            <el-button type="primary"   @click="openChangeCourse(scope.row)">修改</el-button>
             <!-- 删除按钮 -->
-            <el-button type="danger"  size="mini" @click="removeData(scope.row)">删除</el-button>
+            <el-button type="danger"   @click="removeData(scope.row)">删除</el-button>
             <!-- 查看所授课程按钮 -->
-            <el-button type="success"  size="mini" @click="searchInstructor">查看讲师</el-button>
+            <el-button type="success"   @click="searchInstructor">查看讲师</el-button>
           </template>
+        </el-table-column>
+        <el-table-column label="" width="180px" fixed="right">
+        <template v-slot="scope">
+          <el-button  type="info" @click="postCourseAlerts(scope.row)">发布课程参加提醒</el-button>
+        </template>
         </el-table-column>
       </el-table>
       <!-- 展示审批通过的内容的区域  -->
@@ -46,10 +53,11 @@
           <el-table-column label="公司名称" prop="companyName"></el-table-column>
           <el-table-column label="预算" prop="budget"></el-table-column>
           <el-table-column label="联系方式" prop="contactInfo"></el-table-column>
+          <el-table-column label="愿景描述" prop="description"></el-table-column>
           <el-table-column label="操作" width="300px">
             <template v-slot="scope">
               <!-- 修改按钮 -->
-              <el-button type="primary"  size="mini" @click="openAddCourse(scope.row)">创建</el-button>
+              <el-button type="primary"   @click="openAddCourse(scope.row)">创建</el-button>
               <!-- 删除按钮 -->
             </template>
           </el-table-column>
@@ -180,13 +188,26 @@ export default {
   created () {
     //接收参数
       const name = this.$route.query.name;
-      //console.log(name);
-    this.getUserList(name)
+      console.log(name);
+      if(name===undefined) {console.log("undefined");this.getUserList(null)}
+    else this.getUserList(name)
   },
   methods: {
     //跳转并传参
     searchInstructor(){
       this.$router.push({name:'ExecutorChangeInstructor',query:{name:'ExecutorInstructorCourse'}});
+    },
+    postCourseAlerts(row){
+      console.log("row.courseId"+row.courseId);
+      axios.get(`/executor/course/email/${row.courseId}`).then(
+          response => {
+            this.$message.success("发布成功");
+          },
+          response => {
+            console.log("error");
+            alert("请求失败");
+          }
+      );
     },
     //打开并展示审批通过的内容
     openApprovalTraining(){
@@ -307,5 +328,10 @@ export default {
 <style scoped>
 .table-with-margin {
   margin-top: 20px; /* 调整表格与上方内容的间距，根据实际需要设置 */
+}
+.btn {
+  position: relative;
+  right: 0px;
+  top: 2px;
 }
 </style>
