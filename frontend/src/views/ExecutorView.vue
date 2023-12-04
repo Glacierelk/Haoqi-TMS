@@ -41,7 +41,7 @@ function checkLogin() {
   });
 }
 // 检查登录状态
-checkLogin();
+// checkLogin();
 
 function logout() {
   axios.get('/user/logout').then((res) => {
