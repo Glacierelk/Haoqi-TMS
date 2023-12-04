@@ -62,7 +62,7 @@ public class ExecutorStudentController {
             resultInfo.setFlag(executorStudentService.importStudent(file));
         } catch (Exception e) {
             resultInfo.setFlag(false);
-            resultInfo.setErrorMsg("导入失败");
+            resultInfo.setErrorMsg(e.getMessage());
         }
         return resultInfo;
     }

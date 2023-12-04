@@ -20,7 +20,16 @@
         <el-button type="primary" plain @click="downloadTemplate">下载批量导入模板</el-button>
       </el-col>
       <el-col :span="3">
-        <el-button type="primary" plain @click="exportStudentEmail">批量导入学员</el-button>
+        <el-upload
+            :limit="1"
+            :show-file-list="false"
+            :auto-upload="false"
+            :on-change="uploadStudent"
+            accept=".xlsx"
+            ref="uploadFile"
+        >
+          <el-button type="success" plain>批量导入学员</el-button>
+        </el-upload>
       </el-col>
 <!--      <div style="text-align: right; margin: 0">-->
 <!--        <el-button type="success"  float:right @click="exportStudentEmail">导出全部学生邮箱</el-button>-->
@@ -174,6 +183,27 @@ export default {
             // console.error('下载失败', error);
             ElMessage.error('下载失败');
           });
+    },
+    uploadStudent(file) {
+      const formData = new FormData();
+      formData.append('students', file.raw);
+
+      axios.post('/executor/student/import', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+          .then(response => {
+            if (response.data.flag) {
+              ElMessage.success('上传成功');
+            } else {
+              ElMessage.error(response.data.errorMsg);
+            }
+          })
+          .catch(() => {
+            ElMessage.error('上传失败');
+          });
+      this.$refs.uploadFile.clearFiles()
     },
     downloadTemplate() {
       axios({
