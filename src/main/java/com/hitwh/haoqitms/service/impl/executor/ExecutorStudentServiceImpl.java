@@ -53,4 +53,9 @@ public class ExecutorStudentServiceImpl implements ExecutorStudentService {
         return studentMapper.deleteStudent(studentId);
     }
 
+    @Override
+    public InputStream exportStudent() {
+        return excelService.generateStudentInfoExcel(studentMapper.getAllStudentAllInfo());
+    }
+
 }

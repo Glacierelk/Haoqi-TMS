@@ -33,7 +33,6 @@ public class ExecutorStudentController {
      */
     @GetMapping("/email/download")
     public ResponseEntity<InputStreamResource> downloadEmail(){
-        System.out.println("download email");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
         try {
@@ -66,6 +65,29 @@ public class ExecutorStudentController {
             resultInfo.setErrorMsg("导入失败");
         }
         return resultInfo;
+    }
+
+    /**
+     * 导出学生信息
+     * @return 学生信息的excel文件
+     */
+    @GetMapping("/export")
+    public ResponseEntity<InputStreamResource> exportStudent(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        try {
+            String encodedFileName = URLEncoder.encode("学生信息.xlsx", StandardCharsets.UTF_8);
+            headers.add("Content-Disposition", "attachment; filename*=UTF-8''" + encodedFileName);
+        } catch (Exception e) {
+            headers.add("Content-Disposition", "attachment; filename=students.xlsx");
+        }
+
+        InputStream inputStream = executorStudentService.exportStudent();
+        InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(inputStreamResource);
     }
 
     /**

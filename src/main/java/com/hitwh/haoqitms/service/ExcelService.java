@@ -1,6 +1,7 @@
 package com.hitwh.haoqitms.service;
 
 import com.hitwh.haoqitms.entity.Employee;
+import com.hitwh.haoqitms.entity.Student;
 
 import java.io.InputStream;
 import java.util.List;
@@ -19,4 +20,11 @@ public interface ExcelService {
      * @return excel文件流
      */
     InputStream generateInstructorInfoExcel(List<Employee> instructors);
+
+    /**
+     * 生成学员信息excel
+     * @param students 学员信息
+     * @return excel文件流
+     */
+    InputStream generateStudentInfoExcel(List<Student> students);
 }

@@ -46,4 +46,10 @@ public interface ExecutorStudentService {
      * @param studentId
      * */
     public Boolean deleteStudent(Integer studentId);
+
+    /**
+     * 导出学生信息
+     * @return 学生信息的excel文件
+     */
+    InputStream exportStudent();
 }
