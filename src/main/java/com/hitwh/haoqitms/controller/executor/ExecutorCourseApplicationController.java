@@ -1,20 +1,18 @@
 package com.hitwh.haoqitms.controller.executor;
 
 import com.hitwh.haoqitms.entity.ResultInfo;
-import com.hitwh.haoqitms.entity.Student;
-import com.hitwh.haoqitms.entity.StudentCourse;
-import com.hitwh.haoqitms.service.CourseApplicationService;
+import com.hitwh.haoqitms.service.executor.ExecutorCourseApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/executor/courseApplication")
 @RestController
 public class ExecutorCourseApplicationController {
-    private final CourseApplicationService courseApplicationService;
+    private final ExecutorCourseApplicationService executorCourseApplicationService;
 
     @Autowired
-    public ExecutorCourseApplicationController(CourseApplicationService courseApplicationService) {
-        this.courseApplicationService = courseApplicationService;
+    public ExecutorCourseApplicationController(ExecutorCourseApplicationService executorCourseApplicationService) {
+        this.executorCourseApplicationService = executorCourseApplicationService;
     }
 
     /**
@@ -27,7 +25,7 @@ public class ExecutorCourseApplicationController {
         ResultInfo info = new ResultInfo();
         try {
             info.setFlag(true);
-            info.setData(courseApplicationService.getAllCourseApplication());
+            info.setData(executorCourseApplicationService.getAllCourseApplication());
         } catch (Exception e) {
             info.setFlag(false);
             info.setErrorMsg("获取课程申请信息失败");
@@ -43,7 +41,7 @@ public class ExecutorCourseApplicationController {
     public ResultInfo approveApplication(@PathVariable(name="applicationId") Integer applicationId) {
         ResultInfo info = new ResultInfo();
         try {
-            info.setFlag(courseApplicationService.approveApplication(applicationId));
+            info.setFlag(executorCourseApplicationService.approveApplication(applicationId));
         } catch (Exception e) {
             info.setFlag(false);
             info.setErrorMsg("通过课程申请失败");
@@ -59,7 +57,7 @@ public class ExecutorCourseApplicationController {
     public ResultInfo rejectApplication(@PathVariable(name="applicationId") Integer applicationId) {
         ResultInfo info = new ResultInfo();
         try {
-            info.setFlag(courseApplicationService.rejectApplication(applicationId));
+            info.setFlag(executorCourseApplicationService.rejectApplication(applicationId));
         } catch (Exception e) {
             info.setFlag(false);
             info.setErrorMsg("拒绝课程申请失败");

@@ -1,22 +1,22 @@
 package com.hitwh.haoqitms.service.impl.manager;
 
-import com.hitwh.haoqitms.mapper.ManagerInstructorMapper;
-import com.hitwh.haoqitms.mapper.ManagerStudentMapper;
-import com.hitwh.haoqitms.service.ManagerInstructorService;
-import com.hitwh.haoqitms.service.ManagerStudentService;
+import com.hitwh.haoqitms.mapper.EmployeeMapper;
+import com.hitwh.haoqitms.service.manager.ManagerInstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ManagerInstructorServiceImpl implements ManagerInstructorService {
 
-    private final com.hitwh.haoqitms.mapper.ManagerInstructorMapper ManagerInstructorMapper;
+    private final EmployeeMapper employeeMapper;
 
     @Autowired
-    public ManagerInstructorServiceImpl(ManagerInstructorMapper ManagerInstructorMapper) {
-        this.ManagerInstructorMapper = ManagerInstructorMapper;
+    public ManagerInstructorServiceImpl(EmployeeMapper employeeMapper) {
+        this.employeeMapper = employeeMapper;
     }
 
     @Override
     public Integer countTotalInstructor() {
-        return ManagerInstructorMapper.countTotalInstructor();
+        return employeeMapper.countTotalInstructor();
     }
 }

@@ -54,13 +54,13 @@ function submitForm() {
             type: 'success',
             duration: 2 * 1000
           });
+          // localStorage.setItem("token", res.data.errorMsg);
           switch (res.data.data.userType) {
             case 0:
               router.push('/manager');
               break;
             case 1:
-              // TODO 跳转到执行人界面
-              // router.push('/');
+              router.push('/executor');
               break;
             case 2:
               // TODO 跳转到教师界面

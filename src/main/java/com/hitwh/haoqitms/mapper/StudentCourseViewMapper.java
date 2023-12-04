@@ -49,6 +49,10 @@ public interface StudentCourseViewMapper {
      * @param studentCourse 学员选课记录
      * @return 是否新增成功
      */
+    @Insert("insert into student_course(student_id, course_id, paid, attendance) " +
+            "values(#{studentId}, #{courseId}, #{paid}, #{attendance})")
+    Boolean createStudentCourse(StudentCourse studentCourse);
+
     /**
      * 根据课程id获取已缴费学生信息
      *
@@ -58,8 +62,5 @@ public interface StudentCourseViewMapper {
     @Select("select * from student_course_view where course_id = #{courseId} and paid = true")
     List<StudentCourse> getPaidStudentsByCourseId(Integer courseId);
 
-    @Insert("insert into student_course(student_id, course_id, paid, attendance) " +
-            "values(#{studentId}, #{courseId}, #{paid}, #{attendance})")
-    Boolean createStudentCourse(StudentCourse studentCourse);
 
 }

@@ -5,9 +5,8 @@ import com.hitwh.haoqitms.entity.CourseApplication;
 import com.hitwh.haoqitms.entity.CourseList;
 import com.hitwh.haoqitms.entity.ResultInfo;
 import com.hitwh.haoqitms.entity.TrainingApplication;
-import com.hitwh.haoqitms.service.CourseApplicationService;
+import com.hitwh.haoqitms.service.executor.ExecutorCourseApplicationService;
 import com.hitwh.haoqitms.service.HomeService;
-import com.hitwh.haoqitms.service.TrainingApplicationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +17,12 @@ import java.util.List;
 @RestController
 public class HomeController {
     private final HomeService homeService;
-    private final TrainingApplicationService trainingApplicationService;
-    private final CourseApplicationService courseApplicationService;
+    private final ExecutorCourseApplicationService executorCourseApplicationService;
 
     @Autowired
-    public HomeController(HomeService homeService, TrainingApplicationService trainingApplicationService, CourseApplicationService courseApplicationService) {
+    public HomeController(HomeService homeService, ExecutorCourseApplicationService executorCourseApplicationService) {
         this.homeService = homeService;
-        this.trainingApplicationService = trainingApplicationService;
-        this.courseApplicationService = courseApplicationService;
+        this.executorCourseApplicationService = executorCourseApplicationService;
     }
 
     /**
@@ -69,7 +66,7 @@ public class HomeController {
     @GetMapping("/companyNames")
     public ResultInfo getCompanyNames() {
         ResultInfo info = new ResultInfo();
-        List<String> companyNames = trainingApplicationService.selectAllCompanyName();
+        List<String> companyNames = homeService.selectAllCompanyName();
         try {
             info.setFlag(true);
             info.setData(companyNames);
@@ -89,22 +86,21 @@ public class HomeController {
         ResultInfo info = new ResultInfo();
         // 等待审批
         courseApplication.setStatus(0);
-        String promoCode = trainingApplicationService.selectPromoCodeByCourseId(courseApplication.getCourseId());
-        if ("" == courseApplication.getCompanyName() || ("" != courseApplication.getCompanyName() && ""  == courseApplication.getPromoCode())) {
+        String promoCode = homeService.selectPromoCodeByCourseId(courseApplication.getCourseId());
+        if ("".equals(courseApplication.getCompanyName()) || ("" != courseApplication.getCompanyName() && "".equals(courseApplication.getPromoCode()))) {
             // 公司名为null，团报码肯定为null,直接新建课程申请
             // 公司名不为null，团报码为null，也新建课程申请
-            if("" == courseApplication.getCompanyName()){
+            if("".equals(courseApplication.getCompanyName())){
                 courseApplication.setCompanyName(null);
             }else {
                 courseApplication.setPromoCode(null);
             }
             try {
                 info.setFlag(true);
-                info.setData(courseApplicationService.createCourseApplication(courseApplication));
+                info.setData(executorCourseApplicationService.createCourseApplication(courseApplication));
             } catch (Exception e) {
                 info.setFlag(false);
                 info.setErrorMsg("新建课程申请失败");
-                e.printStackTrace();
             }
         }else{
             // 公司名不为null，团报码不为null，检查团报码是否有效
@@ -112,11 +108,10 @@ public class HomeController {
                 // 团报码有效，新建课程申请
                 try {
                     info.setFlag(true);
-                    info.setData(courseApplicationService.createCourseApplication(courseApplication));
+                    info.setData(executorCourseApplicationService.createCourseApplication(courseApplication));
                 } catch (Exception e) {
                     info.setFlag(false);
                     info.setErrorMsg("新建课程申请失败");
-                    e.printStackTrace();
                 }
             }else{
                 // 团报码无效，返回错误信息
@@ -137,10 +132,9 @@ public class HomeController {
     public ResultInfo create(HttpServletRequest request, @RequestBody TrainingApplication trainingApplication){
         // 设置为等待审批状态
         trainingApplication.setStatus(0);
-        System.out.println(trainingApplication);
         ResultInfo info = new ResultInfo();
         try {
-            Boolean result = trainingApplicationService.createTrainingApplication(trainingApplication);
+            Boolean result = homeService.createTrainingApplication(trainingApplication);
             if (result) {
                 info.setFlag(true);
             } else {

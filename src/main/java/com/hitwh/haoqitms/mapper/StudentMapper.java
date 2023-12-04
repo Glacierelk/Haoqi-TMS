@@ -1,11 +1,9 @@
 package com.hitwh.haoqitms.mapper;
 
 import com.hitwh.haoqitms.entity.Student;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+
 import org.apache.ibatis.annotations.*;
+
 
 import java.util.List;
 
@@ -18,7 +16,6 @@ public interface StudentMapper {
 
     /**
      * 获取所有学生邮箱 [执行人]
-     *
      * @return 所有学生邮箱
      */
     @Select("SELECT name, email FROM student")
@@ -29,13 +26,8 @@ public interface StudentMapper {
      */
     @Select("SELECT * FROM student WHERE email = #{email} AND contact_info = #{contactInfo}")
     Student getStudentByEmailAndPhone(String email, String contactInfo);
-
-    /**
-     * 新增学员选课记录
-     */
-
-
-    /**
+  
+     /**
      * 获取所有学生的所有信息
      *
      * @return 所有学生的所有信息
@@ -60,5 +52,12 @@ public interface StudentMapper {
     @Delete("DELETE FROM student WHERE student_id=#{studentId}")
     Boolean deleteStudent(Integer studentId);
 
+    /**
+     * 查询学生的总数
+     *
+     * @return 学生的总数
+     */
+    @Select("SELECT COUNT(*) FROM student")
+    Integer countTotalStudent();
 
 }

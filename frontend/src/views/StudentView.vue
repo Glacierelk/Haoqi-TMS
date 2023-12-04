@@ -6,12 +6,12 @@
         type="card"
         size="large"
     >
-      <a-tab-pane key="1" tab="现场学员管理">
-        <SSM/>
+      <a-tab-pane key="1" tab="学员界面">
+        <CourseEvaluationComponent/>
       </a-tab-pane>
 
-      <a-tab-pane key="2" tab="调查报告管理">
-        <IRM/>
+      <a-tab-pane key="2" tab="待添加">
+
       </a-tab-pane>
 
       <template #rightExtra>
@@ -25,8 +25,7 @@
 <script setup>
 
 import { ref } from 'vue';
-import SSM from '@/components/site_staff/SiteStudentManagementComponent.vue';
-import IRM from '@/components/site_staff/InvestigationReportManagementComponent.vue';
+import CourseEvaluationComponent from "@/components/student/CourseEvaluationComponent.vue";
 import {ElMessage} from "element-plus";
 import axios from "axios";
 
@@ -41,7 +40,7 @@ function checkLogin() {
     window.location.href = '/';
   });
 }
-
+// 检查登录状态
 // checkLogin();
 
 function logout() {

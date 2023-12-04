@@ -143,7 +143,7 @@ const submitRegistrationForm = () => {
         }
       }
   ).catch(
-      err => {
+      () => {
         ElMessage({
           message: "提交培训申请失败",
           type: "error",

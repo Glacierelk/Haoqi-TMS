@@ -27,12 +27,18 @@
 
 import { Avatar, UserFilled } from '@element-plus/icons-vue';
 import { ref } from 'vue';
+import axios from "axios";
 
 let instructorCount = ref(10);
 let studentCount = ref(10000);
 
 const getCount = () => {
-  // TODO: get count from backend
+  axios.get('/manager/instructor/total').then((res) => {
+    instructorCount.value = res.data.data;
+  });
+  axios.get('/manager/student/total').then((res) => {
+    studentCount.value = res.data.data;
+  });
 };
 
 getCount();
