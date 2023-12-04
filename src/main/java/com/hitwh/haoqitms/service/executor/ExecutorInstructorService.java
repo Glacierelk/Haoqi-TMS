@@ -27,4 +27,10 @@ public interface ExecutorInstructorService {
      * @return 是否导入成功
      */
     Boolean importInstructor(MultipartFile file);
+
+    /**
+     * 导出教师信息
+     * @return 教师信息的excel文件流
+     */
+    InputStream exportInstructor();
 }

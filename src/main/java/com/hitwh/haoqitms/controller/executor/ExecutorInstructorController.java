@@ -118,4 +118,31 @@ public class ExecutorInstructorController {
         return resultInfo;
     }
 
+    /**
+     * 导出讲师信息
+     * @return 讲师信息的excel文件流
+     */
+    @GetMapping("/export")
+    public ResponseEntity<InputStreamResource> exportInstructor(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        try {
+            String encodedFileName = URLEncoder.encode("讲师信息.xlsx", StandardCharsets.UTF_8);
+            headers.add("Content-Disposition", "attachment; filename*=UTF-8''" + encodedFileName);
+        } catch (Exception e) {
+            headers.add("Content-Disposition", "attachment; filename=instructor.xlsx");
+        }
+
+        try {
+            InputStream inputStream = executorInstructorService.exportInstructor();
+            InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(inputStreamResource);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().headers(headers).build();
+        }
+    }
+
 }

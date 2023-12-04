@@ -15,9 +15,12 @@
           <el-button type="primary" @click="addDialogVisible = true">添加讲师</el-button>
         </el-col>
         <el-col :span="2">
+          <el-button type="primary" @click="exportInstructors">导出讲师</el-button>
+        </el-col>
+        <el-col :span="2">
           <el-button type="primary" @click="downloadTemplate">下载模板</el-button>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="10">
           <el-upload
               :limit="1"
               :show-file-list="false"
@@ -164,6 +167,28 @@ export default {
                 alert("请求失败");
               }
           );
+    },
+    exportInstructors() {
+      axios({
+        url: `/executor/Instructor/export`,
+        method: 'GET',
+        responseType: 'arraybuffer', // 设置响应数据类型为 arraybuffer
+      })
+          .then(response => {
+            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); // 创建一个 Blob 对象
+            const url = window.URL.createObjectURL(blob); // 创建一个 URL 对象
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', '讲师信息.xlsx'); // 设置下载文件名，确保是 Excel 格式（.xlsx）
+            document.body.appendChild(link);
+            link.click(); // 模拟点击链接进行下载
+            link.parentNode.removeChild(link); // 下载完成后移除元素
+          })
+          .catch(error => {
+            // 处理下载失败的情况
+            // console.error('下载失败', error);
+            ElMessage.error('下载失败');
+          });
     },
     downloadTemplate() {
       axios({

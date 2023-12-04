@@ -2,6 +2,7 @@ package com.hitwh.haoqitms.service.impl.executor;
 
 import com.hitwh.haoqitms.entity.Employee;
 import com.hitwh.haoqitms.mapper.EmployeeMapper;
+import com.hitwh.haoqitms.service.ExcelService;
 import com.hitwh.haoqitms.service.executor.ExecutorInstructorService;
 import com.hitwh.haoqitms.utils.UserNameAndPassWordGenerator;
 import org.apache.poi.ss.usermodel.*;
@@ -19,10 +20,12 @@ import java.util.List;
 @Service
 public class ExecutorInstructorServiceImpl implements ExecutorInstructorService {
     private final EmployeeMapper employeeMapper;
+    private final ExcelService excelService;
 
     @Autowired
-    public ExecutorInstructorServiceImpl(EmployeeMapper employeeMapper) {
+    public ExecutorInstructorServiceImpl(EmployeeMapper employeeMapper, ExcelService excelService) {
         this.employeeMapper = employeeMapper;
+        this.excelService = excelService;
     }
 
     @Override
@@ -106,5 +109,10 @@ public class ExecutorInstructorServiceImpl implements ExecutorInstructorService 
         } else {
             throw new RuntimeException("不是有效的 Excel 文件");
         }
+    }
+
+    @Override
+    public InputStream exportInstructor() {
+        return excelService.generateInstructorInfoExcel(employeeMapper.getAllInstructors());
     }
 }

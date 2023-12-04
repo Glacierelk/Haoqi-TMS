@@ -68,4 +68,11 @@ public interface EmployeeMapper {
     @Select("SELECT * FROM employee WHERE employee_type=1")
     List<Employee> getAllExecutors();
 
+    /**
+     * 获取所有讲师信息
+     * @return 讲师信息
+     */
+    @Select("SELECT * FROM employee WHERE employee_type=2")
+    List<Employee> getAllInstructors();
+
 }
