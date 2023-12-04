@@ -30,7 +30,7 @@
         <el-table-column label="结束时间" prop="endDate" width="170px"></el-table-column>
         <el-table-column label="地点" prop="location"></el-table-column>
         <el-table-column label="课程费用" prop="courseFee" ></el-table-column>
-        <el-table-column label="操作" width="260px" align="center" >
+        <el-table-column label="操作" width="500px" align="center" >
           <template v-slot="scope">
             <!-- 修改按钮 -->
             <el-button type="primary"   @click="openChangeCourse(scope.row)">修改</el-button>
@@ -38,12 +38,8 @@
             <el-button type="danger"   @click="removeData(scope.row)">删除</el-button>
             <!-- 查看所授课程按钮 -->
             <el-button type="success"   @click="searchInstructor">查看讲师</el-button>
+            <el-button type="primary" @click="postCourseAlerts(scope.row)">发布课程参加提醒</el-button>
           </template>
-        </el-table-column>
-        <el-table-column label="" width="180px" fixed="right">
-        <template v-slot="scope">
-          <el-button  type="info" @click="postCourseAlerts(scope.row)">发布课程参加提醒</el-button>
-        </template>
         </el-table-column>
       </el-table>
       <!-- 展示审批通过的内容的区域  -->
@@ -198,16 +194,27 @@ export default {
       this.$router.push({name:'ExecutorChangeInstructor',query:{name:'ExecutorInstructorCourse'}});
     },
     postCourseAlerts(row){
-      console.log("row.courseId"+row.courseId);
-      axios.get(`/executor/course/email/${row.courseId}`).then(
-          response => {
-            this.$message.success("发布成功");
-          },
-          response => {
-            console.log("error");
-            alert("请求失败");
-          }
-      );
+      // console.log("row.courseId"+row.courseId);
+      axios({
+        url: `/executor/course/email/${row.courseId}`,
+        method: 'GET',
+        responseType: 'arraybuffer', // 设置响应数据类型为 arraybuffer
+      })
+          .then(response => {
+            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); // 创建一个 Blob 对象
+            const url = window.URL.createObjectURL(blob); // 创建一个 URL 对象
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', '学生邮箱.xlsx'); // 设置下载文件名，确保是 Excel 格式（.xlsx）
+            document.body.appendChild(link);
+            link.click(); // 模拟点击链接进行下载
+            link.parentNode.removeChild(link); // 下载完成后移除元素
+          })
+          .catch(error => {
+            // 处理下载失败的情况
+            // console.error('下载失败', error);
+            ElMessage.error('下载失败');
+          });
     },
     //打开并展示审批通过的内容
     openApprovalTraining(){
