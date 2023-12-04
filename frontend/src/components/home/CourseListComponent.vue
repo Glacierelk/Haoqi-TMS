@@ -271,7 +271,7 @@ const showRegisterDialog = (row) => {
   courseId.value = row.courseId;
   courseName.value = row.name;
   resetRegisterForm();
-  registerDialogVisible.value = true;a
+  registerDialogVisible.value = true;
 }
 
 const search = () => {

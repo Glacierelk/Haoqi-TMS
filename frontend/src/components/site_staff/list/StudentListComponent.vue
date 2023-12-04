@@ -47,7 +47,7 @@
         >
       </template>
     </el-table-column>
-    <el-table-column label="联系电话" prop="phone" width="150"/>
+    <el-table-column label="联系电话" prop="contactInfo" width="150"/>
     <el-table-column label="邮箱" prop="email" width="200"/>
     <el-table-column label="公司名称" prop="companyName" width="1000"/>
     <el-table-column align="center" fixed="right" label="操作" width="160">
@@ -197,7 +197,7 @@ const handleCurrentChange = (val) => {
 }
 
 const search = () => {
-  axios.get(`/staff/students_list/${props.query.courseId}/${props.query.name}/${props.query.phone}/${props.query.companyName}/${pageSize.value}/${currentPage.value}`)
+  axios.get(`/staff/students_list/${props.query.courseId}/${props.query.name}/${props.query.contactInfo}/${props.query.companyName}/${pageSize.value}/${currentPage.value}`)
       .then(res => {
         if (res.data.flag) {
           // ElMessage({
@@ -225,7 +225,7 @@ const search = () => {
 }
 
 const getCount = () => {
-  axios.get(`/staff/students_list/${props.query.courseId}/${props.query.name}/${props.query.phone}/${props.query.companyName}/0/0`)
+  axios.get(`/staff/students_list/${props.query.courseId}/${props.query.name}/${props.query.contactInfo}/${props.query.companyName}/0/0`)
       .then(res => {
         if (res.data.flag) {
           dataCount.value = res.data.data;
