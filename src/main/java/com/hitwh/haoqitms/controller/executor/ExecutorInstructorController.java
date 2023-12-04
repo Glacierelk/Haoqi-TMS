@@ -4,8 +4,15 @@ import com.hitwh.haoqitms.entity.Employee;
 import com.hitwh.haoqitms.entity.ResultInfo;
 import com.hitwh.haoqitms.service.executor.ExecutorInstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RequestMapping("/executor/Instructor")
@@ -63,6 +70,34 @@ public class ExecutorInstructorController {
     @GetMapping("/getAllTeachers")
     public List<Employee> getAllTeachers(){
         return executorInstructorService.getAllTeachers();
+    }
+
+    /**
+     * 下载讲师批量导入模板
+     *
+     * @return excel文件流
+     */
+    @GetMapping("/importTemplate")
+    public ResponseEntity<InputStreamResource> downloadTemplate(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        try {
+            String encodedFileName = URLEncoder.encode("讲师批量导入模板.xlsx", StandardCharsets.UTF_8);
+            headers.add("Content-Disposition", "attachment; filename*=UTF-8''" + encodedFileName);
+        } catch (Exception e) {
+            headers.add("Content-Disposition", "attachment; filename=instructor_import_template.xlsx");
+        }
+
+        try {
+            InputStream inputStream = executorInstructorService.getTemplate();
+            InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(inputStreamResource);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().headers(headers).build();
+        }
     }
 
 }

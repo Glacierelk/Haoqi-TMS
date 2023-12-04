@@ -6,6 +6,9 @@ import com.hitwh.haoqitms.service.executor.ExecutorInstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 @Service
@@ -40,5 +43,10 @@ public class ExecutorInstructorServiceImpl implements ExecutorInstructorService 
     @Override
     public List<Employee> getAllTeachers() {
         return employeeMapper.getAllTeachers();
+    }
+
+    @Override
+    public InputStream getTemplate() throws FileNotFoundException {
+        return new FileInputStream("src/main/resources/templates/instructor_import.xlsx");
     }
 }
