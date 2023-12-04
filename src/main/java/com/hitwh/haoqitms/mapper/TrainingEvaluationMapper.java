@@ -37,7 +37,7 @@ public interface TrainingEvaluationMapper {
      * @param trainingEvaluation
      * @return
      */
-    @Insert("insert into training_evaluation(course_id, student_id, satisfaction_level, comments) " +
-            "values(#{courseId}, #{studentId}, #{satisfaction_level}， #{comments})")
+    @Insert("insert into training_evaluation(course_id, student_id, satisfaction_level, comments, evaluation_time) " +
+            "values(#{courseId}, #{studentId}, #{satisfactionLevel}, #{comments}, #{evaluationTime})")
     Boolean createTrainingEvaluation(TrainingEvaluation trainingEvaluation);
 }

@@ -152,4 +152,5 @@ public interface CourseMapper {
      */
     @Select("select * from course where instructor_id = #{employee_id}")
     List<Course> getAllYourCourse(Integer employee_id);
+
 }

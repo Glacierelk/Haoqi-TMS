@@ -62,5 +62,13 @@ public interface StudentCourseViewMapper {
     @Select("select * from student_course_view where course_id = #{courseId} and paid = true")
     List<StudentCourse> getPaidStudentsByCourseId(Integer courseId);
 
+    /**
+     * 根据课程id和学生id更新课程评价状态
+     * @param studentId, courseId 学生id, 课程id
+     * @return 是否更新成功
+     */
+    @Update("update student_course set is_evaluated = 1 " +
+            "where student_id = #{studentId} and course_id = #{courseId}")
+    Boolean updateStudentEvaluationStatus(Integer studentId, Integer courseId);
 
 }

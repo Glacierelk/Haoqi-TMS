@@ -5,12 +5,11 @@ import com.hitwh.haoqitms.entity.TrainingEvaluation;
 import com.hitwh.haoqitms.service.StudentService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-@RequestMapping("/trainingEvaluation")
+@RequestMapping("/student")
 @RestController
 public class StudentController {
     private final StudentService studentService;
@@ -20,22 +19,41 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/createTrainingEvaluation")
     public ResultInfo create(HttpServletRequest request, @RequestBody TrainingEvaluation trainingEvaluation){
         ResultInfo info = new ResultInfo();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        trainingEvaluation.setEvaluationTime(LocalDateTime.now().format(formatter));
+        System.out.println(trainingEvaluation);
         try {
-            Boolean result = studentService.createTrainingEvaluation(trainingEvaluation);
-            if (result) {
+            boolean flag = studentService.createTrainingEvaluation(trainingEvaluation);
+            if(flag){
                 info.setFlag(true);
-            } else {
+            }else{
                 info.setFlag(false);
-                info.setErrorMsg("创建失败");
+                info.setErrorMsg("未签到或未付款或已评价，无法创建课程评价");
             }
+        }catch (Exception e){
+            info.setFlag(false);
+            info.setErrorMsg("创建课程评价失败");
+        }
+        return info;
+    }
+
+    /**
+     * 根据学生id查询课程列表
+     */
+    @GetMapping("/getCourseList/{studentId}")
+    public ResultInfo getCourseList(@PathVariable(value="studentId") Integer studentId){
+        ResultInfo info = new ResultInfo();
+        try {
+            info.setFlag(true);
+            info.setData(studentService.getCourseListByStudentId(studentId));
         } catch (Exception e) {
             info.setFlag(false);
-            info.setErrorMsg("创建失败,请检查是否已经评价过");
+            info.setErrorMsg("获取课程列表失败");
+            e.printStackTrace();
         }
-
         return info;
     }
 }
