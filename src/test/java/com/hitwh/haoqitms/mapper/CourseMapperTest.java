@@ -91,4 +91,11 @@ class CourseMapperTest {
     void getCourseCountByName() {
         System.out.println(courseMapper.getCourseCountByName(null));
     }
+
+    @Test
+    void insertRevenue() {
+        for (int i = 1; i <= 1000; ++i) {
+            courseMapper.updateRevenueByCourseId(i, 1234.15);
+        }
+    }
 }

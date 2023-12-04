@@ -1,10 +1,9 @@
 package com.hitwh.haoqitms.mapper;
 
 import com.hitwh.haoqitms.entity.Student;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+
+import org.apache.ibatis.annotations.*;
+
 
 import java.util.List;
 
@@ -27,9 +26,31 @@ public interface StudentMapper {
      */
     @Select("SELECT * FROM student WHERE email = #{email} AND contact_info = #{contactInfo}")
     Student getStudentByEmailAndPhone(String email, String contactInfo);
+  
+     /**
+     * 获取所有学生的所有信息
+     *
+     * @return 所有学生的所有信息
+     */
+    @Select("SELECT * FROM student")
+    List<Student> getAllStudentAllInfo();
 
     /**
-     * 新增学员选课记录
+     * 修改学生的信息
      */
+    @Update("UPDATE student SET "+
+            "name=#{name},"+
+            "contact_info=#{contactInfo},"+
+            "email=#{email},"+
+            "job_position=#{jobPosition},"+
+            "skill_level=#{skillLevel},"+
+            "company_name=#{companyName},"+
+            "gender=#{gender} "+
+            "WHERE student_id=#{studentId}")
+    Boolean updateStudent(Student student);
+
+    @Delete("DELETE FROM student WHERE student_id=#{studentId}")
+    Boolean deleteStudent(Integer studentId);
+
 
 }

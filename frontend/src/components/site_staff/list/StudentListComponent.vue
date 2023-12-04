@@ -23,8 +23,7 @@
             :type="scope.row.attendance ? 'success' : 'warning'"
             disable-transitions
         >{{ scope.row.attendance ? '已签到' : '未签到' }}
-        </el-tag
-        >
+        </el-tag>
       </template>
     </el-table-column>
     <el-table-column
@@ -207,6 +206,7 @@ const search = () => {
           //   duration: 2 * 1000
           // });
           tableData.value = res.data.data;
+          console.log(tableData.value)
         } else {
           ElMessage({
             message: '查询失败!',

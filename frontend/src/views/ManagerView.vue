@@ -11,7 +11,16 @@
         <TrainingApplicationComponent/>
       </a-tab-pane>
 
-      <a-tab-pane key="2" tab="待完善">
+      <a-tab-pane key="2" tab="培训课程汇总">
+        <CourseSummaryComponent/>
+      </a-tab-pane>
+
+      <a-tab-pane key="3" tab="执行人工作情况汇总">
+        <ExecutorSummaryComponent/>
+      </a-tab-pane>
+
+      <a-tab-pane key="4" tab="讲师、学员情况汇总">
+        <InstructorSummaryComponent/>
       </a-tab-pane>
 
       <template #rightExtra>
@@ -25,10 +34,13 @@
 
 <script setup>
 
+import axios from "axios";
 import { ref, reactive } from 'vue';
 import {ElMessage} from "element-plus";
 import TrainingApplicationComponent from "@/components/manager/TrainingApplicationComponent.vue";
-import axios from "axios";
+import CourseSummaryComponent from "@/components/manager/CourseSummaryComponent.vue";
+import ExecutorSummaryComponent from "@/components/manager/ExecutorSummaryComponent.vue";
+import InstructorSummaryComponent from "@/components/manager/InstructorSudentSummaryComponent.vue";
 
 const activeKey = ref('1');
 const font = reactive({
@@ -46,7 +58,8 @@ function checkLogin() {
   });
 }
 
-checkLogin();
+// TODO need to check
+// checkLogin();
 
 function logout() {
   axios.get('/user/logout').then((res) => {

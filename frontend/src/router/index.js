@@ -43,7 +43,7 @@ const router = createRouter({
     {
       path: '/manager',
         name: 'manager',
-        component: () => import('../views/Manager/ManagerView.vue'),
+        component: () => import('../views/ManagerView.vue'),
     },
     {
       path: '/executor',

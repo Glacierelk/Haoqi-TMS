@@ -53,4 +53,14 @@ public interface StudentCourseViewMapper {
             "values(#{studentId}, #{courseId}, #{paid}, #{attendance})")
     Boolean createStudentCourse(StudentCourse studentCourse);
 
+    /**
+     * 根据课程id获取已缴费学生信息
+     *
+     * @param courseId 课程id
+     * @return 已缴费学生信息列表
+     */
+    @Select("select * from student_course_view where course_id = #{courseId} and paid = true")
+    List<StudentCourse> getPaidStudentsByCourseId(Integer courseId);
+
+
 }
