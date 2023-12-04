@@ -59,8 +59,7 @@ function submitForm() {
               router.push('/manager');
               break;
             case 1:
-              // TODO 跳转到执行人界面
-              // router.push('/');
+              router.push('/executor');
               break;
             case 2:
               // TODO 跳转到教师界面

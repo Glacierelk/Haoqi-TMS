@@ -10,8 +10,8 @@
             <if test='studentCourse.name != null and studentCourse.name != ""'>
                 AND name like #{studentCourse.name}
             </if>
-            <if test='studentCourse.phone != null and studentCourse.phone != ""'>
-                AND phone = #{studentCourse.phone}
+            <if test='studentCourse.contactInfo != null and studentCourse.contactInfo != ""'>
+                AND contact_info = #{studentCourse.contactInfo}
             </if>
             <if test='studentCourse.companyName != null and studentCourse.companyName != ""'>
                 AND company_name like #{studentCourse.companyName}
@@ -27,8 +27,8 @@
             <if test='studentCourse.name != null and studentCourse.name != ""'>
                 AND name like #{studentCourse.name}
             </if>
-            <if test='studentCourse.phone != null and studentCourse.phone != ""'>
-                AND phone = #{studentCourse.phone}
+            <if test='studentCourse.contactInfo != null and studentCourse.contactInfo != ""'>
+                AND contact_info = #{studentCourse.contactInfo}
             </if>
             <if test='studentCourse.companyName != null and studentCourse.companyName != ""'>
                 AND company_name like #{studentCourse.companyName}

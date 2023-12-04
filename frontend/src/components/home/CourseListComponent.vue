@@ -15,7 +15,7 @@
     </el-table-column>
     <el-table-column label="课程介绍" prop="description" width="1000">
       <template #default="{ row }">
-        <span>{{ row.description.length <= 300 ? row.description : row.description.substring(0, 300) + "..." }}</span>
+        <span>{{ row.description != null ? (row.description.length <= 300 ? row.description : row.description.substring(0, 300) + "...") : "无" }}</span>
       </template>
     </el-table-column>
     <el-table-column align="center" fixed="right" label="操作" width="180">
@@ -145,7 +145,7 @@
 <script setup>
 
 import {ElMessageBox, ElMessage} from "element-plus";
-import {defineProps, ref, watch} from 'vue';
+import { defineProps, ref, watch } from 'vue';
 import axios from "axios";
 
 const registerDialogVisible = ref(false);
@@ -208,7 +208,6 @@ const resetRegisterForm = () => {
 }
 
 const submitRegistration = (row) => {
-  // TODO 提交报名表
   registerDialogVisible.value = true;
   axios.post(`/home/createCourseApplication`, {
     "courseId": courseId.value,
@@ -221,7 +220,6 @@ const submitRegistration = (row) => {
     "promoCode": registerForm.value.promoCode,
     "jobPosition": registerForm.value.jobPosition,
     "skillLevel": registerForm.value.skillLevel
-
   }).then(
       res => {
         // console.log(res);
@@ -285,6 +283,7 @@ const search = () => {
           // });
           dataCount.value = res.data.data.total;
           tableData.value = res.data.data.data;
+          console.log('课程列表', tableData.value)
         } else {
           ElMessage({
             message: "查询失败",
@@ -302,8 +301,9 @@ const search = () => {
   });
 }
 
-fetchCompanyList()
 search();
+fetchCompanyList()
+
 </script>
 
 <style scoped>

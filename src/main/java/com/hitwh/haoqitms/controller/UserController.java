@@ -29,8 +29,10 @@ public class UserController {
         User existUser = userService.login(user.getUsername(), user.getPassword());
         ResultInfo info = new ResultInfo();
         if (null != existUser) {
-            HttpSession session = request.getSession();
-            session.setAttribute("user", existUser);
+//            HttpSession session = request.getSession();
+//            session.setAttribute("user", existUser);
+//            System.out.println("existUser = " + existUser);
+//            System.out.println("session = " + session.getAttribute("user"));
             info.setFlag(true);
             info.setData(existUser);
         } else {
@@ -70,6 +72,7 @@ public class UserController {
         try {
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
+            System.out.println("user = " + user);
             if (user != null) {
                 info.setFlag(true);
                 info.setData(user);

@@ -42,7 +42,7 @@ function checkLogin() {
   });
 }
 
-checkLogin();
+// checkLogin();
 
 function logout() {
   axios.get('/user/logout').then((res) => {
