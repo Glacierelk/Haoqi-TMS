@@ -98,4 +98,10 @@ class CourseMapperTest {
             courseMapper.updateRevenueByCourseId(i, 1234.15);
         }
     }
+
+
+    @Test
+    void courseMapper() {
+        courseMapper.getAllYourCourse(144);
+    }
 }
