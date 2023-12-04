@@ -7,11 +7,19 @@
         size="large"
     >
       <a-tab-pane key="1" tab="审批学员培训报名">
-      <ApprovingRegistrationComponent/>
+        <ApprovingRegistrationComponent/>
       </a-tab-pane>
 
-      <a-tab-pane key="2" tab="待添加">
+      <a-tab-pane key="2" tab="管理课程">
+        <ExecutorInstructorCourseComponent/>
+      </a-tab-pane>
 
+      <a-tab-pane key="3" tab="管理讲师">
+        <ExecutorChangeInstructorComponent/>
+      </a-tab-pane>
+
+      <a-tab-pane key="4" tab="管理学生">
+        <ExecutorChangeStudentComponent/>
       </a-tab-pane>
 
       <template #rightExtra>
@@ -26,6 +34,9 @@
 
 import { ref } from 'vue';
 import ApprovingRegistrationComponent from '@/components/executor/ApprovingRegistrationComponent.vue';
+import ExecutorChangeStudentComponent from "../components/executor/ExecutorChangeStudentComponent.vue";
+import ExecutorChangeInstructorComponent from "../components/executor/ExecutorChangeInstructorComponent.vue";
+import ExecutorInstructorCourseComponent from "../components/executor/ExecutorInstructorCourseComponent.vue";
 import {ElMessage} from "element-plus";
 import axios from "axios";
 

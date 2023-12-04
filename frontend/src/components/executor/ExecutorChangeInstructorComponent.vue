@@ -39,7 +39,7 @@
       <!-- 添加用户的对话框 -->
       <el-dialog v-model="addDialogVisible" title="添加讲师" width="40%"  >
         <!-- 内容主体区域 -->
-        <el-form ref="addFormRef" :model="addForm" label-width="70px">
+        <el-form ref="addFormRef" :model="addForm" label-width="auto">
           <el-form-item label="姓名" prop="name">
             <el-input v-model="addForm.name"></el-input>
           </el-form-item>
@@ -67,7 +67,7 @@
       <!-- 修改用户的对话框 -->
       <el-dialog v-model="changeDialogVisible" title="修改讲师" width="40%"  >
         <!-- 内容主体区域 -->
-        <el-form ref="addFormRef" :model="changeForm" label-width="70px">
+        <el-form ref="addFormRef" :model="changeForm" label-width="auto" >
           <el-form-item label="姓名" prop="name">
             <el-input v-model="changeForm.name"></el-input>
           </el-form-item>
@@ -118,7 +118,8 @@ export default {
         contactInfo: '',
         email: '',
         title: '',
-        expertiseArea: ''
+        expertiseArea: '',
+        employeeType:'2'
       },
       changeForm: {
         employeeId:'',
@@ -139,7 +140,7 @@ export default {
   methods: {
      getUserList () {
        axios
-           .get("/executor/Instructor/search")
+           .get("/executor/Instructor/getAllTeachers")
            .then(
                response => {
                  this.instructorList = response.data;
@@ -210,6 +211,11 @@ export default {
           .then((response) => {
             this.$message.success("添加成功");
             // 添加成功后刷新数据
+            this.addForm.name='';
+            this.addForm.contactInfo='';
+            this.addForm.email='';
+            this.addForm.title='';
+            this.addForm.expertiseArea='';
             this.getUserList();
             // 关闭添加对话框
             this.addDialogVisible = false;
