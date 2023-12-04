@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseApplication {
-    private Integer courseId;
     private Integer applicationId;
+    private Integer courseId;
     private Integer studentId;
     private String courseName;
     private String name;
@@ -21,5 +21,6 @@ public class CourseApplication {
     private String jobPosition;
     private String skillLevel;
     private String contactInfo;
-
+    // 0 待审批 1 通过 2 拒绝
+    private Integer status;
 }

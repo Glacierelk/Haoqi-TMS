@@ -1,10 +1,7 @@
 package com.hitwh.haoqitms.mapper;
 
 import com.hitwh.haoqitms.entity.StudentCourse;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -47,6 +44,16 @@ public interface StudentCourseViewMapper {
     Boolean updateStudentAttendanceStatus(Integer studentId, Integer courseId, Boolean attendance);
 
     /**
+     * 新增学员选课记录
+     *
+     * @param studentCourse 学员选课记录
+     * @return 是否新增成功
+     */
+    @Insert("insert into student_course(student_id, course_id, paid, attendance) " +
+            "values(#{studentId}, #{courseId}, #{paid}, #{attendance})")
+    Boolean createStudentCourse(StudentCourse studentCourse);
+
+    /**
      * 根据课程id获取已缴费学生信息
      *
      * @param courseId 课程id
@@ -54,5 +61,6 @@ public interface StudentCourseViewMapper {
      */
     @Select("select * from student_course_view where course_id = #{courseId} and paid = true")
     List<StudentCourse> getPaidStudentsByCourseId(Integer courseId);
+
 
 }
