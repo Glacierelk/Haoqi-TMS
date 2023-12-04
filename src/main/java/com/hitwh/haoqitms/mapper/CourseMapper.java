@@ -145,4 +145,5 @@ public interface CourseMapper {
     @Select("select course_fee from course where course_id = #{courseId}")
     Double getCourseFeeByCourseId(Integer courseId);
 
+
 }
