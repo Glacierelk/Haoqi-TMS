@@ -2,18 +2,18 @@ package com.hitwh.haoqitms.controller.manager;
 
 import com.hitwh.haoqitms.entity.ResultInfo;
 import com.hitwh.haoqitms.entity.TrainingApplication;
-import com.hitwh.haoqitms.service.TrainingApplicationService;
+import com.hitwh.haoqitms.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/manager/application")
 @RestController
 public class ManagerTrainingApplicationController {
-    private final TrainingApplicationService trainingApplicationService;
+    private final HomeService homeService;
 
     @Autowired
-    public ManagerTrainingApplicationController(TrainingApplicationService trainingApplicationService) {
-        this.trainingApplicationService = trainingApplicationService;
+    public ManagerTrainingApplicationController(HomeService homeService) {
+        this.homeService = homeService;
     }
 
     /**
@@ -39,7 +39,7 @@ public class ManagerTrainingApplicationController {
         ResultInfo resultInfo = new ResultInfo();
         try {
             resultInfo.setFlag(true);
-            resultInfo.setData(trainingApplicationService.selectTrainingApplications(trainingApplication, pageSize, currentPage));
+            resultInfo.setData(homeService.selectTrainingApplications(trainingApplication, pageSize, currentPage));
         } catch (Exception e) {
             resultInfo.setFlag(false);
             resultInfo.setErrorMsg("获取培训申请列表失败");
@@ -56,7 +56,7 @@ public class ManagerTrainingApplicationController {
     public ResultInfo acceptApplication(@PathVariable("application_id") Integer applicationId){
         ResultInfo resultInfo = new ResultInfo();
         try {
-            resultInfo.setFlag(trainingApplicationService.acceptApplication(applicationId));
+            resultInfo.setFlag(homeService.acceptApplication(applicationId));
         } catch (Exception e) {
             resultInfo.setFlag(false);
             resultInfo.setErrorMsg("接受培训申请失败");
@@ -73,7 +73,7 @@ public class ManagerTrainingApplicationController {
     public ResultInfo rejectApplication(@PathVariable("application_id") Integer applicationId){
         ResultInfo resultInfo = new ResultInfo();
         try {
-            resultInfo.setFlag(trainingApplicationService.rejectApplication(applicationId));
+            resultInfo.setFlag(homeService.rejectApplication(applicationId));
         } catch (Exception e) {
             resultInfo.setFlag(false);
             resultInfo.setErrorMsg("拒绝培训申请失败");

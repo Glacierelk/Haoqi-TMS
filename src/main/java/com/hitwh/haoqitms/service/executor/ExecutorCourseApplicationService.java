@@ -1,12 +1,10 @@
-package com.hitwh.haoqitms.service;
+package com.hitwh.haoqitms.service.executor;
 
 import com.hitwh.haoqitms.entity.CourseApplication;
-import com.hitwh.haoqitms.entity.Student;
-import com.hitwh.haoqitms.entity.StudentCourse;
 
 import java.util.List;
 
-public interface CourseApplicationService {
+public interface ExecutorCourseApplicationService {
     /**
      * 新建课程申请
      *

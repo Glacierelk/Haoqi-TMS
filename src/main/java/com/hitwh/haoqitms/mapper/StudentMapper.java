@@ -52,5 +52,12 @@ public interface StudentMapper {
     @Delete("DELETE FROM student WHERE student_id=#{studentId}")
     Boolean deleteStudent(Integer studentId);
 
+    /**
+     * 查询学生的总数
+     *
+     * @return 学生的总数
+     */
+    @Select("SELECT COUNT(*) FROM student")
+    Integer countTotalStudent();
 
 }

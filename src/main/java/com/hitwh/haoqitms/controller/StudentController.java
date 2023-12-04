@@ -2,7 +2,7 @@ package com.hitwh.haoqitms.controller;
 
 import com.hitwh.haoqitms.entity.ResultInfo;
 import com.hitwh.haoqitms.entity.TrainingEvaluation;
-import com.hitwh.haoqitms.service.TrainingEvaluationService;
+import com.hitwh.haoqitms.service.StudentService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/trainingEvaluation")
 @RestController
-public class TrainingEvaluationController {
-    private final TrainingEvaluationService trainingEvaluationService;
+public class StudentController {
+    private final StudentService studentService;
 
     @Autowired
-    public TrainingEvaluationController(TrainingEvaluationService trainingEvaluationService) {
-        this.trainingEvaluationService = trainingEvaluationService;
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
 
     @PostMapping("/create")
     public ResultInfo create(HttpServletRequest request, @RequestBody TrainingEvaluation trainingEvaluation){
         ResultInfo info = new ResultInfo();
         try {
-            Boolean result = trainingEvaluationService.createTrainingEvaluation(trainingEvaluation);
+            Boolean result = studentService.createTrainingEvaluation(trainingEvaluation);
             if (result) {
                 info.setFlag(true);
             } else {

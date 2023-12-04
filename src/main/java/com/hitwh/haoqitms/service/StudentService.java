@@ -2,7 +2,7 @@ package com.hitwh.haoqitms.service;
 
 import com.hitwh.haoqitms.entity.TrainingEvaluation;
 
-public interface TrainingEvaluationService {
+public interface StudentService {
     /**
      * 创建培训评价[学员]
      * @param trainingEvaluation

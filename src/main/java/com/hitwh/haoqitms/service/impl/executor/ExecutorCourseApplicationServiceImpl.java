@@ -1,4 +1,4 @@
-package com.hitwh.haoqitms.service.impl;
+package com.hitwh.haoqitms.service.impl.executor;
 
 import com.hitwh.haoqitms.entity.CourseApplication;
 import com.hitwh.haoqitms.entity.Student;
@@ -6,7 +6,7 @@ import com.hitwh.haoqitms.entity.StudentCourse;
 import com.hitwh.haoqitms.mapper.CourseApplicationMapper;
 import com.hitwh.haoqitms.mapper.StudentCourseViewMapper;
 import com.hitwh.haoqitms.mapper.StudentMapper;
-import com.hitwh.haoqitms.service.CourseApplicationService;
+import com.hitwh.haoqitms.service.executor.ExecutorCourseApplicationService;
 import com.hitwh.haoqitms.utils.UserNameAndPassWordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CourseApplicationServiceImpl implements CourseApplicationService {
+public class ExecutorCourseApplicationServiceImpl implements ExecutorCourseApplicationService {
     private final CourseApplicationMapper courseApplicationMapper;
     private final StudentMapper studentMapper;
     private final StudentCourseViewMapper studentCourseViewMapper;
 
     @Autowired
-    public CourseApplicationServiceImpl(CourseApplicationMapper courseApplicationMapper, StudentMapper studentMapper, StudentCourseViewMapper studentCourseViewMapper) {
+    public ExecutorCourseApplicationServiceImpl(CourseApplicationMapper courseApplicationMapper, StudentMapper studentMapper, StudentCourseViewMapper studentCourseViewMapper) {
         this.courseApplicationMapper = courseApplicationMapper;
         this.studentMapper = studentMapper;
         this.studentCourseViewMapper = studentCourseViewMapper;

@@ -1,9 +1,9 @@
-package com.hitwh.haoqitms.service;
+package com.hitwh.haoqitms.service.manager;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
 public interface ManagerInstructorService {
     @GetMapping("/total")
-    public Integer countTotalInstructor();
+    Integer countTotalInstructor();
 
 }
