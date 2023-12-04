@@ -50,6 +50,7 @@ public class StaffController {
                 info.setData(staffService.getStudents(studentCourse, pageSize, currentPage));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             info.setFlag(false);
             info.setErrorMsg("获取学员列表失败");
         }

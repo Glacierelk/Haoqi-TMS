@@ -27,7 +27,6 @@
                   v-model:value="formState[names[i-1]]"
                   style="width: 100%"
                   :options="options"
-
               />
             </a-form-item>
 
