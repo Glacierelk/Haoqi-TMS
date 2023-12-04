@@ -24,11 +24,6 @@ const router = createRouter({
           component: () => import('../views/Instructor/InstructorSearchInformation.vue')
         },
         {
-          path: 'ExecutorChangeInstructor',
-          name: 'ExecutorChangeInstructor',
-          component: () => import('../views/Executor/ExecutorChangeInstructorold.vue')
-        },
-        {
           path: 'ExecutorChangeInstructor2',
           name: 'ExecutorChangeInstructor2',
           component: () => import('../views/Executor/ExecutorChangeInstructor.vue')

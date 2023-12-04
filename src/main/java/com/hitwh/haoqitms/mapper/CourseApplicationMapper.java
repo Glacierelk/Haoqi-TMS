@@ -54,6 +54,7 @@ public interface CourseApplicationMapper {
     @Update("update course_application set student_id = #{studentId} where application_id = #{applicationId}")
     Boolean backPatchStudentId(Integer applicationId, Integer studentId);
 
+    /**
      * 获取团报申请的学生列表
      * @param courseId 课程编号
      * @return 学生列表
