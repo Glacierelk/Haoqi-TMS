@@ -49,6 +49,7 @@ public interface CourseMapper {
      */
     @Insert("insert into course(name, company_name, description, start_date, end_date, location, course_fee, instructor_id, executor_id) " +
             "values(#{name}, #{companyName}, #{description}, #{startDate}, #{endDate}, #{location}, #{courseFee}, #{instructorId}, #{executorId})")
+    @Options(useGeneratedKeys = true, keyProperty = "courseId", keyColumn = "course_id")
     Boolean insertCourse(Course course);
 
     /**

@@ -2,6 +2,7 @@ package com.hitwh.haoqitms.controller.executor;
 
 import com.hitwh.haoqitms.entity.Course;
 import com.hitwh.haoqitms.entity.ResultInfo;
+import com.hitwh.haoqitms.entity.TrainingApplication;
 import com.hitwh.haoqitms.service.executor.ExecutorCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -120,4 +121,78 @@ public class ExecutorCourseController {
                 .headers(headers)
                 .body(inputStreamResource);
     }
+
+    /**
+     * 获取已通过的软件公司申请审批
+     * @return 已通过的软件公司申请审批
+     */
+    @GetMapping("/allApprovedTrainingApplication")
+    public ResultInfo getAllApprovedTrainingApplication(){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            resultInfo.setFlag(true);
+            resultInfo.setData(executorCourseService.getAllApprovedTrainingApplication());
+        } catch (Exception e) {
+            resultInfo.setFlag(false);
+            resultInfo.setErrorMsg("获取已通过的软件公司申请审批失败");
+        }
+        return resultInfo;
+    }
+
+    /**
+     * 根据培训申请新建课程
+     * @param course 课程信息
+     */
+    @PostMapping("/createCourse")
+    public ResultInfo createCourse(@RequestBody Course course){
+          ResultInfo resultInfo = new ResultInfo();
+          try {
+              boolean flag = executorCourseService.createCourse(course);
+              if(flag){
+                  resultInfo.setFlag(flag);
+              }else{
+                    resultInfo.setFlag(false);
+                    resultInfo.setErrorMsg("根据培训申请新建课程失败");
+              }
+          } catch (Exception e) {
+                resultInfo.setFlag(false);
+                resultInfo.setErrorMsg("error");
+          }
+          return resultInfo;
+    }
+
+    /**
+     * 获取所有讲师信息
+     * @return 所有讲师信息
+     */
+    @GetMapping("/allInstructor")
+    public ResultInfo getAllInstructor(){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            resultInfo.setFlag(true);
+            resultInfo.setData(executorCourseService.getAllInstructor());
+        } catch (Exception e) {
+            resultInfo.setFlag(false);
+            resultInfo.setErrorMsg("获取所有讲师信息失败");
+        }
+        return resultInfo;
+    }
+
+    /**
+     * 获取所有执行人
+     * @return 所有执行人
+     */
+    @GetMapping("/allExecutor")
+    public ResultInfo getAllExecutor(){
+        ResultInfo resultInfo = new ResultInfo();
+        try {
+            resultInfo.setFlag(true);
+            resultInfo.setData(executorCourseService.getAllExecutor());
+        } catch (Exception e) {
+            resultInfo.setFlag(false);
+            resultInfo.setErrorMsg("获取所有执行人失败");
+        }
+        return resultInfo;
+    }
+
 }

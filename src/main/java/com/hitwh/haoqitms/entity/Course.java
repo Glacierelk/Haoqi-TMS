@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Course {
+    private Integer applicationId;
     private Integer courseId;
     private String name;
     private String companyName;
