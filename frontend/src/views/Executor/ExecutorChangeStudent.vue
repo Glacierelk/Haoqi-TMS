@@ -19,14 +19,14 @@
       <el-table-column type="selection" width="55" align="center"></el-table-column>
       <el-table-column prop="studentId" label="学号" align="center"></el-table-column>
       <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-      <el-table-column prop="gender" label="性别" align="center"></el-table-column>
+      <el-table-column prop="gender" label="性别" align="center" width="70px"></el-table-column>
       <el-table-column prop="email" label="Email" align="center"></el-table-column>
       <el-table-column prop="companyName" label="公司名称" align="center"></el-table-column>
       <el-table-column prop="jobPosition" label="工作岗位" align="center"></el-table-column>
       <el-table-column prop="skillLevel" label="技术水平" align="center"></el-table-column>
       <el-table-column prop="contactInfo" label="联系方式" align="center"></el-table-column>
-      <el-table-column label="操作" align="center">
-        <template slot-scope="scope" class="active">
+      <el-table-column label="操作" align="center" width="200px">
+        <template v-slot="scope">
           <el-button @click="openChangeCourse(scope.row)" type="primary" >修改</el-button>
           <el-button @click="removeData(scope.row)" type="danger" >删除</el-button>
         </template>
@@ -35,11 +35,11 @@
     <el-dialog v-model="addDialogVisible" title="添加学员" width="40%"  >
       <!-- 内容主体区域 -->
       <el-form ref="addFormRef" :model="addForm" label-width="70px">
-        <el-form-item label="学号" prop="studentId">
-          <el-input v-model="addForm.studentId"></el-input>
-        </el-form-item>
         <el-form-item label="姓名" prop="name">
           <el-input v-model="addForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="Email" prop="gender">
+          <el-input v-model="addForm.email"></el-input>
         </el-form-item>
         <el-form-item label="性别" prop="gender">
           <el-input v-model="addForm.gender"></el-input>
@@ -61,21 +61,21 @@
       <template #footer>
       <span class="dialog-footer">
         <el-button @click="addDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleAdd">添加成功</el-button>
+        <el-button type="primary" @click="handleAdd">添加学员</el-button>
       </span>
       </template>
     </el-dialog>
     <el-dialog v-model="changeDialogVisible" title="修改学员" width="40%"  >
       <!-- 内容主体区域 -->
       <el-form ref="changeFormRef" :model="changeForm" label-width="70px">
-        <el-form-item label="学号" prop="studentId">
-          <el-input v-model="changeForm.studentId"></el-input>
-        </el-form-item>
         <el-form-item label="姓名" prop="name">
           <el-input v-model="changeForm.name"></el-input>
         </el-form-item>
         <el-form-item label="性别" prop="gender">
           <el-input v-model="changeForm.gender"></el-input>
+        </el-form-item>
+        <el-form-item label="Email" prop="gender">
+          <el-input v-model="addForm.email"></el-input>
         </el-form-item>
         <el-form-item label="公司名称" prop="companyName">
           <el-input v-model="changeForm.companyName"></el-input>
@@ -94,7 +94,7 @@
       <template #footer>
       <span class="dialog-footer">
         <el-button @click="changeDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="changeInstructor">修改确定</el-button>
+        <el-button type="primary" @click="changeInstructor">修改</el-button>
       </span>
       </template>
     </el-dialog>
@@ -142,9 +142,9 @@ export default {
   methods: {
     //获取后端数据
     getData() {
-      axios.get("url").then(
+      axios.get("/executor/student/getAll").then(
               response => {
-                this.tableData = response.data;
+                this.tableData = response.data.data;
               },
               response => {
                 console.log("error");
@@ -154,6 +154,7 @@ export default {
     },
     //打开修改框的时候把原来的数据填上
     openChangeCourse(row){
+      this.changeForm.studentId=row.studentId;
       this.changeForm.name=row.name;
       this.changeForm.gender=row.gender;
       this.changeForm.email=row.email;
@@ -167,7 +168,7 @@ export default {
     changeInstructor() {
       console.log("changeForm" + this.changeForm.name)
       axios
-          .put("url", this.changeForm)
+          .post("/executor/student/update", this.changeForm)
           .then((response) => {
             this.$message.success("修改成功");
             // 添加成功后刷新数据
@@ -185,7 +186,7 @@ export default {
     handleAdd(){
       // 在这里执行编辑操作，例如提交表单数据到后端
       axios
-          .post("url", this.addForm)
+          .post("/executor/student/create", this.addForm)
           .then((response) => {
             this.$message.success("添加成功");
             // 添加成功后刷新数据
