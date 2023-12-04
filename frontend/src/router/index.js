@@ -17,7 +17,7 @@ const router = createRouter({
           path: 'login',
           name: 'login',
           component: () => import('../views/LoginView.vue'),
-          meta: { requiresAuth: true }
+          meta: { requiresAuth: false }
         }
       ]
     },
@@ -25,26 +25,25 @@ const router = createRouter({
       path:'/staff',
       name: 'staff',
       component: () => import('../views/SiteStaffView.vue'),
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: false }
     },
     {
       path: '/manager',
         name: 'manager',
         component: () => import('../views/ManagerView.vue'),
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: false }
     },
     {
       path: '/executor',
         name: 'executor',
         component: () => import('../views/ExecutorView.vue'),
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: false }
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    next();
     // 检查用户是否已登录或者有相应的认证状态，可以在这里添加你的认证逻辑
     // 例如，你可以检查用户是否有 token 或者其他认证信息
     const isAuthenticated = checkAuth(); // 自定义的检查认证状态的函数

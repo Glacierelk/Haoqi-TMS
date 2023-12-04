@@ -54,6 +54,7 @@ function submitForm() {
             type: 'success',
             duration: 2 * 1000
           });
+          // localStorage.setItem("token", res.data.errorMsg);
           switch (res.data.data.userType) {
             case 0:
               router.push('/manager');

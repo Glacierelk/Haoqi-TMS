@@ -33,6 +33,7 @@ public class ExecutorStudentController {
      */
     @GetMapping("/email/download")
     public ResponseEntity<InputStreamResource> downloadEmail(){
+        System.out.println("download email");
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
         try {

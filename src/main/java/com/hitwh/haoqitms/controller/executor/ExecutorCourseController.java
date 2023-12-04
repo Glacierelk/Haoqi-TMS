@@ -103,6 +103,7 @@ public class ExecutorCourseController {
 
     @GetMapping("/email/{course_id}")
     public ResponseEntity<InputStreamResource> downloadEmail(@PathVariable("course_id") Integer courseId){
+        System.out.println("downloadEmail" + courseId);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
         try {
