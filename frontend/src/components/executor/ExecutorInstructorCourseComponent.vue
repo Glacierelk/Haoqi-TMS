@@ -22,15 +22,15 @@
       </el-row>
       <!-- 公司列表区域  -->
       <el-table :data="courserList" border stripe class="table-with-margin">
-        <el-table-column type="index"></el-table-column>
-        <el-table-column label="课程名称" prop="name" ></el-table-column>
-        <el-table-column label="公司名称" prop="companyName" ></el-table-column>
-        <el-table-column label="描述" prop="description"  show-overflow-tooltip></el-table-column>
+        <el-table-column type="index" fixed label="序号" width="100" align="center"></el-table-column>
+        <el-table-column label="课程名称" prop="name" width="150"></el-table-column>
+        <el-table-column label="公司名称" prop="companyName" width="200"></el-table-column>
+        <el-table-column label="描述" prop="description"  show-overflow-tooltip width="300"></el-table-column>
         <el-table-column label="开始时间" prop="startDate" width="170px"></el-table-column>
         <el-table-column label="结束时间" prop="endDate" width="170px"></el-table-column>
         <el-table-column label="地点" prop="location"></el-table-column>
-        <el-table-column label="课程费用" prop="courseFee" ></el-table-column>
-        <el-table-column label="操作" width="500px" align="center" >
+        <el-table-column label="课程费用" prop="courseFee" width="100" ></el-table-column>
+        <el-table-column label="操作" width="540" align="center" fixed="right" >
           <template v-slot="scope">
             <!-- 修改按钮 -->
             <el-button type="primary"   @click="openChangeCourse(scope.row)">修改</el-button>
@@ -38,7 +38,8 @@
             <el-button type="danger"   @click="removeData(scope.row)">删除</el-button>
             <!-- 查看所授课程按钮 -->
             <el-button type="success"   @click="searchInstructor">查看讲师</el-button>
-            <el-button type="primary" @click="postCourseAlerts(scope.row)">发布课程参加提醒</el-button>
+            <el-button type="primary" @click="postCourseAlerts(scope.row)">发布课程提醒</el-button>
+            <el-button type="warning" @click="generateNotice(scope.row)">生成培训通知</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -213,6 +214,26 @@ export default {
           .catch(error => {
             // 处理下载失败的情况
             // console.error('下载失败', error);
+            ElMessage.error('下载失败');
+          });
+    },
+    generateNotice(row) {
+      axios.get(`/executor/course/notice/${row.courseId}`, { responseType: 'blob' }) // 设置 responseType 为 'blob'
+          .then(response => {
+            const contentDisposition = response.headers['content-disposition'];
+            // const fileName = contentDisposition.split(';')[1].split('filename=')[1].trim(); // 从响应头中获取文件名
+
+            const url = window.URL.createObjectURL(new Blob([response.data])); // 创建 Blob 对象的 URL
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', '课程提醒.html'); // 设置下载文件名
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link); // 下载完成后移除元素
+          })
+          .catch(error => {
+            // 处理下载失败的情况
+            console.error('下载失败', error);
             ElMessage.error('下载失败');
           });
     },

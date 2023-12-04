@@ -145,4 +145,13 @@ public interface CourseMapper {
     @Select("select course_fee from course where course_id = #{courseId}")
     Double getCourseFeeByCourseId(Integer courseId);
 
+    /**
+     * 根据课程id获取课程, 用于导出课程提醒 [执行人]
+     * @param courseId 课程id
+     * @return 课程
+     */
+    @Select("SELECT course.*, employee.name AS instructor_name FROM course, employee " +
+            "WHERE course.instructor_id = employee.employee_id AND course.course_id = #{courseId}")
+    CourseList getCourseByCourseId(Integer courseId);
+
 }
