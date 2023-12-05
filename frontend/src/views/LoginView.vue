@@ -66,7 +66,10 @@ function submitForm() {
               });
               break;
             case 2:
-              // TODO 跳转到教师界面
+              router.push({
+                name: 'instructor',
+                query: { executorId: res.data.data.userEmployeeId }
+              });
               break;
             case 3:
               router.push('/staff')

@@ -7,11 +7,11 @@
         size="large"
     >
       <a-tab-pane key="1" tab="审批学员培训报名">
-        <ExecutorApprovingRegistrationComponent :executorId="executorId"/>
+        <ExecutorApprovingRegistrationComponent :executorId="executorId.value"/>
       </a-tab-pane>
 
       <a-tab-pane key="2" tab="管理课程">
-        <ExecutorInstructorCourseComponent :teacherName="name"/>
+        <ExecutorInstructorCourseComponent :teacherId="teacherId" :executorId="executorId"/>
       </a-tab-pane>
 
       <a-tab-pane key="3" tab="管理讲师">
@@ -44,9 +44,12 @@ import axios from "axios";
 
 const router = useRoute();
 const activeKey = ref('1');
+const teacherId = ref('1');
 const name = ref("");
 const executorId = ref(router.query.executorId);
 
+// console.log("teacherId",teacherId.value)
+//
 function checkLogin() {
   axios.get('/user/checkLogin').then((res) => {
     if (!res.data.flag) {
@@ -74,9 +77,9 @@ function logout() {
 
 const handleListenChild = (data) => {
   // 处理来自子组件的事件，data 包含子组件传递的参数
-  console.log('Received data from child:', data.page,data.name);
+  console.log('Received data from child:', data.page,data.teacherId);
   activeKey.value=''+data.page
-  name.value =data.name
+  teacherId.value =data.teacherId
 };
 
 </script>
