@@ -16,5 +16,10 @@ public class Employee {
     private String email;
     private String title;
     private String expertiseArea;
+
+    // 0：经理
+    // 1：执行人
+    // 2：讲师
+    // 3：现场工作人员
     private Integer employeeType;
 }

@@ -34,6 +34,24 @@ public class ExecutorCourseApplicationController {
     }
 
     /**
+     * 根据执行人id获取课程申请信息
+     * @param executorId 执行人id
+     * @return 课程申请信息
+     */
+    @GetMapping("/allApplications/{executorId}")
+    public ResultInfo getApplicationsByExecutorId(@PathVariable(name="executorId") Integer executorId) {
+        ResultInfo info = new ResultInfo();
+        try {
+            info.setFlag(true);
+            info.setData(executorCourseApplicationService.getCourseApplicationByExecutorId(executorId));
+        } catch (Exception e) {
+            info.setFlag(false);
+            info.setErrorMsg("获取课程申请信息失败");
+        }
+        return info;
+    }
+
+    /**
      * 通过学员课程审批
      * @param applicationId 课程申请id
      */

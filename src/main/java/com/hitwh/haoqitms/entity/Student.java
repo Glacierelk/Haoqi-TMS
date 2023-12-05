@@ -12,6 +12,7 @@ public class Student {
     private String name;
     private String username;
     private String password;
+    //0：男、1：女
     private Integer gender;
     private String email;
     private String companyName;

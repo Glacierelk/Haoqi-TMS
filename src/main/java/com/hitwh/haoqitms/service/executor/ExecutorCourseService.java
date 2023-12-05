@@ -73,4 +73,12 @@ public interface ExecutorCourseService {
      * 获取所有执行人
      */
     List<Employee> getAllExecutor();
+
+    /**
+     * 生成课程通知HTML
+     *
+     * @param courseId 课程id
+     * @return 课程通知HTML
+     */
+    InputStream courseNoticeHTML(Integer courseId);
 }

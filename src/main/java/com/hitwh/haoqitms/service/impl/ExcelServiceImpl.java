@@ -1,5 +1,6 @@
 package com.hitwh.haoqitms.service.impl;
 
+import com.hitwh.haoqitms.entity.Employee;
 import com.hitwh.haoqitms.entity.Student;
 import com.hitwh.haoqitms.entity.StudentCourse;
 import com.hitwh.haoqitms.service.ExcelService;
@@ -52,6 +53,76 @@ public class ExcelServiceImpl implements ExcelService {
             workbook.write(outputStream);
             return new ByteArrayInputStream(outputStream.toByteArray());
         } catch (IOException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public InputStream generateInstructorInfoExcel(List<Employee> instructors) {
+        try (Workbook workbook = new HSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("讲师信息");
+
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("姓名");
+            headerRow.createCell(1).setCellValue("联系方式");
+            headerRow.createCell(2).setCellValue("邮箱");
+            headerRow.createCell(3).setCellValue("职称");
+            headerRow.createCell(4).setCellValue("擅长领域");
+
+            int rowNumber = 1;
+            for (Employee instructor : instructors) {
+                Row row = sheet.createRow(rowNumber++);
+                row.createCell(0).setCellValue(instructor.getName());
+                row.createCell(1).setCellValue(instructor.getContactInfo());
+                row.createCell(2).setCellValue(instructor.getEmail());
+                row.createCell(3).setCellValue(instructor.getTitle());
+                row.createCell(4).setCellValue(instructor.getExpertiseArea());
+            }
+
+            for (int i = 0; i < 5; i++)
+                sheet.autoSizeColumn(i);
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            workbook.write(outputStream);
+            return new ByteArrayInputStream(outputStream.toByteArray());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public InputStream generateStudentInfoExcel(List<Student> students) {
+        try (Workbook workbook = new HSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("学员信息");
+
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("姓名");
+            headerRow.createCell(1).setCellValue("性别");
+            headerRow.createCell(2).setCellValue("邮箱");
+            headerRow.createCell(3).setCellValue("公司名称");
+            headerRow.createCell(4).setCellValue("职位");
+            headerRow.createCell(5).setCellValue("技术水平");
+            headerRow.createCell(6).setCellValue("联系方式");
+
+            int rowNumber = 1;
+            for (Student student : students) {
+                Row row = sheet.createRow(rowNumber++);
+                row.createCell(0).setCellValue(student.getName());
+                row.createCell(1).setCellValue(student.getGender() == 0 ? "男" : "女");
+                row.createCell(2).setCellValue(student.getEmail());
+                row.createCell(3).setCellValue(student.getCompanyName());
+                row.createCell(4).setCellValue(student.getJobPosition());
+                row.createCell(5).setCellValue(student.getSkillLevel());
+                row.createCell(6).setCellValue(student.getContactInfo());
+            }
+
+            for (int i = 0; i < 7; i++)
+                sheet.autoSizeColumn(i);
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            workbook.write(outputStream);
+            return new ByteArrayInputStream(outputStream.toByteArray());
+        } catch (Exception e) {
             return null;
         }
     }

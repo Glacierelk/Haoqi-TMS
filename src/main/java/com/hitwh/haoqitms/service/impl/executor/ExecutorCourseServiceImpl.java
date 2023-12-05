@@ -10,16 +10,21 @@ import com.hitwh.haoqitms.service.executor.ExecutorCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
 public class ExecutorCourseServiceImpl implements ExecutorCourseService {
-    private final CourseMapper courseMapper;
-    private final StudentCourseViewMapper studentCourseViewMapper;
     private final ExcelService excelService;
-    private final TrainingApplicationMapper trainingApplicationMapper;
+    private final CourseMapper courseMapper;
     private final EmployeeMapper employeeMapper;
+    private final StudentCourseViewMapper studentCourseViewMapper;
+    private final TrainingApplicationMapper trainingApplicationMapper;
 
     @Autowired
     public ExecutorCourseServiceImpl(CourseMapper courseMapper,
@@ -92,5 +97,41 @@ public class ExecutorCourseServiceImpl implements ExecutorCourseService {
     @Override
     public List<Employee> getAllExecutor() {
         return employeeMapper.getAllExecutors();
+    }
+
+    @Override
+    public InputStream courseNoticeHTML(Integer courseId) {
+        // 读入模板文件
+        try (InputStream inputStream = new FileInputStream("src/main/resources/templates/notice.html")) {
+            // 读入模板文件
+            byte[] bytes = new byte[inputStream.available()];
+            inputStream.read(bytes);
+            String html = new String(bytes);
+            CourseList course = courseMapper.getCourseByCourseId(courseId);
+
+            // 替换模板中的变量
+            html = html.replace("Course Name", course.getName());
+            html = html.replace("Course Instructor", course.getInstructorName());
+            html = html.replace("Location", course.getLocation());
+            html = html.replace("Company", course.getCompanyName());
+            html = html.replace("Start Date", dataFormat(course.getStartDate()));
+            html = html.replace("End Date", dataFormat(course.getEndDate()));
+            html = html.replace("Course Fee", course.getCourseFee().toString());
+            html = html.replace("Course Description", course.getDescription());
+
+            // 将替换后的html写入到输入流中
+            return new ByteArrayInputStream(html.getBytes());
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private String dataFormat(String date) {
+        // 将字符串解析为 LocalDateTime 对象
+        LocalDateTime dateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        // 定义所需的日期格式
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        // 格式化 LocalDateTime 对象为只包含日期的格式
+        return dateTime.format(dateFormatter);
     }
 }

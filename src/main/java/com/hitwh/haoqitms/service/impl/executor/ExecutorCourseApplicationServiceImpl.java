@@ -37,6 +37,12 @@ public class ExecutorCourseApplicationServiceImpl implements ExecutorCourseAppli
     }
 
     @Override
+    public List<CourseApplication> getCourseApplicationByExecutorId(Integer executorId) {
+
+        return courseApplicationMapper.getCourseApplicationByExecutorId(executorId);
+    }
+
+    @Override
     public Boolean approveApplication(Integer applicationId) {
         // 修改申请表状态(已通过)
         if (courseApplicationMapper.approveApplication(applicationId)) {
