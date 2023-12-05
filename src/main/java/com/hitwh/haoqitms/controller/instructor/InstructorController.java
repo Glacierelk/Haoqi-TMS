@@ -28,7 +28,6 @@ public class InstructorController {
         ResultInfo info = new ResultInfo();
         //Object obj = request.getParameter("employee_id");
         //Integer employee_id = Integer.valueOf((Integer)obj);
-        //System.out.println(employee_id);
         try {
             Employee employee = instructorService.getAllYourInfo(employee_id);
             info.setFlag(true);

@@ -34,6 +34,7 @@ public class InstructorCourseController {
         ResultInfo info = new ResultInfo();
         //Object obj = request.getSession().getAttribute("employee_id");
         //Integer employee_id = Integer.valueOf((Integer)obj);
+        
         try {
             List<Course> course = instructorCourseService.getAllYourCourse(employee_id);
             info.setFlag(true);
