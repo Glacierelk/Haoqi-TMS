@@ -51,8 +51,8 @@ const totalItems = ref(tableData.value.length); // 总条目数
 const activeTab = ref('pending');
 const props = defineProps({
   executorId: {
-    required: true,
-    type: String
+    type: String,
+    required: true
   }
 });
 
