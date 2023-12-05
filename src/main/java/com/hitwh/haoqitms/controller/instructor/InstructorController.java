@@ -7,6 +7,7 @@ import com.hitwh.haoqitms.service.instructor.InstructorService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,12 +22,13 @@ public class InstructorController {
         this.instructorService = instructorService;
     }
 
-    @GetMapping("/infomation")
-    public ResultInfo getAllYourInfo(HttpServletRequest request){
+    @GetMapping("/infomation/{employee_id}")
+    public ResultInfo getAllYourInfo(@PathVariable Integer employee_id){
 
         ResultInfo info = new ResultInfo();
-        Object obj = request.getSession().getAttribute("employee_id");
-        Integer employee_id = Integer.valueOf((Integer)obj);
+        //Object obj = request.getParameter("employee_id");
+        //Integer employee_id = Integer.valueOf((Integer)obj);
+        //System.out.println(employee_id);
         try {
             Employee employee = instructorService.getAllYourInfo(employee_id);
             info.setFlag(true);
