@@ -21,7 +21,7 @@ public class InstructorController {
         this.instructorService = instructorService;
     }
 
-    @GetMapping("/infomation")
+    @GetMapping("/information")
     public ResultInfo getAllYourInfo(HttpServletRequest request){
 
         ResultInfo info = new ResultInfo();

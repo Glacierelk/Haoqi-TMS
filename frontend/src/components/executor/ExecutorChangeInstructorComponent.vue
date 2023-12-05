@@ -99,6 +99,7 @@
 <script >
 import axios from "axios";
 import {ElMessageBox} from "element-plus";
+import {context} from "ant-design-vue/es/vc-image/src/PreviewGroup";
 
 export default {
   data () {
@@ -230,8 +231,21 @@ export default {
     //跳转并传参
     searchCourse(row){
        //console.log("row.employeeId"+row.employeeId);
-      this.$router.push({name:'ExecutorInstructorCourse',query:{name:row.employeeId}});
-    },
+      //this.$router.push({name:'ExecutorInstructorCourse',query:{name:row.employeeId}});
+      // axios
+      //     .get(`/instructor/my/information?employee_id=${row.employeeId}`)
+      //     .then(
+      //         response => {
+      //           const name = response.data.data.name;
+      //           // this.$emit('ListenChild', { page: 2,name:"name"});
+      //         },
+      //         response => {
+      //           console.log("error");
+      //           alert("请求失败");
+      //         }
+      //     );
+      this.$emit('ListenChild', { page: 2,name:"name"});
+      },
   }
 
 }
