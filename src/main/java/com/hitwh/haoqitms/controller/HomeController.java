@@ -87,7 +87,7 @@ public class HomeController {
         // 等待审批
         courseApplication.setStatus(0);
         String promoCode = homeService.selectPromoCodeByCourseId(courseApplication.getCourseId());
-        if ("".equals(courseApplication.getCompanyName()) || ("".equals(courseApplication.getCompanyName()) && "".equals(courseApplication.getPromoCode()))) {
+        if ("".equals(courseApplication.getCompanyName()) || (!("".equals(courseApplication.getCompanyName())) && "".equals(courseApplication.getPromoCode()))) {
             // 公司名为null，团报码肯定为null,直接新建课程申请
             // 公司名不为null，团报码为null，也新建课程申请
             if("".equals(courseApplication.getCompanyName())){
