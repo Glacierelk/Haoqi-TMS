@@ -203,12 +203,17 @@ export default {
         instructorId:'',
         executorId:''
       },
+      props: {
+        teacherName: String,
+        required: true
+      }
     }
   },
-  created () {
+  mounted () {
     //接收参数
-      const name = this.$route.query.name;
-      console.log(name);
+      //const name = this.$route.query.name;
+      console.log("teacherName"+this.teacherName);
+      let name = this.teacherName;
       if(name===undefined) {console.log("undefined");this.getUserList(null)}
     else this.getUserList(name)
   },

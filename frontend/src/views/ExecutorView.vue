@@ -11,11 +11,11 @@
       </a-tab-pane>
 
       <a-tab-pane key="2" tab="管理课程">
-        <ExecutorInstructorCourseComponent/>
+        <ExecutorInstructorCourseComponent :teacherName="name"/>
       </a-tab-pane>
 
       <a-tab-pane key="3" tab="管理讲师">
-        <ExecutorChangeInstructorComponent/>
+        <ExecutorChangeInstructorComponent @ListenChild="handleListenChild"/>
       </a-tab-pane>
 
       <a-tab-pane key="4" tab="管理学生">
@@ -26,6 +26,7 @@
         <a-button danger @click="logout">退出登陆</a-button>
       </template>
     </a-tabs>
+
   </div>
 
 </template>
@@ -41,6 +42,7 @@ import {ElMessage} from "element-plus";
 import axios from "axios";
 
 const activeKey = ref('1');
+const name = ref("");
 
 function checkLogin() {
   axios.get('/user/checkLogin').then((res) => {
@@ -66,6 +68,13 @@ function logout() {
     }
   });
 }
+
+const handleListenChild = (data) => {
+  // 处理来自子组件的事件，data 包含子组件传递的参数
+  console.log('Received data from child:', data.page,data.name);
+  activeKey.value=''+data.page
+  name.value =data.name
+};
 
 </script>
 

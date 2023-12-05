@@ -24,7 +24,6 @@ public class InstructorController {
 
     @GetMapping("/infomation/{employee_id}")
     public ResultInfo getAllYourInfo(@PathVariable Integer employee_id){
-
         ResultInfo info = new ResultInfo();
         //Object obj = request.getParameter("employee_id");
         //Integer employee_id = Integer.valueOf((Integer)obj);
