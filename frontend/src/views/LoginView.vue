@@ -61,6 +61,10 @@ function submitForm() {
               break;
             case 1:
               router.push('/executor');
+              router.push({
+                name: 'executor',
+                query: { executorId: res.data.data.userEmployeeId }
+              });
               break;
             case 2:
               // TODO 跳转到教师界面
@@ -73,10 +77,9 @@ function submitForm() {
               // router.push('/manager')
               break;
             case 5:
-              // TODO 跳转到学员界面
               router.push({
                 name: 'student',
-                query: { studentId: res.data.data.userStudentId } // 附加 studentId
+                query: { studentId: res.data.data.userStudentId }
               });
               break;
           }

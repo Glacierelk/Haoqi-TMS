@@ -7,7 +7,7 @@
         size="large"
     >
       <a-tab-pane key="1" tab="审批学员培训报名">
-        <ApprovingRegistrationComponent/>
+        <ExecutorApprovingRegistrationComponent :executor="executorId"/>
       </a-tab-pane>
 
       <a-tab-pane key="2" tab="管理课程">
@@ -33,16 +33,19 @@
 
 <script setup>
 
+import { useRoute } from 'vue-router';
 import { ref } from 'vue';
-import ApprovingRegistrationComponent from '@/components/executor/ApprovingRegistrationComponent.vue';
+import ExecutorApprovingRegistrationComponent from '@/components/executor/ExecutorApprovingRegistrationComponent.vue';
 import ExecutorChangeStudentComponent from "../components/executor/ExecutorChangeStudentComponent.vue";
 import ExecutorChangeInstructorComponent from "../components/executor/ExecutorChangeInstructorComponent.vue";
 import ExecutorInstructorCourseComponent from "../components/executor/ExecutorInstructorCourseComponent.vue";
 import {ElMessage} from "element-plus";
 import axios from "axios";
 
+const router = useRoute();
 const activeKey = ref('1');
 const name = ref("");
+const executorId = ref(router.query.executorId);
 
 function checkLogin() {
   axios.get('/user/checkLogin').then((res) => {
