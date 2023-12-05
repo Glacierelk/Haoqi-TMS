@@ -7,11 +7,11 @@
         size="large"
     >
       <a-tab-pane key="1" tab="审批学员培训报名">
-        <ExecutorApprovingRegistrationComponent :executorId="executorId"/>
+        <ExecutorApprovingRegistrationComponent :executorId="executorId.value"/>
       </a-tab-pane>
 
       <a-tab-pane key="2" tab="管理课程">
-        <ExecutorInstructorCourseComponent :teacherId="teacherId"/>
+        <ExecutorInstructorCourseComponent :teacherId="teacherId" :executorId="executorId"/>
       </a-tab-pane>
 
       <a-tab-pane key="3" tab="管理讲师">
@@ -48,6 +48,8 @@ const teacherId = ref('1');
 const name = ref("");
 const executorId = ref(router.query.executorId);
 
+// console.log("teacherId",teacherId.value)
+//
 function checkLogin() {
   axios.get('/user/checkLogin').then((res) => {
     if (!res.data.flag) {

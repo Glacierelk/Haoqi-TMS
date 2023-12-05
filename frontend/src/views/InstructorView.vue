@@ -64,10 +64,11 @@ import { useRoute } from 'vue-router';
 import axios from "axios";
 import {ElMessage, ElMessageBox} from "element-plus";
 
+const router = useRoute();
 const courseData = ref([])
 const instructorData=ref([])
-const employId = ref(useRoute().query.teacherId).value;
-console.log("employId"+employId)
+const executorId = ref(router.query.executorId).value;
+console.log("executorId"+executorId)
 
 const getTeacherCourseList = (teacherId,courseList) => {
   console.log("teacherId"+teacherId)
@@ -104,8 +105,8 @@ const showFullText = () => {
   });
 }
 
-getTeacherCourseList(employId,courseData);
-getTeacherInformationList(employId,instructorData);
+getTeacherCourseList(executorId,courseData);
+getTeacherInformationList(executorId,instructorData);
 
 </script>
 

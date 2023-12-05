@@ -30,15 +30,15 @@
         <el-table-column label="结束时间" prop="endDate" width="170px"></el-table-column>
         <el-table-column label="地点" prop="location"></el-table-column>
         <el-table-column label="课程费用" prop="courseFee" width="100" ></el-table-column>
-        <el-table-column label="操作" width="540" align="center" fixed="right" >
+        <el-table-column label="操作" width="420" align="center" fixed="right" >
           <template v-slot="scope">
             <!-- 修改按钮 -->
             <el-button type="primary"   @click="openChangeCourse(scope.row)">修改</el-button>
             <!-- 删除按钮 -->
             <el-button type="danger"   @click="removeData(scope.row)">删除</el-button>
             <!-- 查看所授课程按钮 -->
-            <el-button type="success"   @click="searchInstructor(scope.row)">查看讲师</el-button>
-            <el-button type="primary" @click="postCourseAlerts(scope.row)">发布课程提醒</el-button>
+<!--            <el-button type="success"   @click="searchInstructor(scope.row)">查看讲师</el-button>-->
+            <el-button type="success" @click="postCourseAlerts(scope.row)">发布课程提醒</el-button>
             <el-button type="warning" @click="generateNotice(scope.row)">生成培训通知</el-button>
           </template>
         </el-table-column>
@@ -163,11 +163,16 @@ export default {
     teacherId: {
       type:Number,
       default: null
-    }
+    },
+    executorId: {
+      type: Number,
+      default: null,
+    },
+
   },
   watch: {
     teacherId(newVal, oldVal) {
-      console.log(`teacherName changed from ${oldVal} to ${newVal}`);
+      //console.log(`teacherName changed from ${oldVal} to ${newVal}`);
       this.getTeacherCourseList(newVal);
       newVal = null;
     },
@@ -202,7 +207,7 @@ export default {
         location: '',
         courseFee: '',
         instructorId:'',
-        executorId:'1',
+        executorId:'',
       },
       changeForm: {
         courseId:'',
@@ -221,6 +226,11 @@ export default {
   created () {
     this.getUserList(null)
   },
+  // mounted() {
+  //   // 在这里可以通过 this.teacherId 和 this.executorId 访问 prop
+  //   this.changeForm.executorId=this.executorId;
+  //   console.log("executorId"+this.executorId)
+  // },
 
 methods: {
     //跳转并传参
@@ -302,6 +312,8 @@ methods: {
 
     openAddCourse(row){
       this.addForm.applicationId=row.applicationId;
+       this.addForm.executorId=this.executorId;
+      console.log("executorId"+this.executorId)
       axios.get(`/executor/course/allInstructor`).then(
           response => {
             //console.log("数据库"+response.data.data.data);
@@ -333,7 +345,8 @@ methods: {
     },
     //修改课程
     changeCourse(){
-      console.log("changeForm"+this.changeForm.name)
+      //console.log("changeForm"+this.changeForm.name)
+      console.log(this.executorId);
       axios
           .put("/executor/course/update", this.changeForm)
           .then((response) => {
@@ -352,7 +365,7 @@ methods: {
     },
     //新建课程,关闭对话框
     addCourse(){
-      console.log("addForm.startDate"+this.addForm.startDate);
+      //console.log("addForm.startDate"+this.addForm.startDate);
 
       axios
           .post("/executor/course/createCourse", this.addForm)
@@ -389,7 +402,7 @@ methods: {
     //删除课程信息
     removeData(row) {
       // 弹出确认对话框，确认后执行删除操作
-      console.log("row"+row.courseId);
+      //console.log("row"+row.courseId);
       ElMessageBox.confirm('确定删除['+row.name+']的信息吗?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
