@@ -178,6 +178,9 @@ public class ExecutorStudentController {
         return  resultInfo;
     }
 
+    /**
+     * 删除学生信息
+     * */
     @GetMapping("/delete")
     public ResultInfo delete(HttpServletRequest request,@RequestParam  Integer studentId){
         ResultInfo info = new ResultInfo();
