@@ -49,7 +49,7 @@ public interface ExecutorCourseService {
      * @param currentPage 当前页
      * @return 课程列表
      */
-    Pagination getCourseList(String courseName, Integer pageSize, Integer currentPage);
+    Pagination getCourseList(String courseName, Integer pageSize, Integer currentPage, Integer userId);
 
     /**
      * 获取所有已通过的培训申请

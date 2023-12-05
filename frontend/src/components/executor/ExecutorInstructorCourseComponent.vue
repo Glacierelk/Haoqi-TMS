@@ -204,8 +204,14 @@ export default {
         executorId:''
       },
       props: {
-        teacherName: String,
-        required: true
+        teacherName: {
+          type: String,
+          required: true
+        },
+        executorId: {
+          type: String,
+          required: true
+        }
       }
     }
   },
@@ -354,7 +360,8 @@ export default {
 
     getUserList (name) {
       console.log("getUserList"+name);
-      axios.get(`/executor/course/list/${name}/200/1`).then(
+      alert(this.props.executorId)
+      axios.get(`/executor/course/list/${name}/200/1/${this.props.executorId}`).then(
           response => {
             //console.log("数据库"+response.data.data.data);
             this.courserList = response.data.data.data;
