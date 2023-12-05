@@ -60,13 +60,13 @@ public class ExecutorCourseServiceImpl implements ExecutorCourseService {
     }
 
     @Override
-    public Pagination getCourseList(String courseName, Integer pageSize, Integer currentPage, Integer userId) {
+    public Pagination getCourseList(String courseName, Integer pageSize, Integer currentPage) {
         System.out.println(courseName);
         Pagination pagination = new Pagination();
         pagination.setPageSize(pageSize);
         pagination.setCurrentPage(currentPage);
-        pagination.setTotal(courseMapper.getCourseCountByName(userId, courseName));
-        pagination.setData(courseMapper.getCourseByName(userId, courseName, pageSize, (currentPage - 1) * pageSize));
+        pagination.setTotal(courseMapper.getCourseCountByName(courseName));
+        pagination.setData(courseMapper.getCourseByName(courseName, pageSize, (currentPage - 1) * pageSize));
         return pagination;
     }
 

@@ -80,11 +80,10 @@ public interface CourseMapper {
      * @param offset 偏移量
      * @return 课程列表
      */
-    List<Course> getCourseByName(@Param("userId") Integer userId, // 用于权限控制(只能查看自己创建的课程)
-                                 @Param("name") String name,
+    List<Course> getCourseByName(@Param("name") String name,
                                  @Param("pageSize") Integer pageSize,
                                  @Param("offset") Integer offset);
-    Integer getCourseCountByName(@Param("userId") Integer userId, @Param("name") String name);
+    Integer getCourseCountByName( @Param("name") String name);
 
     /**
      * 获取课程总数 [经理]

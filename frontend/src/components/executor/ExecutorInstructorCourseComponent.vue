@@ -37,7 +37,7 @@
             <!-- 删除按钮 -->
             <el-button type="danger"   @click="removeData(scope.row)">删除</el-button>
             <!-- 查看所授课程按钮 -->
-            <el-button type="success"   @click="searchInstructor">查看讲师</el-button>
+            <el-button type="success"   @click="searchInstructor(scope.row)">查看讲师</el-button>
             <el-button type="primary" @click="postCourseAlerts(scope.row)">发布课程提醒</el-button>
             <el-button type="warning" @click="generateNotice(scope.row)">生成培训通知</el-button>
           </template>
@@ -83,12 +83,12 @@
           </el-form-item>
           <el-form-item label="结束时间" prop="endDate">
             <el-date-picker
-              v-model="addForm.endDate"
-              type="date"
-              placeholder="Pick a Date"
-              format="YYYY-MM-DD"
-              value-format="YYYY-MM-DD"
-          />
+                v-model="addForm.endDate"
+                type="date"
+                placeholder="Pick a Date"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
+            />
           </el-form-item>
           <el-form-item label="上课地点" prop="location">
             <el-input v-model="addForm.location"></el-input>
@@ -97,14 +97,14 @@
             <el-input v-model="addForm.courseFee"></el-input>
           </el-form-item>
           <el-form-item label="选择讲师" prop="employeeId">
-          <el-select v-model="addForm.instructorId" placeholder="请选择讲师名称" filterable clearable>
-            <el-option
-                v-for="teacher in teacherList"
-                :key="teacher.employeeId"
-                :label="teacher.name"
-                :value="teacher.employeeId">
-            </el-option>
-          </el-select>
+            <el-select v-model="addForm.instructorId" placeholder="请选择讲师名称" filterable clearable>
+              <el-option
+                  v-for="teacher in teacherList"
+                  :key="teacher.employeeId"
+                  :label="teacher.name"
+                  :value="teacher.employeeId">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-form>
         <!-- 底部区域 -->
@@ -159,6 +159,18 @@ import axios from "axios";
 import {ElMessage, ElMessageBox} from "element-plus";
 
 export default {
+  props: {
+    teacherId: {
+      type:Number,
+      default: null
+    },
+  },
+  watch: {
+    teacherId(newVal, oldVal) {
+      console.log(`teacherName changed from ${oldVal} to ${newVal}`);
+      this.getTeacherCourseList(newVal);
+    },
+  },
   data () {
     return {
       // 获取用户列表的参数对象
@@ -203,31 +215,33 @@ export default {
         instructorId:'',
         executorId:''
       },
-      props: {
-        teacherName: {
-          type: String,
-          required: true
-        },
-        executorId: {
-          type: String,
-          required: true
-        }
-      }
     }
   },
-  mounted () {
+  created () {
     //接收参数
-      //const name = this.$route.query.name;
-      console.log("teacherName"+this.teacherName);
-      let name = this.teacherName;
-      if(name===undefined) {console.log("undefined");this.getUserList(null)}
-    else this.getUserList(name)
+    //const name = this.$route.query.name;
+    this.getUserList(null)
   },
+
   methods: {
     //跳转并传参
-    searchInstructor(){
-      this.$router.push({name:'ExecutorChangeInstructor',query:{name:'ExecutorInstructorCourse'}});
+    searchInstructor(row){
+      this.$router.push({name:'instructor',query:{teacherId:row.instructorId}});
     },
+    getTeacherCourseList(teacherId) {
+      axios.get(`/instructor/course/yourCourse/${teacherId}`).then(
+          response => {
+            //console.log("数据库"+response.data.data.data);
+            this.courserList = response.data.data;
+            //console.log("tableData"+this.tableData);
+          },
+          response => {
+            console.log("error");
+            alert("请求失败");
+          }
+      );
+    },
+
     postCourseAlerts(row){
       // console.log("row.courseId"+row.courseId);
       axios({
@@ -276,7 +290,7 @@ export default {
       axios.get(`/executor/course/allApprovedTrainingApplication`).then(
           response => {
             //console.log("数据库"+response.data.data.data);
-             this.approvalList = response.data.data;
+            this.approvalList = response.data.data;
             //console.log("tableData"+this.tableData);
           },
           response => {
@@ -358,10 +372,10 @@ export default {
       this.addDialogVisible = false;
     },
 
+    //根据课程名获取课程
     getUserList (name) {
       console.log("getUserList"+name);
-      alert(this.props.executorId)
-      axios.get(`/executor/course/list/${name}/200/1/${this.props.executorId}`).then(
+      axios.get(`/executor/course/list/${name}/200/1`).then(
           response => {
             //console.log("数据库"+response.data.data.data);
             this.courserList = response.data.data.data;
@@ -373,6 +387,8 @@ export default {
           }
       );
     },
+    //根据课程名获取课程
+
     //删除课程信息
     removeData(row) {
       // 弹出确认对话框，确认后执行删除操作

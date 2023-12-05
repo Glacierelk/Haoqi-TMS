@@ -11,7 +11,7 @@
       </a-tab-pane>
 
       <a-tab-pane key="2" tab="管理课程">
-        <ExecutorInstructorCourseComponent :teacherName="name" :executorId="executorId"/>
+        <ExecutorInstructorCourseComponent :teacherName="name"/>
       </a-tab-pane>
 
       <a-tab-pane key="3" tab="管理讲师">
