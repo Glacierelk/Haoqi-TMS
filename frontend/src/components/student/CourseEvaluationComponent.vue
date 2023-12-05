@@ -70,6 +70,8 @@
 <script setup>
 import {ref, computed, watch} from "vue";
 import axios from "axios";
+import {defineProps} from "vue";
+
 import {ElMessage, ElMessageBox} from "element-plus";
 
 const pageSize = ref(10);
@@ -78,14 +80,18 @@ const originCourseList = ref([]);
 const totalItems = ref(0); // 总条目数
 const currentCourseList = ref([]);
 const evaluationDialogVisible = ref(false);
-// TODO: 登录后获取学生id
-const studentId = ref(81);
 const courseId = ref();
 const evaluationForm = ref({
   satisfactionLevel: 0,
   comments: ""
 });
-
+const props = defineProps({
+  studentId: {
+    type: String,
+    required: true
+  }
+});
+const studentId = ref(parseInt(props.studentId))
 const isBeforeNow = (endDateString) => {
 
   const endDate = new Date(endDateString);
@@ -175,7 +181,6 @@ const submitEvaluation = () => {
       }
   );
 }
-
 fetchCourseList();
 </script>
 

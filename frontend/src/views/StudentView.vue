@@ -7,7 +7,7 @@
         size="large"
     >
       <a-tab-pane key="1" tab="学员界面">
-        <CourseEvaluationComponent/>
+        <CourseEvaluationComponent :studentId="studentId"/>
       </a-tab-pane>
 
 <!--      <a-tab-pane key="2" tab="待添加">-->
@@ -23,14 +23,15 @@
 </template>
 
 <script setup>
-
+import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 import CourseEvaluationComponent from "@/components/student/CourseEvaluationComponent.vue";
 import {ElMessage} from "element-plus";
 import axios from "axios";
 
+const router = useRoute();
 const activeKey = ref('1');
-
+const studentId = ref(router.query.studentId);
 function checkLogin() {
   axios.get('/user/checkLogin').then((res) => {
     if (!res.data.flag) {
@@ -42,7 +43,6 @@ function checkLogin() {
 }
 // 检查登录状态
 // checkLogin();
-
 function logout() {
   axios.get('/user/logout').then((res) => {
     if (res.data.flag) {
@@ -55,7 +55,6 @@ function logout() {
     }
   });
 }
-
 </script>
 
 <style scoped>
