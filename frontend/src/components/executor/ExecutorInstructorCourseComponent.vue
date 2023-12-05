@@ -159,6 +159,18 @@ import axios from "axios";
 import {ElMessage, ElMessageBox} from "element-plus";
 
 export default {
+  props: {
+    teacherName: {
+      type: String,
+      default: null
+    }
+  },
+  watch: {
+    teacherName(newVal, oldVal) {
+      console.log(`teacherName changed from ${oldVal} to ${newVal}`);
+      this.getUserList(newVal)
+    }
+  },
   data () {
     return {
       // 获取用户列表的参数对象
@@ -203,25 +215,23 @@ export default {
         instructorId:'',
         executorId:''
       },
-      props: {
-        teacherName: String,
-        required: true
-      }
     }
   },
   mounted () {
     //接收参数
       //const name = this.$route.query.name;
-      console.log("teacherName"+this.teacherName);
-      let name = this.teacherName;
-      if(name===undefined) {console.log("undefined");this.getUserList(null)}
+      // console.log("teacherName"+this.teacherName);
+      // let name = this.teacherName;
+      if(name===undefined) this.getUserList(null)
     else this.getUserList(name)
   },
-  methods: {
+
+methods: {
     //跳转并传参
     searchInstructor(){
       this.$router.push({name:'ExecutorChangeInstructor',query:{name:'ExecutorInstructorCourse'}});
     },
+
     postCourseAlerts(row){
       // console.log("row.courseId"+row.courseId);
       axios({

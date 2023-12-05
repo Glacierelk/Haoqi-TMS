@@ -326,7 +326,7 @@ export default {
       //           alert("请求失败");
       //         }
       //     );
-      this.$emit('ListenChild', { page: 2,name:"name"});
+      this.$emit('ListenChild', { page: 2,name:"你好"});
       },
   }
 
