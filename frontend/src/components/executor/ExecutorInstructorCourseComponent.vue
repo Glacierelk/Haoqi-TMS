@@ -37,7 +37,7 @@
             <!-- 删除按钮 -->
             <el-button type="danger"   @click="removeData(scope.row)">删除</el-button>
             <!-- 查看所授课程按钮 -->
-            <el-button type="success"   @click="searchInstructor">查看讲师</el-button>
+            <el-button type="success"   @click="searchInstructor(scope.row)">查看讲师</el-button>
             <el-button type="primary" @click="postCourseAlerts(scope.row)">发布课程提醒</el-button>
             <el-button type="warning" @click="generateNotice(scope.row)">生成培训通知</el-button>
           </template>
@@ -160,16 +160,17 @@ import {ElMessage, ElMessageBox} from "element-plus";
 
 export default {
   props: {
-    teacherName: {
-      type: String,
+    teacherId: {
+      type:Number,
       default: null
     }
   },
   watch: {
-    teacherName(newVal, oldVal) {
+    teacherId(newVal, oldVal) {
       console.log(`teacherName changed from ${oldVal} to ${newVal}`);
-      this.getUserList(newVal)
-    }
+      this.getTeacherCourseList(newVal);
+      newVal = null;
+    },
   },
   data () {
     return {
@@ -217,20 +218,28 @@ export default {
       },
     }
   },
-  mounted () {
-    //接收参数
-      //const name = this.$route.query.name;
-      // console.log("teacherName"+this.teacherName);
-      // let name = this.teacherName;
-      if(name===undefined) this.getUserList(null)
-    else this.getUserList(name)
+  created () {
+    this.getUserList(null)
   },
 
 methods: {
     //跳转并传参
-    searchInstructor(){
-      this.$router.push({name:'ExecutorChangeInstructor',query:{name:'ExecutorInstructorCourse'}});
+    searchInstructor(row){
+      this.$router.push({name:'instructor',query:{teacherId:row.instructorId}});
     },
+  getTeacherCourseList(teacherId) {
+    axios.get(`/instructor/course/yourCourse/${teacherId}`).then(
+        response => {
+          //console.log("数据库"+response.data.data.data);
+          this.courserList = response.data.data;
+          //console.log("tableData"+this.tableData);
+        },
+        response => {
+          console.log("error");
+          alert("请求失败");
+        }
+    );
+  },
 
     postCourseAlerts(row){
       // console.log("row.courseId"+row.courseId);
@@ -362,6 +371,7 @@ methods: {
       this.addDialogVisible = false;
     },
 
+  //根据课程名获取课程
     getUserList (name) {
       console.log("getUserList"+name);
       axios.get(`/executor/course/list/${name}/200/1`).then(
@@ -376,6 +386,8 @@ methods: {
           }
       );
     },
+  //根据课程名获取课程
+
     //删除课程信息
     removeData(row) {
       // 弹出确认对话框，确认后执行删除操作

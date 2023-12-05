@@ -30,8 +30,12 @@
               </div>
             </div>
             <div class="personal-relation">
-              <div class="relation-item">
-                擅长的领域:  <div style="float: right; padding-right:20px;">{{instructorData.expertiseArea}}</div>
+              <div class="relation-item" >
+                擅长的领域: <div style="float: right; padding-right:0px; color: #409eff" type="text" @click="showFullText">
+                {{ instructorData.expertiseArea ? (instructorData.expertiseArea.length > 20 ? instructorData.expertiseArea.substring(0, 20) + '...' : instructorData.expertiseArea) : '' }}
+<!--                {{ instructorData.expertiseArea.substring(0, 20) + '...'}}-->
+<!--                {{ instructorData.expertiseArea}}-->
+              </div>
               </div>
             </div>
           </el-card>
@@ -41,11 +45,11 @@
             <el-table :data="courseData">
               <el-table-column fixed prop="name" label="课程名称" width="140" />
               <el-table-column prop="companyName" label="公司名称" width="140" />
-              <el-table-column prop="description" label="课程描述" width="300" />
+              <el-table-column prop="description" label="课程描述" width="300" show-overflow-tooltip />
               <el-table-column prop="startDate" label="开始时间" width="140" />
               <el-table-column prop="endDate" label="结束时间" width="140" />
               <el-table-column prop="location" label="上课地点" width="140" />
-              <el-table-column prop="course_fee" label="课程费用" width="140" />
+              <el-table-column prop="courseFee" label="课程费用" width="140" />
             </el-table>
           </el-scrollbar>
         </el-main>
@@ -54,26 +58,54 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-const courseData = [
-  {
-    name: 'name',
-    companyName: 'companyName',
-    description: 'description',
-    startDate: 'startDate',
-    endDate: 'endDate',
-    location: 'location',
-    course_fee: 'course_fee',
-  },
-]
+<script setup>
+import { ref,  watch } from 'vue';
+import { useRoute } from 'vue-router';
+import axios from "axios";
+import {ElMessage, ElMessageBox} from "element-plus";
 
-const instructorData={
-  name: 'name',
-  contactInfo: 'contactInfo',
-  email: 'email',
-  title: 'title',
-  expertiseArea: 'expertiseArea',
+const courseData = ref([])
+const instructorData=ref([])
+const employId = ref(useRoute().query.teacherId).value;
+console.log("employId"+employId)
+
+const getTeacherCourseList = (teacherId,courseList) => {
+  console.log("teacherId"+teacherId)
+  axios.get(`/instructor/course/yourCourse/${teacherId}`).then(
+      response => {
+        //console.log("数据库"+response.data.data.data);
+        courseList.value = response.data.data;
+      },
+      response => {
+        console.log("error");
+        alert("请求失败");
+      }
+  );
 }
+const getTeacherInformationList = (teacherId,instructorList) => {
+  axios
+      .get(`/instructor/my/infomation/${teacherId}`)
+      .then(
+          response => {
+            instructorList.value = response.data.data;
+            console.log("courseList:",response.data.data.expertiseArea);
+          },
+          response => {
+            console.log("error");
+            alert("请求失败");
+          }
+      );
+}
+
+const showFullText = () => {
+  ElMessageBox.confirm(instructorData.value.expertiseArea, {
+    confirmButtonText: '确定',
+    showCancelButton: false, // 设置取消按钮不显示
+  });
+}
+
+getTeacherCourseList(employId,courseData);
+getTeacherInformationList(employId,instructorData);
 
 </script>
 
@@ -141,5 +173,11 @@ const instructorData={
 .el-scrollbar {
   max-height: 400px; /* 设置滚动区域最大高度 */
   overflow: auto; /* 添加滚动条 */
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

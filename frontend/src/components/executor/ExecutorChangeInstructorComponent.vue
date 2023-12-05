@@ -312,22 +312,9 @@ export default {
     },
     //跳转并传参
     searchCourse(row){
-       //console.log("row.employeeId"+row.employeeId);
-      //this.$router.push({name:'ExecutorInstructorCourse',query:{name:row.employeeId}});
-      // axios
-      //     .get(`/instructor/my/information?employee_id=${row.employeeId}`)
-      //     .then(
-      //         response => {
-      //           const name = response.data.data.name;
-      //           // this.$emit('ListenChild', { page: 2,name:"name"});
-      //         },
-      //         response => {
-      //           console.log("error");
-      //           alert("请求失败");
-      //         }
-      //     );
-      this.$emit('ListenChild', { page: 2,name:"你好"});
-      },
+       console.log("row.employeeId"+row.employeeId);
+      this.$emit('ListenChild', { page: 2,teacherId:row.employeeId});
+    },
   }
 
 }
