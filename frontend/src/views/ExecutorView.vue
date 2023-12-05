@@ -21,7 +21,6 @@
       <a-tab-pane key="4" tab="管理学生">
         <ExecutorChangeStudentComponent/>
       </a-tab-pane>
-
       <template #rightExtra>
         <a-button danger @click="logout">退出登陆</a-button>
       </template>
