@@ -27,6 +27,9 @@ public class ExecutorInstructorController {
     }
 
 
+    /**
+     * 添加讲师
+     * */
     @PostMapping("/add")
     public ResultInfo addInstructor(@RequestBody Employee instructor){
         ResultInfo resultInfo = new ResultInfo();
@@ -39,6 +42,9 @@ public class ExecutorInstructorController {
         return  resultInfo;
     }
 
+    /**
+     * 删除讲师信息
+     * */
     @GetMapping("/delete")
     public ResultInfo deleteInstructor(Integer id){
         ResultInfo resultInfo = new ResultInfo();
@@ -51,11 +57,17 @@ public class ExecutorInstructorController {
         return resultInfo;
     }
 
+    /**
+     * 查询讲师信息
+     * */
     @GetMapping("/search")
     public List<Employee> searchInstructor(String name){
         return executorInstructorService.searchByName(name);
     }
 
+    /**
+     * 更新讲师信息
+     * */
     @PostMapping("/update")
     public ResultInfo updateInstructor(@RequestBody Employee instructor){
         ResultInfo resultInfo = new ResultInfo();
@@ -68,6 +80,10 @@ public class ExecutorInstructorController {
         return  resultInfo;
     }
 
+    /**
+     * 获取所有的讲师的信息
+     *
+     * */
     @GetMapping("/getAllTeachers")
     public List<Employee> getAllTeachers(){
         return executorInstructorService.getAllTeachers();
