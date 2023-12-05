@@ -83,7 +83,7 @@ public interface CourseMapper {
     List<Course> getCourseByName(@Param("name") String name,
                                  @Param("pageSize") Integer pageSize,
                                  @Param("offset") Integer offset);
-    Integer getCourseCountByName(@Param("name") String name);
+    Integer getCourseCountByName( @Param("name") String name);
 
     /**
      * 获取课程总数 [经理]

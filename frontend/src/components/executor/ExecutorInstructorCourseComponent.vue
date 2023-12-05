@@ -83,12 +83,12 @@
           </el-form-item>
           <el-form-item label="结束时间" prop="endDate">
             <el-date-picker
-              v-model="addForm.endDate"
-              type="date"
-              placeholder="Pick a Date"
-              format="YYYY-MM-DD"
-              value-format="YYYY-MM-DD"
-          />
+                v-model="addForm.endDate"
+                type="date"
+                placeholder="Pick a Date"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
+            />
           </el-form-item>
           <el-form-item label="上课地点" prop="location">
             <el-input v-model="addForm.location"></el-input>
@@ -97,14 +97,14 @@
             <el-input v-model="addForm.courseFee"></el-input>
           </el-form-item>
           <el-form-item label="选择讲师" prop="employeeId">
-          <el-select v-model="addForm.instructorId" placeholder="请选择讲师名称" filterable clearable>
-            <el-option
-                v-for="teacher in teacherList"
-                :key="teacher.employeeId"
-                :label="teacher.name"
-                :value="teacher.employeeId">
-            </el-option>
-          </el-select>
+            <el-select v-model="addForm.instructorId" placeholder="请选择讲师名称" filterable clearable>
+              <el-option
+                  v-for="teacher in teacherList"
+                  :key="teacher.employeeId"
+                  :label="teacher.name"
+                  :value="teacher.employeeId">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-form>
         <!-- 底部区域 -->
@@ -289,7 +289,7 @@ methods: {
       axios.get(`/executor/course/allApprovedTrainingApplication`).then(
           response => {
             //console.log("数据库"+response.data.data.data);
-             this.approvalList = response.data.data;
+            this.approvalList = response.data.data;
             //console.log("tableData"+this.tableData);
           },
           response => {
@@ -386,8 +386,6 @@ methods: {
           }
       );
     },
-  //根据课程名获取课程
-
     //删除课程信息
     removeData(row) {
       // 弹出确认对话框，确认后执行删除操作

@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import {ref, computed, watch} from "vue";
+import {ref, computed, watch, defineProps} from "vue";
 import axios from "axios";
 import {ElMessage} from "element-plus";
 
@@ -49,8 +49,14 @@ const pageSize = ref(10);
 const currentPage = ref(1);
 const totalItems = ref(tableData.value.length); // 总条目数
 const activeTab = ref('pending');
-// TODO: 登录后获取执行人ID
-const executorId = ref(183);
+const props = defineProps({
+  executorId: {
+    type: String,
+    required: true
+  }
+});
+
+const executorId = ref(parseInt(props.executorId));
 
 
 // 根据当前页和分页大小计算显示的数据

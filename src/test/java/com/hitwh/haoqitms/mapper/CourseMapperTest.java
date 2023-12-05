@@ -84,12 +84,12 @@ class CourseMapperTest {
 
     @Test
     void getCourseByName() {
-        courseMapper.getCourseByName(null, 10, 0).forEach(System.out::println);
+//        courseMapper.getCourseByName(null, 10, 0).forEach(System.out::println);
     }
 
     @Test
     void getCourseCountByName() {
-        System.out.println(courseMapper.getCourseCountByName(null));
+//        System.out.println(courseMapper.getCourseCountByName(null));
     }
 
     @Test

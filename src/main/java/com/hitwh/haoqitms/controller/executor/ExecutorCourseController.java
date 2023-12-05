@@ -31,8 +31,8 @@ public class ExecutorCourseController {
      */
     @GetMapping("/list/{name}/{page_size}/{current_page}")
     public ResultInfo getCourses(@PathVariable("name") String name,
-                                   @PathVariable("page_size") Integer pageSize,
-                                   @PathVariable("current_page") Integer currentPage){
+                                 @PathVariable("page_size") Integer pageSize,
+                                 @PathVariable("current_page") Integer currentPage){
         name = name.equals("null") ? null : name;
 
         ResultInfo resultInfo = new ResultInfo();
