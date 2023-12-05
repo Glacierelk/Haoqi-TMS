@@ -29,16 +29,17 @@ public class ExecutorCourseController {
      *
      * @return 所有课程信息
      */
-    @GetMapping("/list/{name}/{page_size}/{current_page}")
+    @GetMapping("/list/{name}/{page_size}/{current_page}/{user_id}")
     public ResultInfo getCourses(@PathVariable("name") String name,
-                                   @PathVariable("page_size") Integer pageSize,
-                                   @PathVariable("current_page") Integer currentPage){
+                                 @PathVariable("page_size") Integer pageSize,
+                                 @PathVariable("current_page") Integer currentPage,
+                                 @PathVariable("user_id") Integer userId){
         name = name.equals("null") ? null : name;
 
         ResultInfo resultInfo = new ResultInfo();
         try {
             resultInfo.setFlag(true);
-            resultInfo.setData(executorCourseService.getCourseList(name, pageSize, currentPage));
+            resultInfo.setData(executorCourseService.getCourseList(name, pageSize, currentPage, userId));
         } catch (Exception e) {
             resultInfo.setFlag(false);
             resultInfo.setErrorMsg("获取课程列表失败");

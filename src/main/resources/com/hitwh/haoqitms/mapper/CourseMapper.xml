@@ -46,7 +46,7 @@
     <select id="getCourseByName" resultType="com.hitwh.haoqitms.entity.Course">
         SELECT * FROM course
         <where>
-            course.name LIKE '%%'
+            course.course_id = #{userId}
             <if test="name != null and name != ''">
                 AND course.name LIKE CONCAT('%', #{name}, '%')
             </if>
@@ -57,7 +57,7 @@
     <select id="getCourseCountByName" resultType="java.lang.Integer">
         SELECT count(*) FROM course
         <where>
-            course.name LIKE '%%'
+            course.course_id = #{userId}
             <if test="name != null and name != ''">
                 AND course.name LIKE CONCAT('%', #{name}, '%')
             </if>

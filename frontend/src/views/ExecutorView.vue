@@ -7,11 +7,11 @@
         size="large"
     >
       <a-tab-pane key="1" tab="审批学员培训报名">
-        <ExecutorApprovingRegistrationComponent :executor="executorId"/>
+        <ExecutorApprovingRegistrationComponent :executorId="executorId"/>
       </a-tab-pane>
 
       <a-tab-pane key="2" tab="管理课程">
-        <ExecutorInstructorCourseComponent :teacherName="name"/>
+        <ExecutorInstructorCourseComponent :teacherName="name" :executorId="executorId"/>
       </a-tab-pane>
 
       <a-tab-pane key="3" tab="管理讲师">

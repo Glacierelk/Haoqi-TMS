@@ -60,7 +60,6 @@ function submitForm() {
               router.push('/manager');
               break;
             case 1:
-              router.push('/executor');
               router.push({
                 name: 'executor',
                 query: { executorId: res.data.data.userEmployeeId }
