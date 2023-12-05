@@ -30,6 +30,8 @@ public class ExecutorInstructorServiceImpl implements ExecutorInstructorService 
 
     @Override
     public Boolean insertInstructor(Employee instructor){
+        instructor.setUsername(UserNameAndPassWordGenerator.generateUserName(instructor.getEmail(),instructor.getContactInfo()));
+        instructor.setPassword(UserNameAndPassWordGenerator.generatePassWord(instructor.getEmail(),instructor.getContactInfo()));
         return employeeMapper.addEmployee(instructor);
     }
 
