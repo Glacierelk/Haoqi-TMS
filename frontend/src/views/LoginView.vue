@@ -47,7 +47,7 @@ function submitForm() {
     "password": password.value,
   })
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         if (res.data.flag) {
           ElMessage({
             message: '登录成功!',
@@ -61,10 +61,13 @@ function submitForm() {
               break;
             case 1:
               router.push('/executor');
+              router.push({
+                name: 'executor',
+                query: { executorId: res.data.data.userEmployeeId }
+              });
               break;
             case 2:
               // TODO 跳转到教师界面
-              // router.push('/student');
               break;
             case 3:
               router.push('/staff')
@@ -74,7 +77,10 @@ function submitForm() {
               // router.push('/manager')
               break;
             case 5:
-              // TODO 跳转到学员界面
+              router.push({
+                name: 'student',
+                query: { studentId: res.data.data.userStudentId }
+              });
               break;
           }
         } else {
@@ -99,6 +105,7 @@ function submitForm() {
 
   return false;
 }
+
 
 </script>
 
