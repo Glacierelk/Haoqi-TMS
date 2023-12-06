@@ -12,6 +12,9 @@
         <el-form-item>
           <el-button native-type="submit" type="primary">登录</el-button>
         </el-form-item>
+        <el-form-item>
+          <el-button native-type="button" @click="backHome" type="primary">返回</el-button>
+        </el-form-item>
       </el-form>
     </div>
   </div>
@@ -29,6 +32,10 @@ const router = useRouter();
 const username = ref("");
 const password = ref("");
 import {ElMessage} from "element-plus";
+
+function backHome() {
+  window.location.href = '/';
+}
 
 function submitForm() {
 
