@@ -29,7 +29,7 @@
               accept=".xlsx"
               ref="uploadFile"
           >
-            <el-button type="success">上传文件</el-button>
+            <el-button type="success">批量导入讲师</el-button>
           </el-upload>
         </el-col>
       </el-row>
