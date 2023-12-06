@@ -39,7 +39,7 @@ import ExecutorChangeStudentComponent from "../components/executor/ExecutorChang
 import ExecutorChangeInstructorComponent from "../components/executor/ExecutorChangeInstructorComponent.vue";
 import ExecutorInstructorCourseComponent from "../components/executor/ExecutorInstructorCourseComponent.vue";
 import {ElMessage} from "element-plus";
-import axios from "axios
+import axios from "axios";
 const router = useRoute();
 const activeKey = ref('1');
 const teacherId = ref('1');
