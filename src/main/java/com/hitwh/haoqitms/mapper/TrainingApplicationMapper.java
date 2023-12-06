@@ -7,8 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface TrainingApplicationMapper {
-    @Insert("INSERT INTO training_application(company_name, promo_code, budget, contact_info, status) " +
-            "VALUES(#{companyName}, #{promoCode}, #{budget}, #{contactInfo}, #{status})")
+    @Insert("INSERT INTO training_application(company_name, promo_code, budget, contact_info, status, description) " +
+            "VALUES(#{companyName}, #{promoCode}, #{budget}, #{contactInfo}, #{status}, #{description})")
     Boolean createTrainingApplication(TrainingApplication trainingApplication);
 
     /**
