@@ -40,7 +40,11 @@
 <!--      <el-table-column type="selection" width="55" align="center"></el-table-column>-->
       <el-table-column prop="studentId" label="学号" align="center"></el-table-column>
       <el-table-column prop="name" label="姓名" align="center"></el-table-column>
-      <el-table-column prop="gender" label="性别" align="center" width="70px"></el-table-column>
+      <el-table-column prop="gender" label="性别" align="center" width="70px">
+         <template v-slot="scope">
+           {{scope.row.gender === 0 ? '男' : '女'}}
+         </template>
+      </el-table-column>
       <el-table-column prop="email" label="Email" align="center"></el-table-column>
       <el-table-column prop="companyName" label="公司名称" align="center"></el-table-column>
       <el-table-column prop="jobPosition" label="工作岗位" align="center"></el-table-column>

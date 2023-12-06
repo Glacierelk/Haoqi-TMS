@@ -120,8 +120,9 @@ public class StaffController {
                 info.setErrorMsg("更新缴费状态失败");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             info.setFlag(false);
-            info.setErrorMsg("更新缴费状态失败");
+            info.setErrorMsg(e.getMessage());
         }
         return info;
     }
