@@ -27,9 +27,9 @@ class TrainingApplicationMapperTest {
     @Test
     void selectTrainingApplications() {
         TrainingApplication trainingApplication = new TrainingApplication();
-        trainingApplication.setCompanyName("宇");
-        trainingApplication.setStatus(0);
-        trainingApplication.setApplicationDate("2020-12-01");
+        trainingApplication.setCompanyName("测试");
+//        trainingApplication.setStatus(0);
+//        trainingApplication.setApplicationDate("2020-12-01");
         List<TrainingApplication> trainingApplications = trainingApplicationMapper.selectTrainingApplications(trainingApplication, 10, 0);
         System.out.println(trainingApplications.size());
 //        for (TrainingApplication trainingApplication1 : trainingApplications) {
