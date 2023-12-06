@@ -22,7 +22,7 @@
       </el-row>
       <!-- 公司列表区域  -->
       <el-table :data="courserList" border stripe class="table-with-margin">
-        <el-table-column type="index" fixed label="序号" width="100" align="center"></el-table-column>
+        <el-table-column label="课程编号" align="center" prop="courseId" width="150"></el-table-column>
         <el-table-column label="课程名称" prop="name" width="150"></el-table-column>
         <el-table-column label="公司名称" prop="companyName" width="200"></el-table-column>
         <el-table-column label="描述" prop="description"  show-overflow-tooltip width="300"></el-table-column>
@@ -391,7 +391,7 @@ methods: {
           response => {
             //console.log("数据库"+response.data.data.data);
             this.courserList = response.data.data.data;
-            //console.log("tableData"+this.tableData);
+            console.log("tableData"+this.tableData);
           },
           response => {
             console.log("error");

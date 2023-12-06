@@ -9,6 +9,7 @@ import com.hitwh.haoqitms.mapper.TrainingEvaluationMapper;
 import com.hitwh.haoqitms.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -67,15 +68,26 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean updateStudentPayStatus(Integer studentId, Integer courseId) {
         Boolean flag = studentCourseViewMapper.updateStudentPayStatus(studentId, courseId);
 
         if (flag) {
             Double courseFee = courseMapper.getCourseFeeByCourseId(courseId);
             Double revenue = courseMapper.getRevenueByCourseId(courseId);
-            return courseMapper.updateRevenueByCourseId(courseId, revenue + courseFee);
+            if (courseFee == null) {
+                courseFee = 0.0;
+            }
+            if (revenue == null) {
+                revenue = 0.0;
+            }
+            try {
+                return courseMapper.updateRevenueByCourseId(courseId, revenue + courseFee);
+            } catch (Exception e) {
+                throw new RuntimeException("更新课程收入失败");
+            }
         } else {
-            return false;
+            throw new RuntimeException("更新学员缴费状态失败");
         }
     }
 

@@ -50,7 +50,7 @@ public class ExecutorStudentServiceImpl implements ExecutorStudentService {
                     if (row == null) {
                         continue;
                     }
-                    if (row.getCell(0) == null || row.getCell(2) == null || row.getCell(6) == null) {
+                    if (row.getCell(0) == null || row.getCell(1) != null || row.getCell(2) == null || row.getCell(6) == null) {
                         throw new RuntimeException("必填项不能为空");
                     }
 

@@ -155,7 +155,7 @@ const pay = (row) => {
         });
       } else {
         ElMessage({
-          message: '缴费失败!',
+          message: res.data.errorMsg,
           type: 'error',
           duration: 2 * 1000
         });
