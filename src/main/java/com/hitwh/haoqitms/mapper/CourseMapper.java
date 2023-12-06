@@ -4,6 +4,7 @@ import com.hitwh.haoqitms.entity.Course;
 import com.hitwh.haoqitms.entity.CourseList;
 import org.apache.ibatis.annotations.*;
 
+import javax.swing.text.StyledEditorKit;
 import java.util.List;
 
 @Mapper
@@ -71,6 +72,19 @@ public interface CourseMapper {
             "end_date = #{endDate}, location = #{location}, course_fee = #{courseFee}, instructor_id = #{instructorId}, executor_id = #{executorId} " +
             "where course_id = #{courseId}")
     Boolean updateCourse(Course course);
+
+    /**
+     * 根据appilicationId查询budget增加到course的revuene
+     * @return
+     */
+    @Update("UPDATE course c\n" +
+            "SET c.revenue = c.revenue + (\n" +
+            "    SELECT ta.budget\n" +
+            "    FROM training_application ta\n" +
+            "    WHERE ta.course_id = c.course_id\n" +
+            "    )\n" +
+            "WHERE c.course_id = #{courseId};")
+    boolean initRevenue(Integer courseId);
 
     /**
      * 根据课程名称查询课程 [执行人]

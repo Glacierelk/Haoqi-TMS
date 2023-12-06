@@ -83,6 +83,7 @@ public class ExecutorCourseApplicationServiceImpl implements ExecutorCourseAppli
                 studentCourse.setCourseId(courseApplication.getCourseId());
                 studentCourse.setAttendance(false);
                 studentCourse.setPaid(false);
+                studentCourse.setIsEvaluated(false);
                 // 检查是否是提交申请的软件公司的员工（有团报码）
                 if (null != courseApplication.getPromoCode()) {
                     studentCourse.setPaid(true);

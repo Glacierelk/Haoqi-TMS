@@ -49,8 +49,8 @@ public interface StudentCourseViewMapper {
      * @param studentCourse 学员选课记录
      * @return 是否新增成功
      */
-    @Insert("insert into student_course(student_id, course_id, paid, attendance) " +
-            "values(#{studentId}, #{courseId}, #{paid}, #{attendance})")
+    @Insert("insert into student_course(student_id, course_id, paid, attendance, is_evaluated) " +
+            "values(#{studentId}, #{courseId}, #{paid}, #{attendance}, #{isEvaluated})")
     Boolean createStudentCourse(StudentCourse studentCourse);
 
     /**
