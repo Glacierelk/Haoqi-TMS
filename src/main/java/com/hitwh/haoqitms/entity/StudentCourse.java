@@ -12,6 +12,7 @@ public class StudentCourse {
     private Integer courseId;
     private Boolean attendance;
     private Boolean paid;
+    private Boolean isEvaluated;
     private String name;
     private Integer gender;
     private String email;

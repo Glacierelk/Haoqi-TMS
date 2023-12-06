@@ -11,7 +11,7 @@
     <el-table-column align="center" label="讲师名称" prop="instructorName"/>
     <el-table-column align="center" fixed="right" label="操作">
       <template #default="scope">
-        <el-button plain size="large" type="primary" :disabled="isBeforeNow(scope.row.endDate)" @click="showEvaluationDialog(scope.row)">评价</el-button>
+        <el-button plain size="large" type="primary" :disabled="isCourseStart(scope.row.startDate)" @click="showEvaluationDialog(scope.row)">评价</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -92,11 +92,12 @@ const props = defineProps({
   }
 });
 const studentId = ref(parseInt(props.studentId))
-const isBeforeNow = (endDateString) => {
+const isCourseStart = (startDateString) => {
 
-  const endDate = new Date(endDateString);
+  const startDate = new Date(startDateString);
   const now = new Date();
-  return endDate > now; // 如果课程结束时间在当前时间之前，返回 true
+  console.log(now, startDate)
+  return startDate > now;
 };
 
 const resetEvaluationForm = () => {

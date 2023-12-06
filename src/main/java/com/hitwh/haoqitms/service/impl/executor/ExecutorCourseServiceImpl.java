@@ -79,9 +79,11 @@ public class ExecutorCourseServiceImpl implements ExecutorCourseService {
     public Boolean createCourse(Course course) {
         if(courseMapper.insertCourse(course)){
             // 回填课程id
-            if(trainingApplicationMapper.backPatchCourseId(course.getApplicationId(), course.getCourseId())) {
+            Integer backPatchCourseId = course.getCourseId();
+            System.out.println(backPatchCourseId);
+            if(trainingApplicationMapper.backPatchCourseId(course.getApplicationId(), backPatchCourseId)) {
                 // 将培训申请状态置为3（已完成）
-                return trainingApplicationMapper.finishApplication(course.getApplicationId());
+                return trainingApplicationMapper.finishApplication(course.getApplicationId()) && courseMapper.initRevenue(backPatchCourseId);
             }else {
                 return false;
             }

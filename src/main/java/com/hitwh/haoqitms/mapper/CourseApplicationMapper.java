@@ -18,8 +18,8 @@ public interface CourseApplicationMapper {
      * @return 是否新建成功
      */
     @Insert("insert into course_application " +
-            "(course_id, course_name, name, gender, email, company_name, job_position, skill_level, contact_info, status) " +
-            "values(#{courseId}, #{courseName}, #{name}, #{gender}, #{email}, #{companyName}, #{jobPosition}, #{skillLevel}, #{contactInfo}, #{status})")
+            "(course_id, course_name, name, gender, email, company_name, promo_code, job_position, skill_level, contact_info, status) " +
+            "values(#{courseId}, #{courseName}, #{name}, #{gender}, #{email}, #{companyName}, #{promoCode},#{jobPosition}, #{skillLevel}, #{contactInfo}, #{status})")
     Boolean createCourseApplication(CourseApplication courseApplication);
 
     /**
