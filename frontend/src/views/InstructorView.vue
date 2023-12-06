@@ -4,6 +4,7 @@
       <el-header>
         讲师主页
       </el-header>
+        <a-button danger @click="logout">退出登陆</a-button>
       <el-container>
         <el-aside width="400px">
           <el-card>
@@ -69,6 +70,19 @@ const courseData = ref([])
 const instructorData=ref([])
 const executorId = ref(router.query.executorId).value;
 console.log("executorId"+executorId)
+
+function logout() {
+  axios.get('/user/logout').then((res) => {
+    if (res.data.flag) {
+      ElMessage({
+        message: '退出登陆成功!',
+        type: 'success',
+        duration: 2 * 1000
+      });
+      window.location.href = '/';
+    }
+  });
+}
 
 const getTeacherCourseList = (teacherId,courseList) => {
   console.log("teacherId"+teacherId)
