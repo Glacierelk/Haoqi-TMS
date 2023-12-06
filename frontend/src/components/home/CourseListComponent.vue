@@ -209,6 +209,15 @@ const resetRegisterForm = () => {
 
 const submitRegistration = (row) => {
   registerDialogVisible.value = true;
+  if (registerForm.value.name === '' || registerForm.value.gender === '' || registerForm.value.email === '' || registerForm.value.contactInfo === '' ) {
+    ElMessage({
+      message: "请填写完整信息",
+      type: "error",
+      duration: 2000
+    });
+    return;
+  }
+
   axios.post(`/home/createCourseApplication`, {
     "courseId": courseId.value,
     "courseName": courseName.value,

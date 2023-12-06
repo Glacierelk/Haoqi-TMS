@@ -119,6 +119,14 @@ function login() {
 }
 
 const submitRegistrationForm = () => {
+  if(registerForm.value.companyName === '' || registerForm.value.promoCode === '' || registerForm.value.budget === '' || registerForm.value.contactInfo === '') {
+    ElMessage({
+      message: "请填写完整信息",
+      type: "error",
+      duration: 2000
+    });
+    return;
+  }
   axios.post('/home/createTrainingApplication', {
     "companyName": registerForm.value.companyName,
     "promoCode": registerForm.value.promoCode,

@@ -40,13 +40,11 @@ import ExecutorChangeInstructorComponent from "../components/executor/ExecutorCh
 import ExecutorInstructorCourseComponent from "../components/executor/ExecutorInstructorCourseComponent.vue";
 import {ElMessage} from "element-plus";
 import axios from "axios";
-
 const router = useRoute();
 const activeKey = ref('1');
 const teacherId = ref('1');
 const name = ref("");
-const executorId = ref(router.query.executorId);
-
+const executorId = ref(router.query.executorId).value;
 // console.log("teacherId",teacherId.value)
 //
 function checkLogin() {
